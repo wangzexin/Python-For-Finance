@@ -1,0 +1,36 @@
+def binomial_np(strike):
+  mu = np.arange(M+1)
+  md = np.resize(mu, (M+1, M+1))
+  md = np.transpose(mu)
+  mu = u ** (mu - md)
+  md = d ** md
+  S = S0 * mu * md
+  pb = np.maximum(S - strike, 0)
+  z = 0
+  for t in range(M-1, -1, -1):
+    pv[0:M-z, t] = (q * pv[0:M-z, t+1] + (1-q) * pv[1:M-z+1, t+1]) * df
+    z += 1
+  return pv[0,0]
+
+def binomial_py(strike):
+  S = np.zeros((M+1, M+1), dtype = np.float64)
+  S[0,0] = S0
+  z1 = 0
+  for j in xrange(1, M+1, 1):
+    z1 += 1
+    for i in xrange(z1 + 1):
+      S[i,j] = S[0,0] * (u ** j) * (d ** (i*2))
+  iv = np.zeros((M+1, M+1), dtype = np.float64)
+  z2 = 0
+  for j in xrange(0, M+1, 1):
+    for i in xrange(z2 + 1):
+      iv[i, j] = max(S[i,j]-strike, 0)
+    z2 += 1
+  pv = np.zeros((M+1, M+1), dtype = np.float64)
+  pv[:, M] = iv[:, M]
+  z3 = M+1
+  for j in xrange(M-1, -1, -1):
+    z3 -= 1
+    for i in xrange(z3):
+      pv[i,j] = (q * pv[i, j+1] + (1-q) * pv[i+1, j+1]) * df
+  return pv[0,0]
