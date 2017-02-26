@@ -1,0 +1,209 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass{beamer}
+\mode<presentation> {
+\usetheme{Madrid}
+}
+\usepackage{url}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+% for mathematics
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[Financial mathematics with Python]{UROPS Project Presentation 6} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author{Wang Zexin} % Your name
+\institute[NUS]
+{
+Derivation of Black-Scholes PDE\\[3mm]
+\medskip
+\textit{Quantitative Finance\\
+National University of Singapore\\}
+}
+\date{\today}
+
+\begin{document}
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\titlepage
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Today's Agenda}
+\tableofcontents
+\end{frame}
+
+\section{Basics} %------------------------------------------------
+
+\subsection{Black-Scholes World}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Black-Scholes World}
+We assume that the following two SDE hold:
+$$dM_{t}  = rM_{t}dt$$
+$$dS_{t}  = \mu S_{t}dt + \sigma S_{t} dW_{t}$$
+\end{frame}
+
+\subsection{It$\hat{o}^{\prime}$s Lemma}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{It$\hat{o}^{\prime}$s Lemma}
+\begin{center}
+We assume that the following equation hold:\\[4mm]
+As $dS_{t} = \mu S_{t}dt + \sigma S_{t}dW_{t}$,
+$$dV_{t} = (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S})dt + \frac{\partial V}{\partial S}dS_{t}$$
+\end{center}
+\end{frame}
+
+\section{Derivation}
+
+\subsection{Delta-hedging Argument}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Delta-hedging Argument}
+\begin{center}
+Our first aim is to find $\phi_{t}$\\[1mm]
+for $\mathrm{\Pi}_{t} = V_{t} - \phi_{t}S_{t}$\\[3mm]
+such that\\[1mm]
+$d\mathrm{\Pi}_{t} = dV_{t} - \phi_{t}dS_{t}$(Self-financing)\\[1mm]
+$d\mathrm{\Pi}_{t} = r\mathrm{\Pi}_{t}dt$(risk free)\\[3mm]
+From the equations, we can obtain that\\[1mm]
+$r\mathrm{\Pi}_{t}dt = dV_{t} - \phi_{t}dS_{t}$\\[1mm]
+$r(V_{t} - \phi_{t}S_{t})dt = dV_{t} - \phi_{t}dS_{t}$\\[1mm]
+$dV_{t}  = r(V_{t} - \phi_{t}S_{t})dt + \phi_{t}dS_{t}$\\[1mm]
+\end{center}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Compare with It$\hat{o}^{\prime}$s Lemma}
+\begin{center}
+$dV_{t}  = r(V_{t} - \phi_{t}S_{t})dt + \phi_{t}dS_{t}$\\[3mm]
+By It$\hat{o}^{\prime}$s Lemma, $$dV_{t} = (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S})dt + \frac{\partial V}{\partial S}dS_{t}$$
+Hence we obtain two equations:
+$$\phi_{t} = \frac{\partial V}{\partial S}$$
+$$r(V_{t} - \phi_{t}S_{t}) = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}$$
+\end{center}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Last step of Delta-hedging}
+\begin{center}
+$$r(V_{t} - \frac{\partial V}{\partial S}S_{t}) = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}$$
+$$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S} + r\frac{\partial V}{\partial S}S_{t} - rV_{t} = 0$$
+At time t, we have
+$$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial V}{\partial S} + r\frac{\partial V}{\partial S}S - rV = 0$$
+\end{center}
+\end{frame}
+
+\subsection{Replication of portfolio}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{First step of replication}
+\begin{center}
+Our aim is to find $a_{t}$ and $b_{t}$ such that\\[2mm]
+$\mathrm{\Pi}_{t} = a_{t}S_{t} + b_{t}M_{t}$ can entirely replicate $V_{t}$\\[2mm]
+And also, the self-financing condition holds:\\[2mm]
+$d\mathrm{\Pi}_{t} = a_{t}dS_{t} + b_{t}dM_{t}$\\[5mm]
+As $dS_{t} = \mu S_{t}dt + \sigma S_{t}dW_{t}$ and $dM_{t}  = rM_{t}dt$,
+\begin{equation*}
+\begin{split}
+d\mathrm{\Pi}_{t} 
+&= a_{t}(\mu S_{t}dt + \sigma S_{t}dW_{t}) + b_{t}(rM_{t}dt)\\
+&= (a_{t}\mu S_{t} + rb_{t}M_{t})dt + (\sigma a_{t}S_{t})dW_{t}\\
+\end{split}
+\end{equation*}
+\end{center}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Bring in It$\hat{o}^{\prime}$s Lemma}
+\begin{center}
+By It$\hat{o}^{\prime}$s Lemma, 
+\begin{equation*}
+\begin{split}
+dV_{t}
+&= (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S})dt + \frac{\partial V}{\partial S}dS_{t}\\
+&= (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S})dt + \frac{\partial V}{\partial S}(\mu S_{t}dt + \sigma S_{t}dW_{t})\\
+&= (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+\frac{\partial V}{\partial S}\mu S_{t})dt + (\sigma S_{t}\frac{\partial V}{\partial S})dW_{t}\\
+\end{split}
+\end{equation*}
+\end{center}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Compare with previous equation}
+\begin{center}
+As $\mathrm{\Pi}_{t}$ fully replicates $V_{t}$,
+$$d\mathrm{\Pi}_{t} = (a_{t}\mu S_{t} + rb_{t}M_{t})dt + (\sigma a_{t}S_{t})dW_{t} = dV_{t}$$
+Also by It$\hat{o}^{\prime}$s Lemma, 
+$$dV_{t} = (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+\frac{\partial V}{\partial S}\mu S_{t})dt + (\sigma S_{t}\frac{\partial V}{\partial S})dW_{t}$$
+Hence we obtain that,
+$$a_{t} = \frac{\partial V}{\partial S}$$
+$$a_{t}\mu S_{t} + rb_{t}M_{t} = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+\frac{\partial V}{\partial S}\mu S_{t}$$
+\end{center}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Last step in replication}
+\begin{center}
+$$\frac{\partial V}{\partial S}\mu S_{t} + rb_{t}M_{t} = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+\frac{\partial V}{\partial S}\mu S_{t}$$
+$$rb_{t}M_{t} = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}$$
+$$ra_{t}S_{t}+rb_{t}M_{t} = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+ra_{t}S_{t}$$
+$$rV_{t} = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+r\frac{\partial V}{\partial S}S_{t}$$
+$$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+r\frac{\partial V}{\partial S}S_{t}- rV_{t} = 0$$
+Hence,
+$$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial V}{\partial S}+r\frac{\partial V}{\partial S}S- rV = 0$$
+\end{center}
+\end{frame}
+
+%-----------------------------------------------
+\begin{frame}
+\Huge{\centerline{Thank You}}
+\begin{center}
+\begin{normalsize}
+\emph{E0007424@u.nus.edu}
+\end{normalsize}
+\end{center}
+\end{frame}
+
+%------------------------------------------------
+
+\end{document} 
