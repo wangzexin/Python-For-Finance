@@ -1,7 +1,3 @@
-#
-# DX Library Valuation
-#  valuation_class.py
-#
 class valuation_class(object):
     ''' Basic class for single-factor valuation.
     Attributes
@@ -14,32 +10,32 @@ class valuation_class(object):
     market environment data for valuation
     payoff_func : string
     derivatives payoff in Python syntax
-    Example: ‘np.maximum(maturity_value - 100, 0)’
+    Example: 'np.maximum(maturity_value - 100, 0)'
     where maturity_value is the NumPy vector with
     respective values of the underlying
-    Example: ‘np.maximum(instrument_values - 100, 0)’
+    Example: 'np.maximum(instrument_values - 100, 0)'
     where instrument_values is the NumPy matrix with
     values of the underlying over the whole time/path grid
     Methods
     =======
     update:
-    updates selected valuation parameters
+        updates selected valuation parameters
     delta :
-    returns the Delta of the derivative
+        returns the Delta of the derivative
     vega :
-    returns the Vega of the derivative
+        returns the Vega of the derivative
     '''
-    def __init__(self, name, underlying, mar_env, payoff_func=”):
+    def __init__(self, name, underlying, mar_env, payoff_func=''):
         try:
             self.name = name
             self.pricing_date = mar_env.pricing_date
             try:
-                self.strike = mar_env.get_constant(‘strike’)
+                self.strike = mar_env.get_constant('strike')
                 # strike is optional
             except:
                 pass
-            self.maturity = mar_env.get_constant(‘maturity’)
-            self.currency = mar_env.get_constant(‘currency’)
+            self.maturity = mar_env.get_constant('maturity')
+            self.currency = mar_env.get_constant('currency')
             # simulation parameters and discount curve from simulation object
             self.frequency = underlying.frequency
             self.paths = underlying.paths
@@ -51,7 +47,7 @@ class valuation_class(object):
             self.maturity])
 
         except:
-            print “Error parsing market environment.”
+            print("Error parsing market environment.")
 
     def update(self, initial_value=None, volatility=None,
                 strike=None, maturity=None):
