@@ -22,11 +22,10 @@ from valuation_mcs_european import valuation_mcs_european
 eur_call = valuation_mcs_european('eur_call', underlying=gbm,
         mar_env=me_call, payoff_func=payoff_func)
 
-eur_call.present_value()
-
-eur_call.delta()
-
-eur_call.vega()
+# Type the following three lines in console / shell
+#eur_call.present_value()
+#eur_call.delta()
+#eur_call.vega()
 
 s_list = np.arange(34., 46.1, 2.)
 p_list = []; d_list = []; v_list = []
