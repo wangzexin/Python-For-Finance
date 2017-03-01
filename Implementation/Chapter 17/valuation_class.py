@@ -3,19 +3,19 @@ class valuation_class(object):
     Attributes
     ==========
     name : string
-    name of the object
+        name of the object
     underlying :
-    instance of simulation class
+        instance of simulation class
     mar_env : instance of market_environment
-    market environment data for valuation
+        market environment data for valuation
     payoff_func : string
-    derivatives payoff in Python syntax
+        derivatives payoff in Python syntax
     Example: 'np.maximum(maturity_value - 100, 0)'
-    where maturity_value is the NumPy vector with
-    respective values of the underlying
+        where maturity_value is the NumPy vector with
+        respective values of the underlying
     Example: 'np.maximum(instrument_values - 100, 0)'
-    where instrument_values is the NumPy matrix with
-    values of the underlying over the whole time/path grid
+        where instrument_values is the NumPy matrix with
+        values of the underlying over the whole time/path grid
     Methods
     =======
     update:

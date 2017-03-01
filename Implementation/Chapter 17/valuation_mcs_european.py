@@ -2,13 +2,13 @@ import numpy as np
 from valuation_class import valuation_class
 class valuation_mcs_european(valuation_class):
     ''' Class to value European options with arbitrary payoff
-    by single-factor Monte Carlo simulation.
+        by single-factor Monte Carlo simulation.
     Methods
     =======
     generate_payoff :
-    returns payoffs given the paths and the payoff function
+        returns payoffs given the paths and the payoff function
     present_value :
-    returns present value (Monte Carlo estimator)
+        returns present value (Monte Carlo estimator)
     '''
     def generate_payoff(self, fixed_seed=False):
         '''
@@ -41,16 +41,17 @@ class valuation_mcs_european(valuation_class):
             return payoff
         except:
             print("Error evaluating payoff function.")
+    
     def present_value(self, accuracy=6, fixed_seed=False, full=False):
         '''
         Parameters
         ==========
         accuracy : int
-        number of decimals in returned result
+            number of decimals in returned result
         fixed_seed : Boolean
-        use same/fixed seed for valuation
+            use same/fixed seed for valuation
         full : Boolean
-        return also full 1d array of present values
+            return also full 1d array of present values
         '''
         cash_flow = self.generate_payoff(fixed_seed=fixed_seed)
         discount_factor = self.discount_curve.get_discount_factors(
