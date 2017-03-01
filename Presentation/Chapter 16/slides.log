@@ -1,7 +1,8 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2016.1.29)  15 FEB 2017 00:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2016.1.29)  2 MAR 2017 00:06
 entering extended mode
-**"D:/Stuart/Module studies/MA3288/Presentation/Chapter 16/New/slides.tex"
-("D:/Stuart/Module studies/MA3288/Presentation/Chapter 16/New/slides.tex"
+**"D:/Stuart/Module studies/MA3288/Research/Presentation/Chapter 16/slides.tex"
+
+("D:/Stuart/Module studies/MA3288/Research/Presentation/Chapter 16/slides.tex"
 LaTeX2e <2015/10/01> patch level 2
 Babel <3.9n> and hyphenation patterns for 69 languages loaded.
 (D:\Latex\tex\latex\beamer\base\beamer.cls
@@ -1185,12 +1186,12 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 323.
  ) 
 Here is how much of TeX's memory you used:
  17019 strings out of 493634
- 321802 string characters out of 3151441
- 388564 words of memory out of 3000000
+ 321811 string characters out of 3151441
+ 388563 words of memory out of 3000000
  19907 multiletter control sequences out of 15000+200000
  41116 words of font info for 41 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 56i,16n,62p,470b,594s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 56i,16n,62p,475b,594s stack positions out of 5000i,500n,10000p,200000b,50000s
 {D:/Latex/fonts/enc/dvips/lm/lm-rm.enc}{D:/Latex/fonts/enc/dvips/lm/lm-mathex
 .enc}{D:/Latex/fonts/enc/dvips/lm/lm-mathit.enc}{D:/Latex/fonts/enc/dvips/lm/lm
 -mathsy.enc}<D:/Latex/fonts/type1/public/lm/lmex10.pfb><D:/Latex/fonts/type1/pu
@@ -1201,7 +1202,7 @@ s/type1/public/lm/lmr8.pfb><D:/Latex/fonts/type1/public/lm/lmss10.pfb><D:/Latex
 :/Latex/fonts/type1/public/lm/lmss8.pfb><D:/Latex/fonts/type1/public/lm/lmsso10
 .pfb><D:/Latex/fonts/type1/public/lm/lmsso8.pfb><D:/Latex/fonts/type1/public/lm
 /lmsy10.pfb><D:/Latex/fonts/type1/public/lm/lmsy8.pfb>
-Output written on slides.pdf (26 pages, 779014 bytes).
+Output written on slides.pdf (26 pages, 778545 bytes).
 PDF statistics:
  861 PDF objects out of 1000 (max. 8388607)
  61 named destinations out of 1000 (max. 500000)
