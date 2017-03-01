@@ -1,7 +1,8 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2016.1.29)  15 FEB 2017 00:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2016.1.29)  2 MAR 2017 00:05
 entering extended mode
-**"D:/Stuart/Module studies/MA3288/Presentation/Chapter 16/New/slides.tex"
-("D:/Stuart/Module studies/MA3288/Presentation/Chapter 16/New/slides.tex"
+**"D:/Stuart/Module studies/MA3288/Research/Presentation/Chapter 17/slides.tex"
+
+("D:/Stuart/Module studies/MA3288/Research/Presentation/Chapter 17/slides.tex"
 LaTeX2e <2015/10/01> patch level 2
 Babel <3.9n> and hyphenation patterns for 69 languages loaded.
 (D:\Latex\tex\latex\beamer\base\beamer.cls
@@ -906,262 +907,189 @@ ides.toc) [2
 
 ] [4
 
-] <sn_random_numbers.png, id=180, 803.25093pt x 526.96875pt>
-File: sn_random_numbers.png Graphic file (type png)
+] <init_generic_valuation_class.png, id=168, 778.40813pt x 413.29407pt>
+File: init_generic_valuation_class.png Graphic file (type png)
 
-<use sn_random_numbers.png>
-Package pdftex.def Info: sn_random_numbers.png used on input line 105.
-(pdftex.def)             Requested size: 337.36308pt x 221.32536pt.
+<use init_generic_valuation_class.png>
+Package pdftex.def Info: init_generic_valuation_class.png used on input line 10
+6.
+(pdftex.def)             Requested size: 326.92918pt x 173.58232pt.
+ [5
 
-Overfull \vbox (4.25461pt too high) detected at line 105
- []
-
-[5
-
- <./sn_random_numbers.png>]
-<parameters_simulation_class.png, id=208, 613.54219pt x 505.89pt>
-File: parameters_simulation_class.png Graphic file (type png)
-
-<use parameters_simulation_class.png>
-Package pdftex.def Info: parameters_simulation_class.png used on input line 116
-.
-(pdftex.def)             Requested size: 251.55392pt x 207.41623pt.
-
-Overfull \vbox (6.07462pt too high) detected at line 116
- []
-
-[6
-
- <./parameters_simulation_class.png>]
-<rest_simulation_class_1.png, id=237, 651.18282pt x 422.32782pt>
-File: rest_simulation_class_1.png Graphic file (type png)
-
-<use rest_simulation_class_1.png>
-Package pdftex.def Info: rest_simulation_class_1.png used on input line 124.
-(pdftex.def)             Requested size: 325.5906pt x 211.16339pt.
- [7
-
- <./rest_simulation_class_1.png>]
-<rest_simulation_class_2.png, id=265, 671.50874pt x 138.5175pt>
-File: rest_simulation_class_2.png Graphic file (type png)
-
-<use rest_simulation_class_2.png>
-Package pdftex.def Info: rest_simulation_class_2.png used on input line 133.
-(pdftex.def)             Requested size: 335.75356pt x 69.25858pt.
- [8
-
- <./rest_simulation_class_2.png>]
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 141.
-
+ <./init_generic_valuation_class.png>]
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 116.
 
 (D:\Latex\tex\latex\lm\omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 141
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 116
 .
  (D:\Latex\tex\latex\lm\omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 141
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 116
 .
 
 (D:\Latex\tex\latex\lm\omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 141.
+(Font)              <10.95> on input line 116.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 141.
+(Font)              <8> on input line 116.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 141.
-LaTeX Font Info:    Try loading font information for U+msa on input line 141.
+(Font)              <6> on input line 116.
+LaTeX Font Info:    Try loading font information for U+msa on input line 116.
  (D:\Latex\tex\latex\amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 141.
+LaTeX Font Info:    Try loading font information for U+msb on input line 116.
 
 (D:\Latex\tex\latex\amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `OT1/lmss/m/it' in size <10.95> not available
-(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 141.
+(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 116.
 
 LaTeX Font Info:    Font shape `OT1/lmss/m/it' in size <6> not available
-(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 141.
+(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 116.
 
- [9
+
+<update_valuation_class.png, id=197, 625.58719pt x 286.82156pt>
+File: update_valuation_class.png Graphic file (type png)
+
+<use update_valuation_class.png>
+Package pdftex.def Info: update_valuation_class.png used on input line 116.
+(pdftex.def)             Requested size: 312.79283pt x 143.41042pt.
+ [6
+
+ <./update_valuation_class.png>] [7
 
 ]
-<gbm_init_update.png, id=323, 762.59906pt x 232.61906pt>
-File: gbm_init_update.png Graphic file (type png)
+<delta_valuation_class.png, id=257, 673.76718pt x 429.85594pt>
+File: delta_valuation_class.png Graphic file (type png)
 
-<use gbm_init_update.png>
-Package pdftex.def Info: gbm_init_update.png used on input line 149.
-(pdftex.def)             Requested size: 343.1664pt x 104.6776pt.
+<use delta_valuation_class.png>
+Package pdftex.def Info: delta_valuation_class.png used on input line 136.
+(pdftex.def)             Requested size: 296.45847pt x 189.13719pt.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <14.4> on input line 136.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 136.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 136.
+LaTeX Font Info:    Font shape `OT1/lmss/m/it' in size <14.4> not available
+(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 136.
 
-Overfull \hbox (0.8711pt too wide) in paragraph at lines 149--149
- [] 
+LaTeX Font Info:    Font shape `OT1/lmss/m/it' in size <10> not available
+(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 136.
+
+LaTeX Font Info:    Font shape `OT1/lmss/m/it' in size <7> not available
+(Font)              Font shape `OT1/lmss/m/sl' tried instead on input line 136.
+
+
+Overfull \vbox (2.00394pt too high) detected at line 136
+ []
+
+[8
+
+ <./delta_valuation_class.png>]
+<vega_valuation_class.png, id=284, 615.80063pt x 329.73187pt>
+File: vega_valuation_class.png Graphic file (type png)
+
+<use vega_valuation_class.png>
+Package pdftex.def Info: vega_valuation_class.png used on input line 145.
+(pdftex.def)             Requested size: 277.10771pt x 148.37796pt.
+ [9
+
+ <./vega_valuation_class.png>]
+<european_generate_payoff.png, id=312, 721.94719pt x 487.8225pt>
+File: european_generate_payoff.png Graphic file (type png)
+
+<use european_generate_payoff.png>
+Package pdftex.def Info: european_generate_payoff.png used on input line 156.
+(pdftex.def)             Requested size: 281.55826pt x 190.25pt.
+
+Overfull \vbox (2.50839pt too high) detected at line 156
  []
 
 [10
 
- <./gbm_init_update.png>]
-<gbm_generate_path.png, id=351, 694.09312pt x 444.15938pt>
-File: gbm_generate_path.png Graphic file (type png)
+ <./european_generate_payoff.png>]
+<european_present_value.png, id=341, 711.4078pt x 386.19281pt>
+File: european_present_value.png Graphic file (type png)
 
-<use gbm_generate_path.png>
-Package pdftex.def Info: gbm_generate_path.png used on input line 157.
-(pdftex.def)             Requested size: 326.22382pt x 208.75493pt.
+<use european_present_value.png>
+Package pdftex.def Info: european_present_value.png used on input line 165.
+(pdftex.def)             Requested size: 320.13055pt x 173.78514pt.
  [11
 
- <./gbm_generate_path.png>]
-<gbm_use_case.png, id=378, 652.68843pt x 348.55219pt>
-File: gbm_use_case.png Graphic file (type png)
- <use gbm_use_case.png>
-Package pdftex.def Info: gbm_use_case.png used on input line 171.
-(pdftex.def)             Requested size: 293.70708pt x 156.84702pt.
+ <./european_present_value.png>]
+<european_exercise_user_case.png, id=368, 171.64125pt x 91.84312pt>
+File: european_exercise_user_case.png Graphic file (type png)
 
-[12
+<use european_exercise_user_case.png>
+Package pdftex.def Info: european_exercise_user_case.png used on input line 174
+.
+(pdftex.def)             Requested size: 171.64081pt x 91.84288pt.
+ [12
 
- <./gbm_use_case.png>]
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 182.
+ <./european_exercise_user_case.png>]
+<american_generate_payoff.png, id=395, 802.49812pt x 491.58656pt>
+File: american_generate_payoff.png Graphic file (type png)
 
- (D:\Latex\tex\latex\lm\ot1lmr.fd
-File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [13
+<use american_generate_payoff.png>
+Package pdftex.def Info: american_generate_payoff.png used on input line 184.
+(pdftex.def)             Requested size: 320.99356pt x 196.63113pt.
+ [13
 
-]
-<jd_init_update.png, id=437, 678.28406pt x 511.9125pt>
-File: jd_init_update.png Graphic file (type png)
+ <./american_generate_payoff.png>]
+<american_present_value.png, id=425, 993.7125pt x 434.37282pt>
+File: american_present_value.png Graphic file (type png)
 
-<use jd_init_update.png>
-Package pdftex.def Info: jd_init_update.png used on input line 190.
-(pdftex.def)             Requested size: 284.87735pt x 215.00179pt.
- [14
+<use american_present_value.png>
+Package pdftex.def Info: american_present_value.png used on input line 194.
+(pdftex.def)             Requested size: 397.47795pt x 173.74605pt.
 
- <./jd_init_update.png>]
-<jd_generate_path_1.png, id=465, 878.53218pt x 369.63094pt>
-File: jd_generate_path_1.png Graphic file (type png)
-
-<use jd_generate_path_1.png>
-Package pdftex.def Info: jd_generate_path_1.png used on input line 199.
-(pdftex.def)             Requested size: 351.40665pt x 147.84975pt.
-
-Overfull \hbox (9.11134pt too wide) in paragraph at lines 199--199
+Overfull \hbox (55.18265pt too wide) in paragraph at lines 194--194
  [] 
  []
 
-[15
+[14
 
- <./jd_generate_path_1.png>]
-<jd_generate_path_2.png, id=493, 737.75626pt x 426.84468pt>
-File: jd_generate_path_2.png Graphic file (type png)
+ <./american_present_value.png>]
+<american_exercise_user_case.png, id=452, 284.56313pt x 283.81032pt>
+File: american_exercise_user_case.png Graphic file (type png)
 
-<use jd_generate_path_2.png>
-Package pdftex.def Info: jd_generate_path_2.png used on input line 207.
-(pdftex.def)             Requested size: 346.74548pt x 200.61702pt.
+<use american_exercise_user_case.png>
+Package pdftex.def Info: american_exercise_user_case.png used on input line 203
+.
+(pdftex.def)             Requested size: 170.73918pt x 170.28749pt.
+ [15
 
-Overfull \hbox (4.45018pt too wide) in paragraph at lines 207--207
- [] 
- []
+ <./american_exercise_user_case.png>]
+<wrapper_class.png, id=479, 605.26125pt x 143.03438pt>
+File: wrapper_class.png Graphic file (type png)
+ <use wrapper_class.png>
+Package pdftex.def Info: wrapper_class.png used on input line 213.
+(pdftex.def)             Requested size: 290.52208pt x 68.6557pt.
 
 [16
 
- <./jd_generate_path_2.png>]
-<jd_use_case.png, id=520, 636.12656pt x 227.34938pt>
-File: jd_use_case.png Graphic file (type png)
- <use jd_use_case.png>
-Package pdftex.def Info: jd_use_case.png used on input line 221.
-(pdftex.def)             Requested size: 286.2543pt x 102.30626pt.
+ <./wrapper_class.png>]
+<overall_wrapper_class.png, id=507, 670.00313pt x 368.1253pt>
+File: overall_wrapper_class.png Graphic file (type png)
+
+<use overall_wrapper_class.png>
+Package pdftex.def Info: overall_wrapper_class.png used on input line 222.
+(pdftex.def)             Requested size: 321.59785pt x 176.69814pt.
+
+Overfull \vbox (2.55653pt too high) detected at line 222
+ []
 
 [17
 
- <./jd_use_case.png>] [18
-
-]
-<srd_init_update.png, id=575, 718.18312pt x 429.85594pt>
-File: srd_init_update.png Graphic file (type png)
-
-<use srd_init_update.png>
-Package pdftex.def Info: srd_init_update.png used on input line 244.
-(pdftex.def)             Requested size: 301.63486pt x 180.53825pt.
- [19
-
- <./srd_init_update.png>]
-<srd_generate_path_1.png, id=604, 613.54219pt x 161.85469pt>
-File: srd_generate_path_1.png Graphic file (type png)
-
-<use srd_generate_path_1.png>
-Package pdftex.def Info: srd_generate_path_1.png used on input line 253.
-(pdftex.def)             Requested size: 245.41252pt x 64.74072pt.
- [20
-
- <./srd_generate_path_1.png>]
-<srd_generate_path_2.png, id=632, 744.53156pt x 449.42906pt>
-File: srd_generate_path_2.png Graphic file (type png)
-
-<use srd_generate_path_2.png>
-Package pdftex.def Info: srd_generate_path_2.png used on input line 261.
-(pdftex.def)             Requested size: 349.92989pt x 211.23167pt.
-
-Overfull \hbox (7.63458pt too wide) in paragraph at lines 261--261
- [] 
- []
-
-
-Overfull \vbox (7.76093pt too high) detected at line 261
- []
-
-[21
-
- <./srd_generate_path_2.png>]
-<srd_use_case.png, id=659, 685.05937pt x 367.3725pt>
-File: srd_use_case.png Graphic file (type png)
- <use srd_use_case.png>
-Package pdftex.def Info: srd_use_case.png used on input line 275.
-(pdftex.def)             Requested size: 301.42705pt x 161.64438pt.
-
-Overfull \vbox (2.10278pt too high) detected at line 275
- []
-
-[22
-
- <./srd_use_case.png>]
-<generate_path_common.png, id=686, 804.00375pt x 159.59625pt>
-File: generate_path_common.png Graphic file (type png)
-
-<use generate_path_common.png>
-Package pdftex.def Info: generate_path_common.png used on input line 289.
-(pdftex.def)             Requested size: 337.67928pt x 67.02995pt.
-
-<call_super_generate_path_common.png, id=687, 465.23813pt x 21.07875pt>
-File: call_super_generate_path_common.png Graphic file (type png)
-
-<use call_super_generate_path_common.png>
-Package pdftex.def Info: call_super_generate_path_common.png used on input line
- 289.
-(pdftex.def)             Requested size: 232.61848pt x 10.53934pt.
- [23
-
- <./generate_path_common.png> <./call_super_generate_path_common.png>]
-<wrapper_class.png, id=715, 670.00313pt x 184.43906pt>
-File: wrapper_class.png Graphic file (type png)
- <use wrapper_class.png>
-Package pdftex.def Info: wrapper_class.png used on input line 300.
-(pdftex.def)             Requested size: 321.59785pt x 88.52972pt.
-
-[24
-
- <./wrapper_class.png>]
-<import_wrapper_class.png, id=743, 670.75594pt x 283.81032pt>
-File: import_wrapper_class.png Graphic file (type png)
-
-<use import_wrapper_class.png>
-Package pdftex.def Info: import_wrapper_class.png used on input line 309.
-(pdftex.def)             Requested size: 321.95918pt x 136.2274pt.
- [25
-
- <./import_wrapper_class.png>] [26
+ <./overall_wrapper_class.png>] [18
 
 ]
 \tf@nav=\write6
@@ -1173,37 +1101,34 @@ Package pdftex.def Info: import_wrapper_class.png used on input line 309.
 \tf@snm=\write8
 \openout8 = `slides.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 323.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 323.
-
-(slides.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 323.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 323.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 236.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 236.
+ (slides.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 236.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 236.
 Package rerunfilecheck Info: File `slides.out' has not changed.
-(rerunfilecheck)             Checksum: 389A49578C3E66C77F06FC70EAAD82C1;580.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 323.
+(rerunfilecheck)             Checksum: BE8BE90326EE8E5EC1BA5FC522B0F448;410.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 236.
  ) 
 Here is how much of TeX's memory you used:
- 17019 strings out of 493634
- 321802 string characters out of 3151441
- 388564 words of memory out of 3000000
- 19907 multiletter control sequences out of 15000+200000
- 41116 words of font info for 41 fonts, out of 3000000 for 9000
+ 16940 strings out of 493634
+ 320420 string characters out of 3151441
+ 388545 words of memory out of 3000000
+ 19855 multiletter control sequences out of 15000+200000
+ 49231 words of font info for 55 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 56i,16n,62p,470b,594s stack positions out of 5000i,500n,10000p,200000b,50000s
-{D:/Latex/fonts/enc/dvips/lm/lm-rm.enc}{D:/Latex/fonts/enc/dvips/lm/lm-mathex
-.enc}{D:/Latex/fonts/enc/dvips/lm/lm-mathit.enc}{D:/Latex/fonts/enc/dvips/lm/lm
--mathsy.enc}<D:/Latex/fonts/type1/public/lm/lmex10.pfb><D:/Latex/fonts/type1/pu
-blic/lm/lmmi10.pfb><D:/Latex/fonts/type1/public/lm/lmmi8.pfb><D:/Latex/fonts/ty
-pe1/public/lm/lmr10.pfb><D:/Latex/fonts/type1/public/lm/lmr6.pfb><D:/Latex/font
-s/type1/public/lm/lmr8.pfb><D:/Latex/fonts/type1/public/lm/lmss10.pfb><D:/Latex
-/fonts/type1/public/lm/lmss12.pfb><D:/Latex/fonts/type1/public/lm/lmss17.pfb><D
-:/Latex/fonts/type1/public/lm/lmss8.pfb><D:/Latex/fonts/type1/public/lm/lmsso10
-.pfb><D:/Latex/fonts/type1/public/lm/lmsso8.pfb><D:/Latex/fonts/type1/public/lm
-/lmsy10.pfb><D:/Latex/fonts/type1/public/lm/lmsy8.pfb>
-Output written on slides.pdf (26 pages, 779014 bytes).
+ 56i,16n,62p,475b,594s stack positions out of 5000i,500n,10000p,200000b,50000s
+{D:/Latex/fonts/enc/dvips/lm/lm-rm.enc}{D:/Latex/fonts/enc/dvips/lm/lm-mathit
+.enc}{D:/Latex/fonts/enc/dvips/lm/lm-mathsy.enc}<D:/Latex/fonts/type1/public/lm
+/lmmi10.pfb><D:/Latex/fonts/type1/public/lm/lmmi12.pfb><D:/Latex/fonts/type1/pu
+blic/lm/lmmi8.pfb><D:/Latex/fonts/type1/public/lm/lmss10.pfb><D:/Latex/fonts/ty
+pe1/public/lm/lmss12.pfb><D:/Latex/fonts/type1/public/lm/lmss17.pfb><D:/Latex/f
+onts/type1/public/lm/lmss8.pfb><D:/Latex/fonts/type1/public/lm/lmsso10.pfb><D:/
+Latex/fonts/type1/public/lm/lmsso8.pfb><D:/Latex/fonts/type1/public/lm/lmsy10.p
+fb><D:/Latex/fonts/type1/public/lm/lmsy8.pfb>
+Output written on slides.pdf (18 pages, 508918 bytes).
 PDF statistics:
- 861 PDF objects out of 1000 (max. 8388607)
- 61 named destinations out of 1000 (max. 500000)
- 232 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 611 PDF objects out of 1000 (max. 8388607)
+ 43 named destinations out of 1000 (max. 500000)
+ 181 words of extra memory for PDF output out of 10000 (max. 10000000)
 

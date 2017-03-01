@@ -1,8 +1,6 @@
-\BOOKMARK [2][]{Outline0.1}{Simulation of Financial models}{}% 1
-\BOOKMARK [3][]{Outline0.1.1.5}{Random number generation}{Outline0.1}% 2
-\BOOKMARK [3][]{Outline0.1.2.6}{Generic financial model simulation class}{Outline0.1}% 3
-\BOOKMARK [3][]{Outline0.1.3.9}{Geometric Brownian Motion}{Outline0.1}% 4
-\BOOKMARK [3][]{Outline0.1.4.13}{Jump Diffusion}{Outline0.1}% 5
-\BOOKMARK [3][]{Outline0.1.5.18}{Square-root Diffusion}{Outline0.1}% 6
-\BOOKMARK [3][]{Outline0.1.6.23}{Capture common features}{Outline0.1}% 7
-\BOOKMARK [3][]{Outline0.1.7.24}{Wrapper class}{Outline0.1}% 8
+\BOOKMARK [2][]{Outline0.1}{Derivatives Valuation}{}% 1
+\BOOKMARK [3][]{Outline0.1.1.5}{Generic Valuation Class}{Outline0.1}% 2
+\BOOKMARK [3][]{Outline0.1.2.7}{Numerical Evaluation of Greeks}{Outline0.1}% 3
+\BOOKMARK [3][]{Outline0.1.3.10}{European Exercise}{Outline0.1}% 4
+\BOOKMARK [3][]{Outline0.1.4.13}{American Exercise}{Outline0.1}% 5
+\BOOKMARK [3][]{Outline0.1.5.16}{Wrapper class}{Outline0.1}% 6
