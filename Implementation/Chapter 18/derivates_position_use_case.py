@@ -20,4 +20,4 @@ am_put_pos = derivatives_position(
     mar_env=me_am_put,
     otype="American",
     payoff_func=payoff_func)
-print(am_put_pos.get_info())
+am_put_pos.get_info()

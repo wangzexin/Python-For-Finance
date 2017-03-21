@@ -30,6 +30,7 @@ class derivatives_position(object):
         self.mar_env = mar_env
         self.otype = otype
         self.payoff_func = payoff_func
+
     def get_info(self):
         print("NAME")
         print(self.name, "\n")
