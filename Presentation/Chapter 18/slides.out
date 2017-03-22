@@ -1,6 +1,10 @@
-\BOOKMARK [2][]{Outline0.1}{Portfolio Valuation}{}% 1
-\BOOKMARK [3][]{Outline0.1.1.5}{General Modularization}{Outline0.1}% 2
-\BOOKMARK [3][]{Outline0.1.2.7}{Numerical Evaluation of Greeks}{Outline0.1}% 3
-\BOOKMARK [3][]{Outline0.1.3.10}{European Exercise}{Outline0.1}% 4
-\BOOKMARK [3][]{Outline0.1.4.13}{American Exercise}{Outline0.1}% 5
-\BOOKMARK [3][]{Outline0.1.5.16}{Wrapper class}{Outline0.1}% 6
+\BOOKMARK [2][]{Outline0.1}{General Modularization}{}% 1
+\BOOKMARK [2][]{Outline0.2}{Derivatives Positions}{}% 2
+\BOOKMARK [3][]{Outline0.2.1.5}{Initialization}{Outline0.2}% 3
+\BOOKMARK [3][]{Outline0.2.2.7}{get\137info method}{Outline0.2}% 4
+\BOOKMARK [3][]{Outline0.2.3.8}{Use Case}{Outline0.2}% 5
+\BOOKMARK [2][]{Outline0.3}{Derivative Portfolio}{}% 6
+\BOOKMARK [3][]{Outline0.3.1.9}{Initialization}{Outline0.3}% 7
+\BOOKMARK [3][]{Outline0.3.2.10}{Attributes}{Outline0.3}% 8
+\BOOKMARK [3][]{Outline0.3.3.13}{American Exercise}{Outline0.3}% 9
+\BOOKMARK [3][]{Outline0.3.4.16}{Wrapper class}{Outline0.3}% 10

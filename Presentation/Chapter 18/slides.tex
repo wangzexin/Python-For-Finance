@@ -79,21 +79,7 @@ So here is a list of items to change\\[2mm]
 \end{frame}
 
 %------------------------------------------------
-\section{Portfolio Valuation}
-
-%------------------------------------------------
-\begin{frame}
-\frametitle{Derivatives Valuation}
-\begin{itemize}
-	\item Generic Valuation Class\\[3mm]
-	\item Numerical Evaluation of Greeks\\[3mm]
-	\item European Exercise\\[3mm]
-	\item American Exercise\\[3mm]
-	\item Wrapper class
-\end{itemize}
-\end{frame}
-
-\subsection{General Modularization}
+\section{General Modularization}
 
 %------------------------------------------------
 \begin{frame}
@@ -120,53 +106,70 @@ The almost complete modularization of the analytics library:\\
 \end{itemize}
 \end{frame}
 
+\section{Derivatives Positions}
+
+\subsection{Initialization}
+
 %------------------------------------------------
 \begin{frame}
-\frametitle{Initialization}
-The derivatives valuation class will include these attributes:\\
-Quantity, Underlying, 
+\frametitle{Initializiation}
+The derivatives positions class will include these attributes:
+\begin{itemize}
+	\item Quantity
+	\item Underlying
+	\item Market Environment (A $mar\_env$ object)
+	\item Otype (which valuation class to use)
+	\item Payoff function (A string with the formula for payoff)
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Derivatives Position}
 \begin{figure}[H]
-	\includegraphics[scale=0.5]{update_valuation_class.png}
+	\includegraphics[scale=0.44]{derivatives_position_class.png}
 \end{figure}
 \end{frame}
 
-\subsection{Numerical Evaluation of Greeks}
+\subsection{$get\_info$ method}
 %------------------------------------------------
 \begin{frame}
-\frametitle{Numerical Evaluation of Greeks}
-Delta:
-$$\Delta = \lim_{{^{\Delta}S} \to 0} \frac{V(S_{0}+{^{\Delta}S},\sigma_{0}) - V(S_{0}, \sigma_{0})}{^{\Delta}S} = \frac{\partial V}{\partial S}$$
-Vega:
-$$\nu = \lim_{{^{\Delta}\sigma} \to 0} \frac{V(S_{0},\sigma_{0}+{^{\Delta}\sigma}) - V(S_{0}, \sigma_{0})}{^{\Delta}\sigma} = \frac{\partial V}{\partial \sigma}$$
-The sensitivity of the derivatives price to underlying price as well as to volatility can be numerically computed.
-\end{frame}
-
-%------------------------------------------------
-\begin{frame}
-\frametitle{Numerical Evaluation of $\Delta$}
-This implementation calculates the change in derivatives value with respect to 2\% change in underlying asset price. (Can 2\% be too much?)
+\frametitle{Derivatives Position}
+This class also comes with a $get\_info$ method.\\
+In which $payoff\_function$ is only a string for symbolic computations.
 \begin{figure}[H]
-	\includegraphics[scale=0.44]{delta_valuation_class.png}
+	\includegraphics[scale=0.44]{derivatives_position_get_info.png}
 \end{figure}
 \end{frame}
 
+\subsection{Use Case}
 %------------------------------------------------
 \begin{frame}
-\frametitle{Numerical Evaluation of $\nu$}
-This implementation calculates the change in derivatives value with respect to 2\% change in volatility. (How can we correct for potential numerical errors?)
+\frametitle{Derivatives Position}
+Here is a simple use case of the $derivatives\_position$ class.
 \begin{figure}[H]
-	\includegraphics[scale=0.45]{vega_valuation_class.png}
+	\includegraphics[scale=0.37]{derivatives_position_use_case.png}
 \end{figure}
 \end{frame}
 
-\subsection{European Exercise}
+\section{Derivative Portfolio}
+\subsection{Initialization}
 %------------------------------------------------
 \begin{frame}
-\frametitle{European Exercise Generate Payoff}
-If self.strike is not initiated, there will still be errors.\\
-Also, computation using the $eval$ function can be slow.
+\frametitle{Derivative Portfolio}
+Initialization for the $derivatives\_portfolio$ class.
+\begin{figure}
+	\includegraphics[scale=0.45]{derivatives_portfolio_init.png}
+\end{figure}
+\end{frame}
+
+\subsection{Attributes}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Derivative Portfolio}
+The attributes of the $derivatives\_portfolio$ class are initialized as follows:
 \begin{figure}[H]
-	\includegraphics[scale=0.39]{european_generate_payoff.png}
+	\includegraphics[scale=0.45]{derivatives_portfolio_attributes.png}
 \end{figure}
 \end{frame}
 

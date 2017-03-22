@@ -17,23 +17,23 @@ class derivatives_portfolio(object):
     Attributes
     ==========
     name : str
-    name of the object
+        name of the object
     positions : dict
-    dictionary of positions (instances of derivatives_position class)
+        dictionary of positions (instances of derivatives_position class)
     val_env : market_environment
-    market environment for the valuation
+        market environment for the valuation
     assets : dict
-    dictionary of market environments for the assets
+        dictionary of market environments for the assets
     correlations : list
-    correlations between assets
+        correlations between assets
     fixed_seed : Boolean
-    flag for fixed rng seed
+        flag for fixed rng seed
     Methods
     =======
     get_positions :
-    prints information about the single portfolio positions
+        prints information about the single portfolio positions
     get_statistics :
-    returns a pandas DataFrame object with portfolio statistics
+        returns a pandas DataFrame object with portfolio statistics
     '''
     def __init__(self, name, positions, val_env, assets,
         correlations=None, fixed_seed=False):
@@ -51,12 +51,12 @@ class derivatives_portfolio(object):
         for pos in self.positions:
             # determine earliest starting_date
             self.val_env.constants['starting_date'] = \
-            min(self.val_env.constants['starting_date'],
-            positions[pos].mar_env.pricing_date)
+                min(self.val_env.constants['starting_date'],
+                positions[pos].mar_env.pricing_date)
             # determine latest date of relevance
             self.val_env.constants['final_date'] = \
-            max(self.val_env.constants['final_date'],
-            positions[pos].mar_env.constants['maturity'])
+                max(self.val_env.constants['final_date'],
+                positions[pos].mar_env.constants['maturity'])
             # collect all underlyings
             # add to set; avoids redundancy
             self.underlyings.add(positions[pos].underlying)
@@ -90,7 +90,7 @@ class derivatives_portfolio(object):
             correlation_matrix = np.zeros((len(ul_list), len(ul_list)))
             np.fill_diagonal(correlation_matrix, 1.0)
             correlation_matrix = pd.DataFrame(correlation_matrix,
-            index=ul_list, columns=ul_list)
+                                              index=ul_list, columns=ul_list)
             for i, j, corr in correlations:
                 corr = min(corr, 0.999999999999)
                 # fill correlation matrix
@@ -103,15 +103,13 @@ class derivatives_portfolio(object):
             # dictionary with index positions for the
             # slice of the random number array to be used by
             # respective underlying
-            rn_set = {asset: ul_list.index(asset)
-
-        for asset in self.underlyings}
+            rn_set = {asset: ul_list.index(asset) for asset in self.underlyings}
             # random numbers array, to be used by
             # all underlyings (if correlations exist)
             random_numbers = sn_random_numbers((len(rn_set),
-            len(self.time_grid),
-            self.val_env.constants['paths']),
-            fixed_seed=self.fixed_seed)
+                len(self.time_grid),
+                self.val_env.constants['paths']),
+                fixed_seed=self.fixed_seed)
             # add all to valuation environment that is
             # to be shared with every underlying
             self.val_env.add_list('cholesky_matrix', cholesky_matrix)
@@ -142,8 +140,7 @@ class derivatives_portfolio(object):
             self.valuation_objects[pos] = \
                 val_class(name=positions[pos].name,
                     mar_env=mar_env,
-                    underlying=self.underlying_objects[
-                    positions[pos].underlying],
+                    underlying=self.underlying_objects[positions[pos].underlying],
                     payoff_func=positions[pos].payoff_func)
     
     def get_positions(self):
