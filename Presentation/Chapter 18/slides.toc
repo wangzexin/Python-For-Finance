@@ -4,8 +4,11 @@
 \beamer@subsectionintoc {2}{1}{Initialization}{5}{0}{2}
 \beamer@subsectionintoc {2}{2}{$get\_info$ method}{7}{0}{2}
 \beamer@subsectionintoc {2}{3}{Use Case}{8}{0}{2}
-\beamer@sectionintoc {3}{Derivative Portfolio}{9}{0}{3}
+\beamer@sectionintoc {3}{Derivatives Portfolio}{9}{0}{3}
 \beamer@subsectionintoc {3}{1}{Initialization}{9}{0}{3}
 \beamer@subsectionintoc {3}{2}{Attributes}{10}{0}{3}
-\beamer@subsectionintoc {3}{3}{American Exercise}{13}{0}{3}
-\beamer@subsectionintoc {3}{4}{Wrapper class}{16}{0}{3}
+\beamer@subsectionintoc {3}{3}{Time Grid}{11}{0}{3}
+\beamer@subsectionintoc {3}{4}{Cholesky Matrix}{12}{0}{3}
+\beamer@subsectionintoc {3}{5}{Positions}{13}{0}{3}
+\beamer@subsectionintoc {3}{6}{Getter methods}{14}{0}{3}
+\beamer@subsectionintoc {3}{7}{Wrapper class}{18}{0}{3}

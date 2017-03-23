@@ -3,8 +3,11 @@
 \BOOKMARK [3][]{Outline0.2.1.5}{Initialization}{Outline0.2}% 3
 \BOOKMARK [3][]{Outline0.2.2.7}{get\137info method}{Outline0.2}% 4
 \BOOKMARK [3][]{Outline0.2.3.8}{Use Case}{Outline0.2}% 5
-\BOOKMARK [2][]{Outline0.3}{Derivative Portfolio}{}% 6
+\BOOKMARK [2][]{Outline0.3}{Derivatives Portfolio}{}% 6
 \BOOKMARK [3][]{Outline0.3.1.9}{Initialization}{Outline0.3}% 7
 \BOOKMARK [3][]{Outline0.3.2.10}{Attributes}{Outline0.3}% 8
-\BOOKMARK [3][]{Outline0.3.3.13}{American Exercise}{Outline0.3}% 9
-\BOOKMARK [3][]{Outline0.3.4.16}{Wrapper class}{Outline0.3}% 10
+\BOOKMARK [3][]{Outline0.3.3.11}{Time Grid}{Outline0.3}% 9
+\BOOKMARK [3][]{Outline0.3.4.12}{Cholesky Matrix}{Outline0.3}% 10
+\BOOKMARK [3][]{Outline0.3.5.13}{Positions}{Outline0.3}% 11
+\BOOKMARK [3][]{Outline0.3.6.14}{Getter methods}{Outline0.3}% 12
+\BOOKMARK [3][]{Outline0.3.7.18}{Wrapper class}{Outline0.3}% 13

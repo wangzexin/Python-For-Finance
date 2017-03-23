@@ -152,7 +152,7 @@ Here is a simple use case of the $derivatives\_position$ class.
 \end{figure}
 \end{frame}
 
-\section{Derivative Portfolio}
+\section{Derivatives Portfolio}
 \subsection{Initialization}
 %------------------------------------------------
 \begin{frame}
@@ -166,38 +166,59 @@ Initialization for the $derivatives\_portfolio$ class.
 \subsection{Attributes}
 %------------------------------------------------
 \begin{frame}
-\frametitle{Derivative Portfolio}
+\frametitle{Derivatives Portfolio}
 The attributes of the $derivatives\_portfolio$ class are initialized as follows:
 \begin{figure}[H]
 	\includegraphics[scale=0.45]{derivatives_portfolio_attributes.png}
 \end{figure}
 \end{frame}
 
+\subsection{Time Grid}
 %------------------------------------------------
 \begin{frame}
-\frametitle{European Exercise Valuation}
-Calculate present value by discounting the expectation of payoff.
+\frametitle{Derivatives Portfolio - Time Grid}
+During initialization, the class would then go on to calculate the time grid.
 \begin{figure}[H]
-	\includegraphics[scale=0.45]{european_present_value.png}
+	\includegraphics[scale=0.32]{derivatives_portfolio_time_grid.png}
+\end{figure}
+\end{frame}
+
+\subsection{Cholesky Matrix}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Derivatives Portfolio - Cholesky Matrix}
+If the correlation matrix is input in as a parameter, the class would calculate the Cholesky matrix during the initialization.
+\begin{figure}[H]
+	\includegraphics[scale=0.32]{derivatives_portfolio_cholesky_matrix.png}
+\end{figure}
+\end{frame}
+
+\subsection{Positions}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Derivatives Portfolio - Positions}
+The portfolio will contain the positions for derivatives as well.
+\begin{figure}[H]
+	\includegraphics[scale=0.37]{derivatives_portfolio_underlying_positions.png}
+\end{figure}
+\end{frame}
+
+\subsection{Getter methods}
+%------------------------------------------------
+\begin{frame}
+\frametitle{Derivatives Portfolio - Getter methods}
+The portfolio class comes with two convenient getters.
+\begin{figure}[H]
+	\includegraphics[scale=0.32]{derivatives_portfolio_getter_methods.png}
 \end{figure}
 \end{frame}
 
 %------------------------------------------------
 \begin{frame}
-\frametitle{European Exercise User Case}
+\frametitle{Derivatives Portfolio - Use Case}
 Assuming the attributes are correctly updated, for an European call option with $S_{0} = 36$, $\sigma = 0.2$ and $K = 40$, we may obtain the following:
 \begin{figure}[H]
 	\includegraphics[scale=1.0]{european_exercise_user_case.png}
-\end{figure}
-\end{frame}
-
-\subsection{American Exercise}
-%------------------------------------------------
-\begin{frame}
-\frametitle{American Exercise Generate Payoff}
-This function will pass out the time points of the optimal exercise price.
-\begin{figure}[H]
-	\includegraphics[scale=0.4]{american_generate_payoff.png}
 \end{figure}
 \end{frame}
 

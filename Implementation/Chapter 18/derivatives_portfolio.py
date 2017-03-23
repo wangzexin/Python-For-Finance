@@ -115,20 +115,21 @@ class derivatives_portfolio(object):
             self.val_env.add_list('cholesky_matrix', cholesky_matrix)
             self.val_env.add_list('random_numbers', random_numbers)
             self.val_env.add_list('rn_set', rn_set)
-            for asset in self.underlyings:
-                # select market environment of asset
-                mar_env = self.assets[asset]
-                # add valuation environment to market environment
-                mar_env.add_environment(val_env)
-                # select right simulation class
-                model = models[mar_env.constants['model']]
-                # instantiate simulation object
-                if correlations is not None:
-                    self.underlying_objects[asset] = model(asset, mar_env,
-                    corr=True)
-                else:
-                    self.underlying_objects[asset] = model(asset, mar_env,
-                    corr=False)
+
+        for asset in self.underlyings:
+            # select market environment of asset
+            mar_env = self.assets[asset]
+            # add valuation environment to market environment
+            mar_env.add_environment(val_env)
+            # select right simulation class
+            model = models[mar_env.constants['model']]
+            # instantiate simulation object
+            if correlations is not None:
+                self.underlying_objects[asset] = model(asset, mar_env,
+                corr=True)
+            else:
+                self.underlying_objects[asset] = model(asset, mar_env,
+                corr=False)
 
         for pos in positions:
             # select right valuation class (European, American)
