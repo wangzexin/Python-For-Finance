@@ -145,7 +145,7 @@ In which $payoff\_function$ is only a string for symbolic computations.
 \subsection{Use Case}
 %------------------------------------------------
 \begin{frame}
-\frametitle{Derivatives Position}
+\frametitle{Derivatives Position - Use Case}
 Here is a simple use case of the $derivatives\_position$ class.
 \begin{figure}[H]
 	\includegraphics[scale=0.37]{derivatives_position_use_case.png}
@@ -216,47 +216,46 @@ The portfolio class comes with two convenient getters.
 %------------------------------------------------
 \begin{frame}
 \frametitle{Derivatives Portfolio - Use Case}
-Assuming the attributes are correctly updated, for an European call option with $S_{0} = 36$, $\sigma = 0.2$ and $K = 40$, we may obtain the following:
+A simple use case of the $derivatives\_portfolio$ class to build an object of the class first. Note that this use case comes directly after the use case of the previous $derivatives\_position$ class.
 \begin{figure}[H]
-	\includegraphics[scale=1.0]{european_exercise_user_case.png}
+	\includegraphics[scale=0.46]{derivatives_portfolio_use_case_1.png}
 \end{figure}
 \end{frame}
 
 %------------------------------------------------
 \begin{frame}
-\frametitle{American Exercise Valuation}
-Fixed seed: same randomized values for separation simulations.\\
-This function will derive different discount factors for different time points.
+\frametitle{Derivatives Portfolio - Use Case}
+This use case tests on whether the class can accept a correlation matrix correctly and build a cholesky matrix or not.
 \begin{figure}[H]
-	\includegraphics[scale=0.4]{american_present_value.png}
+	\includegraphics[scale=0.49]{derivatives_portfolio_use_case_2.png}
 \end{figure}
 \end{frame}
 
 %------------------------------------------------
 \begin{frame}
-\frametitle{American Exercise User Case}
-Assuming the attributes are correctly updated, for an American call option with $S_{0} = 36$, $\sigma = 0.2$ and $K = 40$, we may obtain the following:
+\frametitle{Derivatives Portfolio - Use Case}
+This use case tests on the interaction between the components of the $derivatives\_portfolio$ class.
 \begin{figure}[H]
-	\includegraphics[scale=0.6]{american_exercise_user_case.png}
+	\includegraphics[scale=0.5]{derivatives_portfolio_use_case_3.png}
 \end{figure}
 \end{frame}
 
-\subsection{Wrapper class}
+\section{Wrapper class}
 %------------------------------------------------
 \begin{frame}
 \frametitle{Wrapper class - implementation}
 \begin{figure}[H]
 	\includegraphics[scale=0.48]{wrapper_class.png}
 \end{figure}
-With this $dx\_valuation.py$, we are now able to import the valuation framework package as well the simulation classes in one line.
+With this $dx\_library.py$, we are now able to import the valuation framework package for the derivatives portfolio as well the simulation classes in one line.
 \end{frame}
 
 %------------------------------------------------
 \begin{frame}
 \frametitle{Wrapper class - testing}
-Now we need to enhance the $\_\_init\_\_.py$ which initially has the same content as $dx\_frame.py$ and $dx\_simulation.py$ in the same directory to include importing the simulation classes.
+Now we need to enhance the $\_\_init\_\_.py$ which initially has the same content as $dx\_frame.py$,  $dx\_simulation.py$ and $dx\_valuation.py$ in the same directory to include importing the simulation classes.
 \begin{figure}[H]
-	\includegraphics[scale=0.48]{overall_wrapper_class.png}
+	\includegraphics[scale=0.35]{overall_wrapper_class.png}
 \end{figure}
 \end{frame}
 
