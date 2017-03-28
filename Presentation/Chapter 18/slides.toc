@@ -11,4 +11,4 @@
 \beamer@subsectionintoc {3}{4}{Cholesky Matrix}{12}{0}{3}
 \beamer@subsectionintoc {3}{5}{Positions}{13}{0}{3}
 \beamer@subsectionintoc {3}{6}{Getter methods}{14}{0}{3}
-\beamer@subsectionintoc {3}{7}{Wrapper class}{18}{0}{3}
+\beamer@sectionintoc {4}{Wrapper class}{18}{0}{4}
