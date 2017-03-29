@@ -1,0 +1,214 @@
+% This is a comment.
+% the region directly below this comment, up till the command \begin{document} is known as the 'preamble'
+% basic setup
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+
+% for mathematics
+\usepackage{amsmath}
+\usepackage{amsthm}
+% define theorems, lemmas, etc
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\usepackage{amssymb}
+
+% for adjusting margins
+\usepackage{geometry}
+\geometry{
+	a4paper,
+ 	left=26mm,
+ 	right=20mm,
+ 	top=33mm,
+ 	bottom=38mm
+}
+
+% for introducing urls
+\usepackage{url}
+
+% for colored text
+\usepackage{color}
+
+% for creating lists
+\usepackage{enumerate}
+
+% change font to times new roman
+%\usepackage{times}
+
+% title details
+\title{UROPS Project 16124 Full report\\
+Financial Mathematics with Python}
+%\date{}
+\author{Wang Zexin}
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% the region between \begin{document} ... \end{document} is known as the 'text'
+\begin{document}
+
+% insert title
+\maketitle
+% make a new page
+\newpage
+
+\tableofcontents
+\newpage
+
+% create our first section
+% section*{...} creates an unnumbered section, whereas \section{...} creates an auto-numbered section
+\section{Derivation of Black Scholes PDE} %------------------------------------------------
+
+\subsection{Basics}
+
+We assume that the following two SDE hold:
+$$dM_{t}  = rM_{t}dt$$
+$$dS_{t}  = \mu S_{t}dt + \sigma S_{t} dW_{t}$$
+
+\begin{center}
+We assume that the following It$\hat{o}^{\prime}$s Lemma hold:\\[4mm]
+As $dS_{t} = \mu S_{t}dt + \sigma S_{t}dW_{t}$,
+$$dV_{t} = (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S})dt + \frac{\partial V}{\partial S}dS_{t}$$
+\end{center}
+\newpage
+
+\subsection{Delta-hedging Argument}
+
+\begin{center}
+Our first aim is to find $\phi_{t}$\\[1mm]
+for $\mathrm{\Pi}_{t} = V_{t} - \phi_{t}S_{t}$\\[3mm]
+such that\\[1mm]
+$d\mathrm{\Pi}_{t} = dV_{t} - \phi_{t}dS_{t}$(Self-financing)\\[1mm]
+$d\mathrm{\Pi}_{t} = r\mathrm{\Pi}_{t}dt$(risk free)\\[3mm]
+From the equations, we can obtain that\\[1mm]
+$r\mathrm{\Pi}_{t}dt = dV_{t} - \phi_{t}dS_{t}$\\[1mm]
+$r(V_{t} - \phi_{t}S_{t})dt = dV_{t} - \phi_{t}dS_{t}$\\[1mm]
+$dV_{t}  = r(V_{t} - \phi_{t}S_{t})dt + \phi_{t}dS_{t}$\\[1mm]
+By It$\hat{o}^{\prime}$s Lemma, $$dV_{t} = (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S})dt + \frac{\partial V}{\partial S}dS_{t}$$
+Hence we obtain two equations:
+$$\phi_{t} = \frac{\partial V}{\partial S}$$
+$$r(V_{t} - \phi_{t}S_{t}) = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}$$
+\end{center}
+
+\begin{center}
+$$r(V_{t} - \frac{\partial V}{\partial S}S_{t}) = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}$$
+$$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S} + r\frac{\partial V}{\partial S}S_{t} - rV_{t} = 0$$
+At time t, we have
+$$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial V}{\partial S} + r\frac{\partial V}{\partial S}S - rV = 0$$
+\end{center}
+\newpage
+
+\subsection{Replicating portfolio}
+
+\begin{center}
+Our aim is to find $a_{t}$ and $b_{t}$ such that\\[2mm]
+$\mathrm{\Pi}_{t} = a_{t}S_{t} + b_{t}M_{t}$ can entirely replicate $V_{t}$\\[2mm]
+And also, the self-financing condition holds:\\[2mm]
+$d\mathrm{\Pi}_{t} = a_{t}dS_{t} + b_{t}dM_{t}$\\[5mm]
+As $dS_{t} = \mu S_{t}dt + \sigma S_{t}dW_{t}$ and $dM_{t}  = rM_{t}dt$,
+\begin{equation*}
+\begin{split}
+d\mathrm{\Pi}_{t} 
+&= a_{t}(\mu S_{t}dt + \sigma S_{t}dW_{t}) + b_{t}(rM_{t}dt)\\
+&= (a_{t}\mu S_{t} + rb_{t}M_{t})dt + (\sigma a_{t}S_{t})dW_{t}\\
+\end{split}
+\end{equation*}
+\end{center}
+
+\begin{center}
+By It$\hat{o}^{\prime}$s Lemma, 
+\begin{equation*}
+\begin{split}
+dV_{t}
+&= (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S})dt + \frac{\partial V}{\partial S}dS_{t}\\
+&= (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S})dt + \frac{\partial V}{\partial S}(\mu S_{t}dt + \sigma S_{t}dW_{t})\\
+&= (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+\frac{\partial V}{\partial S}\mu S_{t})dt + (\sigma S_{t}\frac{\partial V}{\partial S})dW_{t}\\
+\end{split}
+\end{equation*}
+\end{center}
+
+\begin{center}
+As $\mathrm{\Pi}_{t}$ fully replicates $V_{t}$,
+$$d\mathrm{\Pi}_{t} = (a_{t}\mu S_{t} + rb_{t}M_{t})dt + (\sigma a_{t}S_{t})dW_{t} = dV_{t}$$
+Also by It$\hat{o}^{\prime}$s Lemma, 
+$$dV_{t} = (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+\frac{\partial V}{\partial S}\mu S_{t})dt + (\sigma S_{t}\frac{\partial V}{\partial S})dW_{t}$$
+Hence we obtain that,
+$$a_{t} = \frac{\partial V}{\partial S}$$
+$$a_{t}\mu S_{t} + rb_{t}M_{t} = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+\frac{\partial V}{\partial S}\mu S_{t}$$
+\end{center}
+
+\begin{center}
+$$\frac{\partial V}{\partial S}\mu S_{t} + rb_{t}M_{t} = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+\frac{\partial V}{\partial S}\mu S_{t}$$
+$$rb_{t}M_{t} = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}$$
+$$ra_{t}S_{t}+rb_{t}M_{t} = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+ra_{t}S_{t}$$
+$$rV_{t} = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+r\frac{\partial V}{\partial S}S_{t}$$
+$$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+r\frac{\partial V}{\partial S}S_{t}- rV_{t} = 0$$
+Hence,
+$$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial V}{\partial S}+r\frac{\partial V}{\partial S}S- rV = 0$$
+\end{center}
+\newpage
+
+\section{Finite Difference Model for Numerical PDE}
+\subsection{One factor model}
+\newpage
+\subsection{Feynman–Kac formula}
+\newpage
+\subsection{Crank–Nicolson method}
+\newpage
+
+\section{Variance Reduction Techniques for Monte Carlo Simulation}
+
+\subsection{Control Variate}
+\newpage
+\subsection{Stratified Sampling}
+\newpage
+\subsection{Importance Sampling}
+\newpage
+
+\section{European call}
+
+\subsection{Closed-form formula}
+\newpage
+\subsection{Numerical PDE}
+\newpage
+\subsection{Monte Carlo Simulation}
+\newpage
+
+\section{European put}
+
+\subsection{Closed-form formula}
+\newpage
+\subsection{Numerical PDE}
+\newpage
+\subsection{Monte Carlo Simulation}
+\newpage
+
+\section{Amercian call}
+
+\subsection{Closed-form formula}
+\newpage
+\subsection{Numerical PDE}
+\newpage
+\subsection{Monte Carlo Simulation}
+\newpage
+
+\section{American put}
+
+\subsection{Closed-form formula}
+\newpage
+\subsection{Numerical PDE}
+\newpage
+\subsection{Monte Carlo Simulation}
+\newpage
+
+\section{Barrier option}
+
+\subsection{Closed-form formula}
+\newpage
+\subsection{Numerical PDE}
+\newpage
+\subsection{Monte Carlo Simulation}
+\newpage
+
+\end{document}
