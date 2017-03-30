@@ -1,7 +1,7 @@
 % This is a comment.
 % the region directly below this comment, up till the command \begin{document} is known as the 'preamble'
 % basic setup
-\documentclass{article}
+\documentclass[12pt]{article}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 
@@ -36,37 +36,49 @@
 \usepackage{enumerate}
 
 % change font to times new roman
-%\usepackage{times}
+\usepackage{times}
 
-% title details
-\title{UROPS Project 16124 Full report\\
-Financial Mathematics with Python}
-%\date{}
-\author{Wang Zexin}
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % the region between \begin{document} ... \end{document} is known as the 'text'
 \begin{document}
-
-% insert title
-\maketitle
-% make a new page
-\newpage
+\begin{titlepage}
+	\centering
+	\vspace*{.09\textheight}
+	{\LARGE\bfseries Undergraduate Research Opportunity\\
+Programme in Science\par}
+	\vspace{1.5cm}
+	{\huge Financial Mathematics With Python\par}
+	\vspace{1cm}
+	{\scshape\Large Wang Zexin\par}
+	\vspace{6cm}
+	{\LARGE\scshape Zhou Chao\par}
+	\vspace{3cm}
+	{\Large Department of Mathematics\\[3mm]
+National University of Singapore\\[3mm]
+AY2016/17 Semester 2\par}
+\end{titlepage}
 
 \tableofcontents
 \newpage
 
-% create our first section
-% section*{...} creates an unnumbered section, whereas \section{...} creates an auto-numbered section
-\section{Derivation of Black Scholes PDE} %------------------------------------------------
+\section*{Abstract}
+In this paper, we implemented the library packages for Python to solve problems in Financial Mathematics such as derivatives valuation and simulation as suggested by the book ``\emph{Python for Finance}''. Those results correspond to the different approaches in pricing financial derivatives. The key effort is on the development of valuation scheme for the options, in particular, the strongly path-dependent options. More importantly, our model is open to extend for various assumptions about the market. We attempt to apply these valuation schemes onto the path-independent options with available closed-form formulain order to verify the valuation results from Monte Carlo simulations as well as the Finite Difference Model.
+
+\section{Introduction}
+The study upon using Python to carry out derivatives valuation has made much progress over the years as there have already been available libraries built for this purpose. The derivatives analytics library suggested in the book ``\emph{Python for Finance}'' has its advantages on the coverage upon the various aspects of possible analysis for financial derivatives. Still, we can make justifiable modifications and extensions to improve on the accuracy and speed of computations for estimations. 
+\\
+
+\newpage
+
+\section{Derivation of Black Scholes PDE}
 
 \subsection{Basics}
-
-We assume that the following two SDE hold:
+\begin{center}
+In the Black-Scholes World, we assume that the following two SDE hold:
 $$dM_{t}  = rM_{t}dt$$
 $$dS_{t}  = \mu S_{t}dt + \sigma S_{t} dW_{t}$$
 
-\begin{center}
 We assume that the following It$\hat{o}^{\prime}$s Lemma hold:\\[4mm]
 As $dS_{t} = \mu S_{t}dt + \sigma S_{t}dW_{t}$,
 $$dV_{t} = (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S})dt + \frac{\partial V}{\partial S}dS_{t}$$
@@ -150,6 +162,8 @@ $$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial V}{\par
 \newpage
 
 \section{Finite Difference Model for Numerical PDE}
+$$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial V}{\partial S}+r\frac{\partial V}{\partial S}S- rV = 0$$
+In the Black-Scholes formula, we are able to approximate $\frac{\partial V}{\partial t}$ and $\frac{\partial V}{\partial S}$ when the diagram has been splited into tiny parts\\ and thus it will be easy to simply use the ratio of change in derivatives value with respect to change in time or change in underlying asset value.
 \subsection{One factor model}
 \newpage
 \subsection{Feynman–Kac formula}
