@@ -163,8 +163,23 @@ $$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial V}{\par
 
 \section{Finite Difference Model for Numerical PDE}
 $$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial V}{\partial S}+r\frac{\partial V}{\partial S}S- rV = 0$$
-In the Black-Scholes formula, we are able to approximate $\frac{\partial V}{\partial t}$ and $\frac{\partial V}{\partial S}$ when the diagram has been splited into tiny parts\\ and thus it will be easy to simply use the ratio of change in derivatives value with respect to change in time or change in underlying asset value.
-\subsection{One factor model}
+If we are to plot out the option prices in a diagram, there should be a 3D diagram with y-axis being the underlying prices, and x-axis being the time, omitting the scenario when the option price is dependent on other stochastic terms such as volatility.
+In the Black-Scholes formula, we are able to approximate $\Theta = \frac{\partial V}{\partial t}$, $\Delta = \frac{\partial V}{\partial S}$ and $\Gamma = \frac{\partial^{2} V}{\partial S^{2}}$ when the discretization is significantly small and thus it will be easy to simply use the ratio of change in derivatives value with respect to change in time or change in underlying asset value.\\
+$$\frac{\partial V}{\partial t} \approx \frac{P_{t} - P_{t-{^{\Delta}t}}}{^{\Delta}t}$$
+$$\frac{\partial V}{\partial S} \approx \frac{P_{S} - P_{S-{^{\Delta}S}}}{^{\Delta}S} \approx \frac{P_{S+{^{\Delta}S}} - P_{S}}{^{\Delta}S}$$
+\begin{equation}
+\begin{split}
+\frac{\partial^{2} V}{\partial S^{2}}
+&\approx \frac{\partial}{\partial V}(\frac{P_{S+{^{\Delta}S}} - P_{S}}{^{\Delta}S})\\
+&\approx \frac{\frac{P_{S+{^{\Delta}S}} - P_{S}}{^{\Delta}S} - \frac{P_{S} - P_{S-{^{\Delta}S}}}{^{\Delta}S}}{^{\Delta}S}\\
+&= \frac{P_{S+{^{\Delta}S}} - 2P_{S} + P_{S-{^{\Delta}S}}}{(^{\Delta}S)^{2}}
+\end{split}
+\end{equation}
+
+\subsection{One factor model using Implicit Scheme}
+\newpage
+\subsection{Explicit Scheme}
+The difference between explicit and implicit scheme lies in the need to solve an implicit equation at each discretization or there is a closed-form formula for each step.
 \newpage
 \subsection{Feynman–Kac formula}
 \newpage

@@ -5,30 +5,31 @@
 \contentsline {subsection}{\numberline {2.2}Delta-hedging Argument}{4}
 \contentsline {subsection}{\numberline {2.3}Replicating portfolio}{5}
 \contentsline {section}{\numberline {3}Finite Difference Model for Numerical PDE}{7}
-\contentsline {subsection}{\numberline {3.1}One factor model}{7}
-\contentsline {subsection}{\numberline {3.2}Feynman\IeC {\textendash }Kac formula}{8}
-\contentsline {subsection}{\numberline {3.3}Crank\IeC {\textendash }Nicolson method}{9}
-\contentsline {section}{\numberline {4}Variance Reduction Techniques for Monte Carlo Simulation}{10}
-\contentsline {subsection}{\numberline {4.1}Control Variate}{10}
-\contentsline {subsection}{\numberline {4.2}Stratified Sampling}{11}
-\contentsline {subsection}{\numberline {4.3}Importance Sampling}{12}
-\contentsline {section}{\numberline {5}European call}{13}
-\contentsline {subsection}{\numberline {5.1}Closed-form formula}{13}
-\contentsline {subsection}{\numberline {5.2}Numerical PDE}{14}
-\contentsline {subsection}{\numberline {5.3}Monte Carlo Simulation}{15}
-\contentsline {section}{\numberline {6}European put}{16}
-\contentsline {subsection}{\numberline {6.1}Closed-form formula}{16}
-\contentsline {subsection}{\numberline {6.2}Numerical PDE}{17}
-\contentsline {subsection}{\numberline {6.3}Monte Carlo Simulation}{18}
-\contentsline {section}{\numberline {7}Amercian call}{19}
-\contentsline {subsection}{\numberline {7.1}Closed-form formula}{19}
-\contentsline {subsection}{\numberline {7.2}Numerical PDE}{20}
-\contentsline {subsection}{\numberline {7.3}Monte Carlo Simulation}{21}
-\contentsline {section}{\numberline {8}American put}{22}
-\contentsline {subsection}{\numberline {8.1}Closed-form formula}{22}
-\contentsline {subsection}{\numberline {8.2}Numerical PDE}{23}
-\contentsline {subsection}{\numberline {8.3}Monte Carlo Simulation}{24}
-\contentsline {section}{\numberline {9}Barrier option}{25}
-\contentsline {subsection}{\numberline {9.1}Closed-form formula}{25}
-\contentsline {subsection}{\numberline {9.2}Numerical PDE}{26}
-\contentsline {subsection}{\numberline {9.3}Monte Carlo Simulation}{27}
+\contentsline {subsection}{\numberline {3.1}One factor model using Implicit Scheme}{7}
+\contentsline {subsection}{\numberline {3.2}Explicit Scheme}{8}
+\contentsline {subsection}{\numberline {3.3}Feynman\IeC {\textendash }Kac formula}{9}
+\contentsline {subsection}{\numberline {3.4}Crank\IeC {\textendash }Nicolson method}{10}
+\contentsline {section}{\numberline {4}Variance Reduction Techniques for Monte Carlo Simulation}{11}
+\contentsline {subsection}{\numberline {4.1}Control Variate}{11}
+\contentsline {subsection}{\numberline {4.2}Stratified Sampling}{12}
+\contentsline {subsection}{\numberline {4.3}Importance Sampling}{13}
+\contentsline {section}{\numberline {5}European call}{14}
+\contentsline {subsection}{\numberline {5.1}Closed-form formula}{14}
+\contentsline {subsection}{\numberline {5.2}Numerical PDE}{15}
+\contentsline {subsection}{\numberline {5.3}Monte Carlo Simulation}{16}
+\contentsline {section}{\numberline {6}European put}{17}
+\contentsline {subsection}{\numberline {6.1}Closed-form formula}{17}
+\contentsline {subsection}{\numberline {6.2}Numerical PDE}{18}
+\contentsline {subsection}{\numberline {6.3}Monte Carlo Simulation}{19}
+\contentsline {section}{\numberline {7}Amercian call}{20}
+\contentsline {subsection}{\numberline {7.1}Closed-form formula}{20}
+\contentsline {subsection}{\numberline {7.2}Numerical PDE}{21}
+\contentsline {subsection}{\numberline {7.3}Monte Carlo Simulation}{22}
+\contentsline {section}{\numberline {8}American put}{23}
+\contentsline {subsection}{\numberline {8.1}Closed-form formula}{23}
+\contentsline {subsection}{\numberline {8.2}Numerical PDE}{24}
+\contentsline {subsection}{\numberline {8.3}Monte Carlo Simulation}{25}
+\contentsline {section}{\numberline {9}Barrier option}{26}
+\contentsline {subsection}{\numberline {9.1}Closed-form formula}{26}
+\contentsline {subsection}{\numberline {9.2}Numerical PDE}{27}
+\contentsline {subsection}{\numberline {9.3}Monte Carlo Simulation}{28}
