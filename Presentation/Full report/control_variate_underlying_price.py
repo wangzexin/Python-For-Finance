@@ -52,4 +52,5 @@ def control_variate_underlying_assets_european_put(strikePrice):
 
 def testPut():
     for i in range(105, 205, 5):
-        print(control_variate_underlying_assets_european_put(i))
+        x = control_variate_underlying_assets_european_put(i)
+        print(x[0], ",", x[2], "\\\\")

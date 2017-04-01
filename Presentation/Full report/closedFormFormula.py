@@ -21,5 +21,5 @@ def europeanPut(St, K, h, r, sigma):
 
 def testPut():
     for i in range(105, 205, 5):
-        print(europeanPut(100, i, 1, 0.05, 0.25))
+        print(europeanPut(100, i, 1, 0.05, 0.25), ",")
 

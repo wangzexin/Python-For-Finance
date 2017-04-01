@@ -252,6 +252,37 @@ Also, $N$ is the cumulative density function of standard normal function.
 \subsection{Numerical PDE}
 \newpage
 \subsection{Monte Carlo Simulation}
+With the following settings: $\sigma = 0.25$, $\mu = 0.05$, $T = 1$, $S_{0} = 100$, 
+when we compare the results from Monte Carlo simulation with the option prices computed using the closed form formula, it is observable that a simulation with 500000 data points still has variation of error within range from $-0.02$ to $0.02$. However, this comparison has ensured that our valuation scheme using Monte Carlo simulation and the variance reduction techniques is on the right way, and may be applied onto other options.\\
+A tabulation of the resultant option prices are shown below:
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Closed-form formula & Ordinary Monte Carlo & Control Variate\\
+\hline
+10.0022021172&10.005252032814727& 10.005252032814751\\
+8.02638469385&8.0166707887876427& 8.016670788787664\\ 
+6.37924904693&6.3659464432937911& 6.3659464432937733\\ 
+5.02541348179&5.0148870431746415& 5.0148870431746184\\
+3.92690420603&3.9241698581683577& 3.9241698581683728\\
+3.04592058431&3.044679765401427&  3.0446797654014213\\
+2.34679877596&2.3310307686205207& 2.3310307686205225\\
+1.79723400902&1.8055531375480696& 1.8055531375480751\\
+1.36889248498&1.3630119824610754& 1.3630119824610734\\
+1.03756650489&1.0254470920297398& 1.0254470920297361\\
+0.783018613011&0.77819086371547286&0.77819086371547308\\
+0.588637155719&0.5924848566970754& 0.59248485669707973\\
+0.440997057228&0.44342591182216823&0.4434259118221664\\
+0.329392108384&0.32449718396190719&0.32449718396190735\\
+0.245381782063&0.2462392632801686& 0.24623926328016907\\
+0.182377553986&0.17995020687354496&0.1799502068735449\\
+0.13528073067&0.13478417666883458&0.13478417666883413\\
+0.100175092579&0.099449778570450814&0.099449778570450523\\
+0.0740722950356&0.074452813719303179&0.074452813719303304\\
+0.0547050187389&0.051631534936688268&0.051631534936688074\\
+\hline
+\end{tabular}
+\end{center}
 \newpage
 
 \section{European put options}
@@ -294,6 +325,37 @@ Also, $N$ is the cumulative density function of standard normal function.
 \subsection{Numerical PDE}
 \newpage
 \subsection{Monte Carlo Simulation}
+With the following settings: $\sigma = 0.25$, $\mu = 0.05$, $T = 1$, $S_{0} = 100$, 
+when we compare the results from Monte Carlo simulation with the option prices computed using the closed form formula, it is observable that a simulation with 500000 data points still has variation of error within range from $-0.02$ to $0.02$. However, this comparison has ensured that our valuation scheme using Monte Carlo simulation and the variance reduction techniques is on the right way, and may be applied onto other options.\\
+A tabulation of the resultant option prices are shown below:
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Closed-form formula & Ordinary Monte Carlo & Control Variate\\
+\hline
+9.88129168973 &9.89121100448 & 9.89121100448 \\
+12.6616213889 &12.6718073072 & 12.6718073072 \\
+15.7706328645 &15.7786013449 & 15.7786013449 \\
+19.1729444219 &19.1488969419 & 19.1488969419 \\
+22.8305822686 &22.8396769379 & 22.8396769379 \\
+26.7057457694 &26.7349375768 & 26.7349375768 \\
+30.7627710836 &30.7487677853 & 30.7487677853 \\
+34.9693534391 &34.9407041949 & 34.9407041949 \\
+39.2971590376 &39.3339188168 & 39.3339188168 \\
+43.72198018 &  43.6672929866 & 43.6672929866 \\
+48.2235794106 &48.2561306956 & 48.2561306956 \\
+52.7853450758 &52.7364667849 & 52.7364667849 \\
+57.3938520998 &57.3635053884 & 57.3635053884 \\
+62.0383942735 &62.0538619165 & 62.0538619165 \\
+66.7105310697 &66.7099933687 & 66.7099933687 \\
+71.4036739641 &71.3460094069 & 71.3460094069 \\
+76.1127242633 &76.1619698093 & 76.1619698093 \\
+80.8337657477 &80.8390739688 & 80.8390739688 \\
+85.5638100727 &85.5359768969 & 85.5359768969 \\
+90.3005899189 &90.2678714265 & 90.2678714265 \\
+\hline
+\end{tabular}
+\end{center}
 \newpage
 
 \section{Barrier option}
