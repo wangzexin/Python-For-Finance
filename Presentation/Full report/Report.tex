@@ -38,6 +38,8 @@
 % change font to times new roman
 \usepackage{times}
 
+% include algorithm package
+\usepackage[]{algorithm2e}
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % the region between \begin{document} ... \end{document} is known as the 'text'
@@ -205,14 +207,146 @@ The difference between explicit and implicit scheme lies in the need to solve an
 \newpage
 
 \section{Variance Reduction Techniques for Monte Carlo Simulation}
-
+Monte Carlo simulations are usually used when there is no readily available closed-form formula and the numerical PDE valuation scheme is not developed yet. However, people have already explored its strenght upon the valuation using high-dimensional scheme. When doing option pricing with Monte Carlo simulations, we simulate a series of possible scenarios and use the payoff function to calculate one option payoff. By repeating this process $N$ times and take the average of all the discounted option payoffs, a more accurate option price can be obtained. When there is time variation in parameters of the model, or the option payoff is path dependent, or there are a number of stochastic variables that the option price depends on, a finite difference scheme will be both space and time consuming. With the advancements of GPU and parallel computing, just as suggestd in the book ``\emph{Python for Finance}'', the power of Monte Carlo is able to emerge.\\
+As the simulated option payoffs may scatter all over the real number axis, for example when European call option has a particularly low strike price, the variance of the simulated option payoffs can be so large that the accuracy of the valuation is compromised. In order to prevent this from happening, we adopt many different methods to reduce the variance while keeping the estimate unbiased.
+\newpage
 \subsection{Control Variate}
+Control Variate is one of the most common methods adopted for the purpose of variance reduction in simulations. Assuming all the $Y_{i}$ are realizations of the same variable $Y$, i.e. $\forall  i, Y_{i}$ follows identical and independent distributions. Our aim is to estimate $\mathrm{E}[Y_{i}]$ \\
+Under simulation, we use $\bar{Y} = \frac{1}{n} \sum_{i=1}^{n} Y_{i}$ as an estimate of $\mathrm{E}[Y_{i}]$.
+Now we introduce a new variable $X$, with realizations $X_{i}, \forall i $ such that $1 \leq i \leq n$\\
+Define the new simulated results $Y_{i}(\lambda) = Y_{i} - \lambda (X_{i} - \mathrm{E}(X))$
+$$\bar{Y}(\lambda) = \bar{Y} - \lambda (\bar{X} - \mathrm{E}(X)) = \frac{1}{n} \sum_{i=1}^{n} [Y_{i} - \lambda (X_{i} - \mathrm{E}(X))]$$
+The new estimate $\bar{Y}(\lambda)$ is unbiased and consistent as proven below.\\
+$$\mathrm{E}(\bar{Y}(\lambda)) = \mathrm{E}[\bar{Y} - \lambda(\bar{X} - \mathrm{E}(X))] = \mathrm{E}(\bar{Y}) - \lambda(\mathrm{E}(\bar{X}) - \mathrm{E}(X)) = \mathrm{E}(Y) $$
+\begin{equation*}
+\begin{split}
+\lim_{n\to\infty} \frac{1}{n}\sum_{i=1}^{n} Y_{i}(\lambda) 
+&=\lim_{n\to\infty} \frac{1}{n}\sum_{i=1}^{n} [Y_{i} - \lambda (X_{i} - \mathrm{E}(X))] \\
+&= \mathrm{E}[Y - \lambda(X-\mathrm{E}(X))] \\
+&= \mathrm{E}(Y) \\
+\end{split}
+\end{equation*}
+We can first express the variance of each new simulated result as:
+\begin{equation*}
+\begin{split}
+\mathrm{Var}[Y_{i}(\lambda)]
+&=\mathrm{Var} [Y_{i} - \lambda(X_{i} - \mathrm{E}(X))] \\
+&= \mathrm{Var}[Y_{i} - \lambda X_{i}] \\
+&= \mathrm{Var}(Y_{i}) + \lambda^{2}\mathrm{Var}(X_{i}) - 2\lambda\mathrm{Cov}(X_{i}, Y_{i}) \\
+&= \sigma_{Y}^{2} + \lambda^{2}\sigma_{X}^{2}-2\lambda\sigma_{X}\sigma_{Y}\rho_{XY}\\
+\end{split}
+\end{equation*}
+In order to find the minimum variance by varying $\lambda$\\[2mm]
+Set $\frac{\partial \mathrm{Var}[Y_{i}(\lambda)]}{\partial \lambda} = 2\lambda \sigma_{X}^{2} - 2\sigma_{X}\sigma_{Y}\rho_{XY}$ to 0, $ \lambda^{*} = \frac{2\sigma_{X}\sigma_{Y}\rho_{XY}}{2\sigma_{X}^{2}} = \frac{\sigma_{X}\sigma_{Y}\rho_{XY}}{\sigma_{X}^{2}} = \frac{\mathrm{Cov}(X,Y)}{\mathrm{Var}(X)}$\\
+Compare the new variance with the old:
+\begin{equation*}
+\begin{split}
+\frac{\mathrm{Var} [Y_{i} - \lambda^{*}(X_{i} - \mathrm{E}(X))]}{\mathrm{Var}(Y)}
+&=\frac{\sigma_{Y}^{2} + {\lambda^{*}}^{2}\sigma_{X}^{2}-2\lambda^{*}\sigma_{X}\sigma_{Y}\rho_{XY}}{\sigma_{Y}^{2}} \\
+&=1+\frac{\frac{\mathrm{Var}(X)(\mathrm{Cov}(X,Y))^{2}}{(\mathrm{Var}(X))^{2}}-\frac{2(\mathrm{Cov}(X,Y))^{2}}{\mathrm{Var}(X)}}{\sigma_{Y}^{2}}\\
+&=1+\frac{\frac{\sigma_{X}^{4}\sigma_{Y}^{2}\rho_{XY}^{2}}{\sigma_{X}^{4}}-\frac{2\sigma_{X}^{2}\sigma_{Y}^{2}\rho_{XY}^{2}}{\sigma_{X}^{2}}}{\sigma_{Y}^{2}}\\
+&=1+\frac{\sigma_{Y}^{2}\rho_{XY}^{2}-2\sigma_{Y}^{2}\rho_{XY}^{2}}{\sigma_{Y}^{2}}\\
+&=1-\rho_{XY}^{2}\\
+\end{split}
+\end{equation*}
+A $100(1-\alpha)\%$ Confidence Interval is $ [\bar{Y}(\lambda) - \mathcal{Z}_{1-\alpha/2} \frac{\hat{\sigma}_{n, Y_{\lambda}}}{\sqrt{n}}, \bar{Y}(\lambda) + \mathcal{Z}_{1-\alpha/2} \frac{\hat{\sigma}_{n, Y_{\lambda}}}{\sqrt{n}}]$\\
+\newpage
+As a conclusion from the theoretical results, we shall see that the stronger the correlation, the better the reduction in variance. We can use random variables with stronger correlation with the option payoffs as the control variates, such as underlying asset prices, tractable option prices, bond prices.\\
+In the case that it is not feasible to calculate using the probability distribution of $X$ and $Y$, we should work $\lambda^{*}$ out as an estimate using a pilot simulation.\\[5mm]
+\begin{algorithm}[H]
+ \KwData{Scenarios for simulations of $X$ and $Y$}
+ \KwResult{Estimation for $\mathrm{E}(Y)$}
+ initialization\;
+ assign N to be the number of simulations to do\;
+ pilot simulation to obtain correlation\;
+ \For {i = 1 \dots N} {
+ \quad $generate(X_{i}, Y_{i})$\;
+ }
+ Assign $\lambda^{*} = \frac{\mathrm{Cov}(X,Y)}{\mathrm{Var}(X)} = \frac{\sum_{i=1}^{n}(X_{i}-\bar{X})(Y_{i}-\bar{Y})}{\sum_{i=1}^{n}(X_{i}-\bar{X})^{2}}$\;
+ \For {i = 1 \dots N} {
+	\quad $generate(X_{i}, Y_{i})$\;
+	\quad set ${Y}_{i}(\lambda) = Y_{i} + \lambda^{*}(X_{i}-\mathrm{E}[X])$\;
+ }
+ $\bar{Y}(\lambda) = \frac{1}{n} \sum_{i=1}^{n} {Y}_{i}(\lambda)$\;
+\caption{General Control Variate Algorithm}
+\end{algorithm}
+Here we put down the algorithm for Monte Carlo simulations of option prices using underlying prices as control variates. Denote the underlying prices by $U_{i}$, payoff function by $f$, option payoffs by $P_{i}$ and the option premium by $\bar{P}(\lambda)$.\\[5mm]
+\begin{algorithm}[H]
+ \KwData{Scenarios for simulations of $U$ and $P$}
+ \KwResult{Estimation for $\mathrm{E}(P)$}
+ initialization\;
+ assign N to be the number of simulations to do\;
+ \For {i = 1 \dots N} {
+  \quad $generate(U_{i})$\;
+  \quad $P_{i} = f(U_{i})$\;
+ }
+ Assign $\lambda^{*} = \frac{\mathrm{Cov}(U, P)}{\mathrm{Var}(U)} = \frac{\sum_{i=1}^{n}(U_{i}-\bar{U})(P_{i}-\bar{P})}{\sum_{i=1}^{n}(U_{i}-\bar{U})^{2}}$\;
+ \For {i = 1 \dots N} {
+  \quad $generate(U_{i})$\;
+  \quad $P_{i} = f(U_{i})$\;
+  \quad set ${P}_{i}(\lambda) = P_{i} + \lambda^{*}(U_{i}-\mathrm{E}[U])$\;
+ }
+ $\bar{P}(\lambda) = e^{-rT}\frac{1}{n} \sum_{i=1}^{n} {P}_{i}(\lambda)$\;
+\caption{General Control Variate Algorithm}
+\end{algorithm}
 \newpage
 \subsection{Stratified Sampling}
+Stratified sampling refers broadly to any sampling mechanism that constrains
+the fraction of observations drawn from specific subsets (or strata) of the
+sample space. \\
+Goal: estimate $\mathrm{E}[Y]$, $Y \in \mathbb{R}$\\
+Dividing the sample space into K parts, with $A_{1}, \dots ,A_{K}$ being disjoint subsets of the real line for which $\mathrm{P}(Y \in \cup_{i}A_{i}) = 1$. \\
+Then by the Bayes$^{\prime}$ Theorem,
+$$ \mathrm{E}[Y] = \sum_{i=1}^{K}\mathrm{P}(Y \in A_{i})\mathrm{E}[Y|Y \in A_{i}] = \sum_{i=1}^{K}p_{i}\mathrm{E}[Y|Y \in A_{i}] $$
+Simplest case: proportional sampling, ensuring $p_{i} = \mathrm{P}(Y \in A_{i})$, the fraction of observations drawn from stratum $A_{i}$ exactly matches theoretical probability.\\
+Unbiased estimator of $\mathrm{E}(Y)$ is provided by:\\
+$$\hat{Y} = \sum_{i=1}^{K} p_{i} \frac{1}{n_{i}} \sum_{j=1}^{n_{i}} Y_{ij} = \frac{1}{n} \sum_{i=1}^{K} \sum_{j=1}^{n_{i}} Y_{ij}$$
+$$ \mathrm{E}[\hat{Y}] = \mathrm{E}[\sum_{i=1}^{K} p_{i} \frac{1}{n_{i}} \sum_{j=1}^{n_{i}} Y_{ij}] = \sum_{i=1}^{K}\mathrm{P}(Y \in A_{i})\mathrm{E}[Y|Y \in A_{i}] = \mathrm{E}[Y]$$
+We shall generate a stratification variable $X$ which take values in the union of the disjoint sets $A_{i}$s. As supposedly the values of $X$ are high correlated to the values of $Y$, in many cases, $Y$ is a function of X. For example, if $Y$ is the discounted payoff of European call option, $X$ can be the discrete path of underlying asset prices.\\
+Let $X$ be the discrete path of underlying asset prices, with $Y$ being the European call payoff discounted to time 0. If $X$ has $k$ discrete prices on one path, $\Omega \in \mathbb{R}^{k}$ is the sample space for the $X_{i}$s, where $\Omega = \cup_{i} A_{i}$ is the union of disjoint sets.\\
+Here for the purpose of stratified sampling we should satisfy two conditions:
+\begin{itemize}
+	\item $\mathbb{P}(X \in A_{i})$ can be easily computed.
+	\item $(Y | X \in A_{i})$ Given $X \in A_{i}$, $Y$ can be easily generated.
+\end{itemize}
+In order to further simplify the trouble of dividing $\Omega$ into disjoint subsets, we are going to use the stock prices half way as a condition to fully determine the distributions of $A_{i}$. The possible stock prices at time $\frac{T}{2}$ will be generated based on the Geometric Brownian Motion of the underlying stock prices. Given we are going to produce $n$ equal probable subsets of $\Omega$, the standard normal distribution can be sliced into $n$ pieces to provide sources of generation.\\
+If the standard normal distribution is going to be splitted into 50 parts, with each starting from quantile 0\% to quantile 2\%, quantile 2\% to quantile 4\%, \dots, quantile 98\% to quantile 100\%, we shall use their middle point in quantile to generate expectations of stock prices half way, namely quantile 1\%, quantile 3\%, \dots, quantile 99\%.\\
+The next part of algorithm is to use the GBM formula to calculate the 50 expectations of the stock prices at time $\frac{T}{2}$.
+$$S_{T} = S_{0}\exp\{(r-\frac{1}{2}\sigma^{2})T + \sigma\sqrt{T}z_{\alpha_{i}}\}$$
+where $z_{\alpha_{i}}$ is the quantile of standard normal distribution at $(2i-1)\%$
+With the expectations at these points, we can go on to generate for every group $\frac{\mathrm{I}}{50}$ number of stock prices at time $T$, and calculate the corresponding European call payoffs.
 \newpage
 \subsection{Importance Sampling}
+Importance sampling is a method to reduce variance by changing the probability measure. The word 'Importance' comes from the aim to give more weight to 'important' outcomes by changing measures.\\
+We are going to estimate $\alpha = \mathrm{E}[h(X)] = \int h(x)f(x) dx$.\\
+In Monte Carlo simulation, $\hat{\alpha} = \hat{\alpha}(n) = \frac{1}{n} \sum_{i=1}^{n} h(X_{i})$\\
+By using a change of measure based on the following assumption:
+$\forall x \in \mathbb{R}^{d}, f(x) > 0 \implies g(x) > 0$\\
+Now the estimate becomes $\alpha = \mathrm{E}[h(X)] = \mathrm{E}[h(X)\frac{f(X)}{g(X)}] = \int h(x)\frac{f(x)}{g(x)} dx$\\
+And for simulation, $\hat{\alpha}_{G} = \frac{1}{n} \sum_{i=1}^{n} h(X_{i})\frac{f(X_{i})}{g(X_{i})}$
+We are choosing $g$ to make ${X \in A}$ more likely after changing measure.\\
+In order to reduce variance, we need to implicitly find the $g$ which gives the minimum possible variance. According to the variance formula $\mathrm{Var}(X) = \mathrm{E}(X^{2}) - (\mathrm{E}(X))^{2} $, we have\\
+\begin{equation*}
+\begin{split}
+\mathrm{Var}^{G}[h(X)\frac{f(X)}{g(X)}] &= \mathrm{E}^{G}[h(X)^{2}\frac{f(X)^{2}}{g(X)^{2}}] - (\mathrm{E}^{G}[h(X)\frac{f(X)}{g(X)}])^{2}\\
+&= \int \frac{h(x)^{2}f(x)^{2}}{g(x)} dx - (\int \frac{h(x)f(x)}{g(x)}g(x) dx)^{2}\\
+\end{split}
+\end{equation*}
+Here if $h(x) = \frac{g(x)f(x)}{\mathrm{E}(g(x))}$, the variance of estimate will become 0.\\
+Consider the scenario in which we simulate discrete price paths $S(t_{i}), \forall i = 0, 1, \dots, m$, which is assumed to be a Markov Chain with homogeneous property. Let the continuous transition probability be $f_{i}(S(t_{i-1}),S(t_{i}))$.\\[3mm]
+We shall use likelihood ratio $\prod_{i=1}^{m} \frac{f_{i}(S(t_{i-1}),S(t_{i}))}{g_{i}(S(t_{i-1}),S(t_{i}))}$ as risk-neutral measure.
+\begin{equation*}
+\begin{split}
+\mathbb{E}^{\mathbb{Q}}(X) 
+&= \int x g(x) dx\\
+&= \mathbb{E}^{\mathbb{P}}(\frac{d\mathbb{Q}}{d\mathbb{P}}X) \\
+&= \mathbb{E}^{\mathbb{P}}(e^{\lambda W_{T} - \frac{1}{2}\lambda^{2}T}X) \\[7mm]
+\end{split}
+\end{equation*}
+Our aim is to make (where $A>0$)
+$$\mathbb{E}^{\mathbb{P}}((S_{T} - K)^{+})= \mathbb{E}^{\mathbb{Q}}(\frac{d\mathbb{P}}{d\mathbb{Q}}(S_{T} - K)^{+}) = \mathbb{E}^{\mathbb{Q}}(e^{((\mu - \frac{\sigma^{2}}{2}+\sigma A)T + \sigma W_{T}^{\mathbb{Q}}})(S_{T} - K)^{+})$$\\[4mm]
+Hence $\frac{d\mathbb{Q}}{d\mathbb{P}} = exp\{AW_{T} - \frac{1}{2}A^{2}T\}$
 \newpage
-
 \section{European call options}
 \subsection{Closed-form formula}
 We can derive the closed-form formula for the European call options using risk-neutral pricing.\\
