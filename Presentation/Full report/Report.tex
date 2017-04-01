@@ -79,7 +79,7 @@ In the Black-Scholes World, we assume that the following two SDE hold:
 $$dM_{t}  = rM_{t}dt$$
 $$dS_{t}  = \mu S_{t}dt + \sigma S_{t} dW_{t}$$
 
-We assume that the following It$\hat{o}^{\prime}$s Lemma hold:\\[4mm]
+We assume that the It$\hat{o}^{\prime}$s Lemma hold:\\[4mm]
 As $dS_{t} = \mu S_{t}dt + \sigma S_{t}dW_{t}$,
 $$dV_{t} = (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S})dt + \frac{\partial V}{\partial S}dS_{t}$$
 \end{center}
@@ -114,10 +114,8 @@ $$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial V}{\par
 \subsection{Replicating portfolio}
 
 \begin{center}
-Our aim is to find $a_{t}$ and $b_{t}$ such that\\[2mm]
-$\mathrm{\Pi}_{t} = a_{t}S_{t} + b_{t}M_{t}$ can entirely replicate $V_{t}$\\[2mm]
-And also, the self-financing condition holds:\\[2mm]
-$d\mathrm{\Pi}_{t} = a_{t}dS_{t} + b_{t}dM_{t}$\\[5mm]
+Our aim is to find $a_{t}$ and $b_{t}$ such that $\mathrm{\Pi}_{t} = a_{t}S_{t} + b_{t}M_{t}$ can entirely replicate $V_{t}$\\[2mm]
+while the self-financing condition still holds: $d\mathrm{\Pi}_{t} = a_{t}dS_{t} + b_{t}dM_{t}$\\[5mm]
 As $dS_{t} = \mu S_{t}dt + \sigma S_{t}dW_{t}$ and $dM_{t}  = rM_{t}dt$,
 \begin{equation*}
 \begin{split}
@@ -160,6 +158,26 @@ Hence,
 $$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial V}{\partial S}+r\frac{\partial V}{\partial S}S- rV = 0$$
 \end{center}
 \newpage
+\subsection{Lognormal property}
+We shall derive the lognormal property of the underlying asset prices.
+As given by the Geometric Brownian Motion, $dS_{t}  = \mu S_{t}dt + \sigma S_{t} dW_{t}$.\\
+We can define the derivative price function as $V(S_{t}, t) := \ln{S_{t}}$, with \\
+$$\frac{\partial V}{\partial S} = \frac{1}{S}, \frac{\partial^{2} V}{\partial S^{2}} = -\frac{1}{S^{2}} , \frac{\partial V}{\partial t} = 0$$
+By It$\hat{o}^{\prime}$s Lemma,
+\begin{equation}
+\begin{split}
+dV_{t}
+&= ((\mu S_{t})\frac{\partial V}{\partial S} + \frac{\partial V}{\partial t} + \frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial^{2} V}{\partial S^{2}})dt + b\frac{\partial V}{\partial S}dW_{t}\\
+&= (\mu - \frac{1}{2}\sigma^{2})dt + \sigma dW_{t}
+\end{split}
+\end{equation}
+As $\mu$ and $\sigma$ are constants, $V_{t}$ is simply a drifted Brownian Motion.\\
+$$V_{t} - V_{0} = \ln{S_{t}} - \ln{S_{0}} \sim \mathcal{N}((\mu - \frac{1}{2}\sigma^{2})t, \sigma^{2}t)$$
+$$\frac{\ln{S_{t}} - \ln{S_{0}} - (\mu - \frac{1}{2}\sigma^{2})t}{\sigma\sqrt{t}} \sim \mathcal{N}(0,1)$$
+We can also generalize to the case for time $t$ and $T$. (Let $\tau = T - t$, $\phi \sim \mathcal{N}(0,1)$)
+$$\frac{\ln{S_{T}} - \ln{S_{t}} - (\mu - \frac{1}{2}\sigma^{2})\tau}{\sigma\sqrt{\tau}} = \phi $$
+$$S_{T} = S_{t}e^{(\mu - \frac{1}{2}\sigma^{2})\tau + \sigma\sqrt{\tau}\phi}$$
+\newpage
 
 \section{Finite Difference Model for Numerical PDE}
 $$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial V}{\partial S}+r\frac{\partial V}{\partial S}S- rV = 0$$
@@ -195,36 +213,83 @@ The difference between explicit and implicit scheme lies in the need to solve an
 \subsection{Importance Sampling}
 \newpage
 
-\section{European call}
-
+\section{European call options}
 \subsection{Closed-form formula}
+We can derive the closed-form formula for the European call options using risk-neutral pricing.\\
+Payoff function of the European call option is : $c_{T} = (S_{T} - K)^{+}$\\
+By the risk-neutral pricing formula,
+\begin{equation}
+\begin{split}
+e^{-\mu t}c_{t}
+&= \mathbb{E}^{Q}[e^{-\mu T}c_{T} | \mathcal{F}_{t}]\\
+&= \mathbb{E}_{t}^{Q}[e^{-\mu T}(S_{T} - K)^{+}]
+\end{split}
+\end{equation}
+By the lognormal property, \quad
+$S_{T} = S_{t}e^{(\mu - \frac{1}{2}\sigma^{2})\tau + \sigma\sqrt{\tau}\phi}$
+\begin{equation}
+\begin{split}
+c_{t} 
+&= e^{\mu t}\mathbb{E}_{t}^{Q}[e^{-rT}(S_{T} - K)^{+}]\\
+&= e^{\mu t}\mathbb{E}_{t}^{Q}[e^{-rT}(S_{t}e^{(\mu - \frac{1}{2}\sigma^{2})\tau + \sigma\sqrt{\tau}\phi} - K)^{+}]\\
+&= e^{-\mu \tau}\mathbb{E}^{Q}[(S_{t}e^{(\mu - \frac{1}{2}\sigma^{2})\tau + \sigma\sqrt{\tau}\phi} - K)^{+}]\\
+&= e^{-\mu \tau}\int_{-\infty}^{\infty} (S_{t}e^{(\mu - \frac{1}{2}\sigma^{2})\tau + \sigma\sqrt{\tau}\phi} - K)^{+}\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}  \, d\phi \\
+&= e^{-\mu \tau}\int_{-d_{2}}^{\infty} (S_{t}e^{(\mu - \frac{1}{2}\sigma^{2})\tau + \sigma\sqrt{\tau}\phi} - K)\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}  \, d\phi \\
+&= e^{-\mu \tau}\int_{-d_{2}}^{\infty} S_{t}e^{(\mu - \frac{1}{2}\sigma^{2})\tau + \sigma\sqrt{\tau}\phi}\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}  \, d\phi - e^{-r\tau}\int_{-d_{2}}^{\infty} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}K\, d\phi\\
+&= e^{(\mu - \frac{1}{2}\sigma^{2})\tau-\mu \tau}S_{t}\int_{-d_{2}}^{\infty} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}(\phi^{2}-2\sigma\sqrt{\tau}\phi)}  \, d\phi - Ke^{-r\tau}\int_{-d_{2}}^{\infty} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}\, d\phi\\
+&= S_{t}\int_{-d_{2}}^{\infty} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}(\phi^{2}-2\sigma\sqrt{\tau}\phi+\sigma^{2}\tau)}  \, d\phi - Ke^{-r\tau}\int_{-\infty}^{d_{2}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}\, d\phi\\
+&= S_{t}\int_{-d_{2}}^{\infty} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}(\phi-\sigma\sqrt{\tau}\phi)^{2}}  \, d\phi - Ke^{-r\tau}\int_{-\infty}^{d_{2}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}\, d\phi\\
+&= S_{t}\int_{-d_{2}-\sigma\sqrt{\tau}}^{\infty} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}y^{2}}  \, dy - Ke^{-r\tau}\int_{-\infty}^{d_{2}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}\, d\phi\\
+&= S_{t}\int_{-\infty}^{d_{2}+\sigma\sqrt{\tau}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}y^{2}}  \, dy - Ke^{-r\tau}\int_{-\infty}^{d_{2}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}\, d\phi\\
+&= S_{t} N(d_{1}) - Ke^{-r\tau} N(d_{2})
+\end{split}
+\end{equation}
+where,
+$$d_{2} = \frac{\ln{\frac{S_{t}}{K}} + (\mu - \frac{1}{2}\sigma^{2})\tau}{\sigma\sqrt{\tau}}$$
+$$d_{1} = d_{2} + \sigma\sqrt{\tau}$$
+Also, $N$ is the cumulative density function of standard normal function.
 \newpage
 \subsection{Numerical PDE}
 \newpage
 \subsection{Monte Carlo Simulation}
 \newpage
 
-\section{European put}
+\section{European put options}
 
 \subsection{Closed-form formula}
-\newpage
-\subsection{Numerical PDE}
-\newpage
-\subsection{Monte Carlo Simulation}
-\newpage
-
-\section{Amercian call}
-
-\subsection{Closed-form formula}
-\newpage
-\subsection{Numerical PDE}
-\newpage
-\subsection{Monte Carlo Simulation}
-\newpage
-
-\section{American put}
-
-\subsection{Closed-form formula}
+We can derive the closed-form formula for the European put options using risk-neutral pricing.\\
+Payoff function of the European put option is : $p_{T} = (K - S_{T})^{+}$\\
+By the risk-neutral pricing formula,
+\begin{equation}
+\begin{split}
+e^{-\mu t}p_{t}
+&= \mathbb{E}^{Q}[e^{-\mu T}p_{T} | \mathcal{F}_{t}]\\
+&= \mathbb{E}_{t}^{Q}[e^{-\mu T}(K - S_{T})^{+}]
+\end{split}
+\end{equation}
+By the lognormal property, \quad
+$S_{T} = S_{t}e^{(\mu - \frac{1}{2}\sigma^{2})\tau + \sigma\sqrt{\tau}\phi}$
+\begin{equation}
+\begin{split}
+p_{t} 
+&= e^{\mu t}\mathbb{E}_{t}^{Q}[e^{-rT}(K - S_{T})^{+}]\\
+&= e^{\mu t}\mathbb{E}_{t}^{Q}[e^{-rT}(K - S_{t}e^{(\mu - \frac{1}{2}\sigma^{2})\tau + \sigma\sqrt{\tau}\phi})^{+}]\\
+&= e^{-\mu \tau}\mathbb{E}^{Q}[(K - S_{t}e^{(\mu - \frac{1}{2}\sigma^{2})\tau + \sigma\sqrt{\tau}\phi})^{+}]\\
+&= e^{-\mu \tau}\int_{-\infty}^{\infty} (K - S_{t}e^{(\mu - \frac{1}{2}\sigma^{2})\tau + \sigma\sqrt{\tau}\phi})^{+}\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}  \, d\phi \\
+&= e^{-\mu \tau}\int_{-\infty}^{-d_{2}} (K - S_{t}e^{(\mu - \frac{1}{2}\sigma^{2})\tau + \sigma\sqrt{\tau}\phi})\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}  \, d\phi \\
+&= e^{-r\tau}\int_{-\infty}^{-d_{2}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}K\, d\phi -e^{-\mu \tau}\int_{-\infty}^{-d_{2}} S_{t}e^{(\mu - \frac{1}{2}\sigma^{2})\tau + \sigma\sqrt{\tau}\phi}\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}  \, d\phi\\
+&= Ke^{-r\tau}\int_{-\infty}^{-d_{2}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}\, d\phi - e^{(\mu - \frac{1}{2}\sigma^{2})\tau-\mu \tau}S_{t}\int_{-\infty}^{-d_{2}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}(\phi^{2}-2\sigma\sqrt{\tau}\phi)}  \, d\phi\\
+&= Ke^{-r\tau}\int_{-\infty}^{-d_{2}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}\, d\phi - S_{t}\int_{-\infty}^{-d_{2}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}(\phi^{2}-2\sigma\sqrt{\tau}\phi+\sigma^{2}\tau)}  \, d\phi\\
+&= Ke^{-r\tau}\int_{-\infty}^{-d_{2}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}\, d\phi - S_{t}\int_{-\infty}^{-d_{2}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}(\phi-\sigma\sqrt{\tau}\phi)^{2}}  \, d\phi\\
+&= Ke^{-r\tau}\int_{-\infty}^{d_{2}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}\, d\phi - S_{t}\int_{-\infty}^{-d_{2}-\sigma\sqrt{\tau}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}y^{2}}  \, dy\\
+&= Ke^{-r\tau}\int_{-\infty}^{d_{2}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}\, d\phi - S_{t}\int_{-\infty}^{-d_{1}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}y^{2}}  \, dy \\
+&= Ke^{-r\tau} N(-d_{2}) - S_{t} N(-d_{1})
+\end{split}
+\end{equation}
+where,
+$$d_{2} = \frac{\ln{\frac{S_{t}}{K}} + (\mu - \frac{1}{2}\sigma^{2})\tau}{\sigma\sqrt{\tau}}$$
+$$d_{1} = d_{2} + \sigma\sqrt{\tau}$$
+Also, $N$ is the cumulative density function of standard normal function.
 \newpage
 \subsection{Numerical PDE}
 \newpage
