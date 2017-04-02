@@ -291,30 +291,31 @@ Here we put down the algorithm for Monte Carlo simulations of option prices usin
 \end{algorithm}
 \newpage
 \subsection{Stratified Sampling}
-Stratified sampling refers broadly to any sampling mechanism that constrains
-the fraction of observations drawn from specific subsets (or strata) of the
-sample space. \\
-Goal: estimate $\mathrm{E}[Y]$, $Y \in \mathbb{R}$\\
-Dividing the sample space into K parts, with $A_{1}, \dots ,A_{K}$ being disjoint subsets of the real line for which $\mathrm{P}(Y \in \cup_{i}A_{i}) = 1$. \\
-Then by the Bayes$^{\prime}$ Theorem,
-$$ \mathrm{E}[Y] = \sum_{i=1}^{K}\mathrm{P}(Y \in A_{i})\mathrm{E}[Y|Y \in A_{i}] = \sum_{i=1}^{K}p_{i}\mathrm{E}[Y|Y \in A_{i}] $$
-Simplest case: proportional sampling, ensuring $p_{i} = \mathrm{P}(Y \in A_{i})$, the fraction of observations drawn from stratum $A_{i}$ exactly matches theoretical probability.\\
-Unbiased estimator of $\mathrm{E}(Y)$ is provided by:\\
-$$\hat{Y} = \sum_{i=1}^{K} p_{i} \frac{1}{n_{i}} \sum_{j=1}^{n_{i}} Y_{ij} = \frac{1}{n} \sum_{i=1}^{K} \sum_{j=1}^{n_{i}} Y_{ij}$$
-$$ \mathrm{E}[\hat{Y}] = \mathrm{E}[\sum_{i=1}^{K} p_{i} \frac{1}{n_{i}} \sum_{j=1}^{n_{i}} Y_{ij}] = \sum_{i=1}^{K}\mathrm{P}(Y \in A_{i})\mathrm{E}[Y|Y \in A_{i}] = \mathrm{E}[Y]$$
-We shall generate a stratification variable $X$ which take values in the union of the disjoint sets $A_{i}$s. As supposedly the values of $X$ are high correlated to the values of $Y$, in many cases, $Y$ is a function of X. For example, if $Y$ is the discounted payoff of European call option, $X$ can be the discrete path of underlying asset prices.\\
-Let $X$ be the discrete path of underlying asset prices, with $Y$ being the European call payoff discounted to time 0. If $X$ has $k$ discrete prices on one path, $\Omega \in \mathbb{R}^{k}$ is the sample space for the $X_{i}$s, where $\Omega = \cup_{i} A_{i}$ is the union of disjoint sets.\\
-Here for the purpose of stratified sampling we should satisfy two conditions:
-\begin{itemize}
-	\item $\mathbb{P}(X \in A_{i})$ can be easily computed.
-	\item $(Y | X \in A_{i})$ Given $X \in A_{i}$, $Y$ can be easily generated.
-\end{itemize}
-In order to further simplify the trouble of dividing $\Omega$ into disjoint subsets, we are going to use the stock prices half way as a condition to fully determine the distributions of $A_{i}$. The possible stock prices at time $\frac{T}{2}$ will be generated based on the Geometric Brownian Motion of the underlying stock prices. Given we are going to produce $n$ equal probable subsets of $\Omega$, the standard normal distribution can be sliced into $n$ pieces to provide sources of generation.\\
-If the standard normal distribution is going to be splitted into 50 parts, with each starting from quantile 0\% to quantile 2\%, quantile 2\% to quantile 4\%, \dots, quantile 98\% to quantile 100\%, we shall use their middle point in quantile to generate expectations of stock prices half way, namely quantile 1\%, quantile 3\%, \dots, quantile 99\%.\\
-The next part of algorithm is to use the GBM formula to calculate the 50 expectations of the stock prices at time $\frac{T}{2}$.
-$$S_{T} = S_{0}\exp\{(r-\frac{1}{2}\sigma^{2})T + \sigma\sqrt{T}z_{\alpha_{i}}\}$$
-where $z_{\alpha_{i}}$ is the quantile of standard normal distribution at $(2i-1)\%$
-With the expectations at these points, we can go on to generate for every group $\frac{\mathrm{I}}{50}$ number of stock prices at time $T$, and calculate the corresponding European call payoffs.
+Stratified sampling refers broadly to any sampling mechanism that constrains the fraction of observations drawn from specific subsets (or strata) of the sample space. Our goal is to estimate $\mathrm{E}[Y]$, by dividing the sample space into $n$ parts, with $A_{1}, \dots ,A_{n}$ being disjoint subsets of the real line for which $\mathrm{P}(Y \in \cup_{i}A_{i}) = 1$. \\
+By Bayes$^{\prime}$ Theorem, $ \mathrm{E}[Y] = \sum_{i=1}^{n}\mathrm{P}(Y \in A_{i})\mathrm{E}[Y|Y \in A_{i}] = \sum_{i=1}^{n}p_{i}\mathrm{E}[Y|Y \in A_{i}] $\\
+We shall exercise proportional sampling which is the simplest case, ensuring $p_{i} = \mathrm{P}(Y \in A_{i})$, the fraction of observations drawn from stratum $A_{i}$ exactly matches theoretical probability.\\[1mm]
+Unbiased estimator of $\mathrm{E}(Y)$ is given by $\hat{Y} = \sum_{i=1}^{K} (p_{i} \frac{1}{n_{i}} \sum_{j=1}^{n_{i}} Y_{ij}) = \frac{1}{n} \sum_{i=1}^{K} \sum_{j=1}^{n_{i}} Y_{ij}$
+$$ \mathrm{E}[\hat{Y}] = \mathrm{E}[\sum_{i=1}^{K} (p_{i} \frac{1}{n_{i}} \sum_{j=1}^{n_{i}} Y_{ij})] = \sum_{i=1}^{K}\mathrm{P}(Y \in A_{i})\mathrm{E}[Y|Y \in A_{i}] = \mathrm{E}[Y]$$
+We shall generate a stratification variable $X$ which take values in the union of the disjoint sets $A_{i}$s. As supposedly the values of $X$ are high correlated to the values of $Y$, in many cases, $Y$ is a function of X. Let $X$ be the discrete path of underlying asset prices, with $Y$ being the European call payoff discounted to time 0. If $X$ has $h$ discrete prices on one path, $\Omega \in \mathbb{R}^{h}$ is the sample space for the $X_{i}^{\prime}$s, where $\Omega = \cup_{i} A_{i}$ is the union of disjoint sets.\\
+For the purpose of stratified sampling, $\mathbb{P}(X \in A_{i})$ and $Y | X \in A_{i}$ should be easy to generate.\\
+In order to further simplify the trouble of dividing $\Omega$ into disjoint subsets, we are going to use the stock prices at time $\frac{T}{2}$ as the condition to determine the distributions of $A_{i}$. The stock prices at time $\frac{T}{2}$ will be computed based on the Geometric Brownian Motion of the underlying stock prices. Given that we are to produce $n$ equally probable subsets of $\Omega$, the standard normal distribution can be sliced into $n$ pieces to provide sources of generation. With the underlying asset prices at time $\frac{T}{2}$, we can generate $k$ prices at time $T$ and calculate the respective option payoffs. The average payoffs for each stratum $A_{i}$ is then computed and discounted back to time $\frac{T}{2}$, at which we calculate the average payoffs across the stratum and discount to time $0$. \\[2mm]
+\begin{algorithm}[H]
+ \KwData{$N$ the number of total simulations and $f$ the payoff function}
+ \KwResult{$\bar{P}$, Estimation for the option premium}
+ initialization\;
+ $k = \frac{N}{n}$ is the number of simulations for each stratum\;
+ \For {i = 1 \dots n} {
+ $z_{\alpha_{i}}$ is the quantile of standard normal distribution at probability $\frac{i}{n}$\;
+ $S_{\frac{T}{2}, i} = S_{0}\exp\{(r-\frac{1}{2}\sigma^{2})\frac{T}{2} + \sigma \sqrt{\frac{T}{2}}z_{\alpha_{i}}\}$\;
+ \For {j = 1 \dots k} {
+ \quad $S_{T, i, j} = S_{\frac{T}{2}, i}\exp\{(r-\frac{1}{2}\sigma^{2})\frac{T}{2} + \sigma \sqrt{\frac{T}{2}}z_{i,j}\}$\;
+ \quad $P_{T, i, j} = f(S_{T, i, j})$;
+ \quad }
+ $\bar{P}_{\frac{T}{2}, i} = \frac{1}{k} e^{-r\frac{T}{2}}  \sum_{j=1}^{k} P_{T, i, j}$\;
+ }
+ $\bar{P} = \frac{1}{n} \sum_{i=1}^{n} \bar{P}_{\frac{T}{2}, i}$\;
+\caption{General Proportional Sampling Algorithm}
+\end{algorithm}
 \newpage
 \subsection{Importance Sampling}
 Importance sampling is a method to reduce variance by changing the probability measure. The word 'Importance' comes from the aim to give more weight to 'important' outcomes by changing measures.\\
