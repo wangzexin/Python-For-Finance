@@ -56,18 +56,20 @@ def testPut():
 
 def control_variate_underlying_assets_down_out_call(S, strikePrice, barrier, T, r, sigma):
     # parameters
-    I = 5000;   n = 500;    dt = T / n;     S0 = S
+    I = 5;   n = 100;    dt = T / n;     S0 = S
     optionPayoffs = []
     stockPrices = []
     # pilot simulation
     for i in range(0, I):
         standardNormals = list(npr.standard_normal(n))
-        stockPrice = S0
+        stockPrice = S0 + 1 - 1
         flag = True
         for j in range(0, n):
+            print(stockPrice, end = " ")
             stockPrice = stockPrice*np.exp((r-sigma**2/2)*dt+sigma*np.sqrt(dt)*standardNormals[j])
             if stockPrice < barrier:
                 flag = False
+        print()
         if flag:
             optionPayoffs.append(max(stockPrice - strikePrice, 0))
         else:
@@ -83,7 +85,7 @@ def control_variate_underlying_assets_down_out_call(S, strikePrice, barrier, T, 
     stockPrices = []
     for i in range(0, I):
         standardNormals = list(npr.standard_normal(n))
-        stockPrice = S0
+        stockPrice = S0 + 1 - 1
         flag = True
         for j in range(0, n):
             stockPrice = stockPrice*np.exp((r-sigma**2/2)*dt+sigma*np.sqrt(dt)*standardNormals[j])
