@@ -41,6 +41,9 @@
 % include algorithm package
 \usepackage[]{algorithm2e}
 
+% include bbm package to support indicator variable
+\usepackage{bbm}
+
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % the region between \begin{document} ... \end{document} is known as the 'text'
 \begin{document}
@@ -496,6 +499,85 @@ Closed-form formula & Ordinary Monte Carlo & Control Variate\\
 \section{Barrier option}
 
 \subsection{Closed-form formula}
+The payoff function of a down-and-out call option can express as $(S_{T} - K)\mathbbm{1}_{\mathbb{F}}$, where $\mathbbm{1}_{\mathbb{F}}$ is the indicator variable for the payoff to be non-zero, as $\displaystyle \mathbb{F} = \{ S_{T} \ge K, \min_{0 \le t \le T} S_{t} \ge B \}$\\[1mm]
+For risk-neutral valuation, we split the payoff in order to apply the Change of Numeraire Theorem where appropriate. Let $V_{T}^{(1)} = S_{T}\mathbbm{1}_{\mathbb{F}}$, $V_{T}^{(2)} =  K\mathbbm{1}_{\mathbb{F}}$, with the assumption that there is no dividend yield, we can express the option price as such:
+\begin{equation*}
+\begin{split}
+c_{do}(S, B, K)
+&= e^{-rT}\mathbb{E}^{\mathbb{Q}}[(S_{T} - K)\mathbbm{1}_{\mathbb{F}}]\\
+&= e^{-rT}\mathbb{E}^{\mathbb{Q}}(S_{T}\mathbbm{1}_{\mathbb{F}}) - e^{-rT}\mathbb{E}^{\mathbb{Q}}(K\mathbbm{1}_{\mathbb{F}})\\
+&= e^{-rT}\mathbb{E}^{\mathbb{Q}}(V_{T}^{(1)}) - e^{-rT}\mathbb{E}^{\mathbb{Q}}(V_{T}^{(2)})\\
+&= \mathbb{E}^{\mathbb{Q}}[\frac{V_{T}^{(1)}}{M_{T}}] - \mathbb{E}^{\mathbb{Q}}[\frac{V_{T}^{(2)}}{M_{T}}] = \frac{V_{0}^{(1)}}{M_{0}} - \frac{V_{0}^{(2)}}{M_{0}} = V_{0}^{(1)} - V_{0}^{(2)}
+\end{split}
+\end{equation*}
+We can now use the stock measure $\mathbb{Q}^{S}$ on $V_{0}^{(1)}$ and the risk-neutral measure $\mathbb{Q}$ on $V_{0}^{(2)}$.\\
+By the Change of Numeraire Theorem, $\frac{V_{0}^{(1)}}{S_{0}} = \mathbb{E}^{\mathbb{Q}^{S}}[\frac{V_{T}^{(1)}}{S_{T}}]$, $\frac{V_{0}^{(2)}}{M_{0}} = \mathbb{E}^{\mathbb{Q}^{S}}[\frac{V_{T}^{(2)}}{M_{T}}]$\\
+$$V_{0}^{(1)} = S_{0}\mathbb{E}^{\mathbb{Q}^{S}}[\frac{V_{T}^{(1)}}{S_{T}}] = S_{0}\mathbb{E}^{\mathbb{Q}^{S}}[\frac{S_{T}\mathbbm{1}_{\mathbb{F}}}{S_{T}}] = S_{0}\mathbb{E}^{\mathbb{Q}^{S}}(\mathbbm{1}_{\mathbb{F}}) = S_{0}\mathbb{Q}^{S}({\mathbb{F}})$$
+$$V_{0}^{(2)} = M_{0}\mathbb{E}^{\mathbb{Q}}[\frac{V_{T}^{(2)}}{M_{T}}] = M_{0}\mathbb{E}^{\mathbb{Q}}[\frac{K\mathbbm{1}_{\mathbb{F}}}{M_{T}}] = \frac{K}{M_{T}}\mathbb{E}^{\mathbb{Q}}(\mathbbm{1}_{\mathbb{F}}) = e^{-rT}K\mathbb{Q}({\mathbb{F}})$$
+For the case that $K > B$,
+\begin{equation*}
+\begin{split}
+\mathbb{F}
+&= \{ S_{T} \ge K, \min_{0 \le t \le T} S_{t} \ge B \} = \{ \ln{S_{T}} \ge \ln{K}, \min_{0 \le t \le T} \ln{S_{t}} \ge ln{B} \}\\
+&= \{ \ln{S_{T}} - \ln{S_{0}} \ge \ln{K} - \ln{S_{0}}, \min_{0 \le t \le T} \ln{S_{t}} - \ln{S_{0}} \ge \ln{B} - \ln{S_{0}} \}\\
+&= \{ \ln{\frac{S_{T}}{S_{0}}} \ge \ln{\frac{K}{S_{0}}}, \min_{0 \le t \le T} \ln{\frac{S_{t}}{S_{0}}} \ge \ln{\frac{B}{S_{0}}} \}
+\end{split}
+\end{equation*}
+We can now let $\displaystyle x_{T} = \ln{\frac{S_{T}}{S_{0}}}$, $\displaystyle m_{T} = \min_{0 \le t \le T} \ln{\frac{S_{t}}{S_{0}}}$, $\displaystyle x = \ln{(\frac{K}{S_{0}})}$, $\displaystyle m = \ln{(\frac{B}{S_{0}})}$\\[1mm]
+and apply Corollary 1 to solve for $\mathbb{Q}^{S}(\mathbb{F})$ with $\mu = r + \frac{\sigma^{2}}{2}$.\\
+\begin{equation*}
+\begin{split}
+V_{0}^{(1)}
+&= S_{0}\mathbb{Q}^{S}({\mathbb{F}}) = S_{0}\mathbb{Q}^{S}(x_{T} \ge x, m_{T} \ge m)\\
+&= S_{0}\{ N(\frac{(r+\frac{\sigma^{2}}{2})T - \ln{(\frac{K}{S_{0}})}}{\sigma \sqrt{T}}) - e^{\frac{2(r+\frac{\sigma^{2}}{2})}{\sigma^{2}}\ln{(\frac{B}{S_{0}})}} N(\frac{2\ln{(\frac{B}{S_{0}})} - \ln{(\frac{K}{S_{0}})} + (r + \frac{\sigma^{2}}{2})T}{\sigma \sqrt{T}}) \}\\
+&= S_{0}\{ N(\frac{(r+\frac{\sigma^{2}}{2})T + \ln{(\frac{S_{0}}{K})}}{\sigma \sqrt{T}}) - {(\frac{B}{S_{0}})}^{\frac{2r}{\sigma^{2}}+1} N(\frac{\ln{(\frac{B^{2}}{S_{0}K})} + (r + \frac{\sigma^{2}}{2})T}{\sigma \sqrt{T}}) \}\\
+&= S_{0}\{ N(d_{1}) - {(\frac{B}{S_{0}})}^{\frac{2r}{\sigma^{2}}+1} N(d_{2}) \}
+\end{split}
+\end{equation*}
+\newpage
+Similarly, we can express $V_{0}^{(2)}$ as $e^{-rT}K\mathbb{Q}({\mathbb{F}})$, and apply Corollary 1 with to solve for $\mathbb{Q}(\mathbb{F})$ with $\mu = r - \frac{\sigma^{2}}{2}$.\\
+\begin{equation*}
+\begin{split}
+V_{0}^{(2)}
+&= e^{-rT}K\mathbb{Q}({\mathbb{F}}) = e^{-rT}K\mathbb{Q}(x_{T} \ge x, m_{T} \ge m)\\
+&= e^{-rT}K\{ N(\frac{(r-\frac{\sigma^{2}}{2})T - \ln{(\frac{K}{S_{0}})}}{\sigma \sqrt{T}}) - e^{\frac{2(r-\frac{\sigma^{2}}{2})}{\sigma^{2}}\ln{{(\frac{B}{S_{0}})}}} N(\frac{2\ln{\frac{B}{S_{0}} - \ln{\frac{K}{S_{0}}} + (r - \frac{\sigma^{2}}{2})T}}{\sigma \sqrt{T}}) \}\\
+&= e^{-rT}K\{ N(\frac{(r-\frac{\sigma^{2}}{2})T + \ln{(\frac{S_{0}}{K})}}{\sigma \sqrt{T}}) - {(\frac{B}{S_{0}})}^{\frac{2r}{\sigma^{2}}-1} N(\frac{\ln{(\frac{B^{2}}{S_{0}K})} + (r - \frac{\sigma^{2}}{2})T}{\sigma \sqrt{T}}) \}\\
+&= e^{-rT}K\{ N(d_{3}) - {(\frac{B}{S_{0}})}^{\frac{2r}{\sigma^{2}}-1} N(d_{4}) \}
+\end{split}
+\end{equation*}
+\\For the case that $K > B$, the situation is simplied as the condition $S_{T} \ge K$ is redundant. The new condition $\mathbb{F}^{\prime} = \displaystyle \{ \min_{0 \le t \le T} S_{t} \ge B \}$, with the payoff function being $(S_{T} - K)\mathbbm{1}_{\{ \min_{0 \le t \le T} S_{t} \ge B \}}$.\\
+We shall apply Corollary 2 to solve for $\mathbb{Q}^{S}(\mathbb{F}^{\prime})$ in this case with $\mu = r + \frac{\sigma^{2}}{2}$, $\displaystyle m_{T} = \min_{0 \le t \le T} \ln{\frac{S_{t}}{S_{0}}}$.\\
+\begin{equation*}
+\begin{split}
+V_{0}^{(1)}
+&= S_{0}\mathbb{Q}^{S}({\mathbb{F}}^{\prime}) = S_{0}\mathbb{Q}^{S}(m_{T} \ge m)\\
+&= S_{0}\{ N(\frac{(r+\frac{\sigma^{2}}{2})T - \ln{(\frac{B}{S_{0}})}}{\sigma \sqrt{T}}) - e^{\frac{2(r+\frac{\sigma^{2}}{2})}{\sigma^{2}}\ln{(\frac{B}{S_{0}})}} N(\frac{\ln{\frac{B}{S_{0}} + (r + \frac{\sigma^{2}}{2})T}}{\sigma \sqrt{T}}) \}\\
+&= S_{0}\{ N(\frac{(r+\frac{\sigma^{2}}{2})T + \ln{(\frac{S_{0}}{B})}}{\sigma \sqrt{T}}) - {(\frac{B}{S_{0}})}^{\frac{2r}{\sigma^{2}}+1} N(\frac{\ln{(\frac{B}{S_{0}})} + (r + \frac{\sigma^{2}}{2})T}{\sigma \sqrt{T}}) \}\\
+&= S_{0}\{ N(d_{5}) - {(\frac{B}{S_{0}})}^{\frac{2r}{\sigma^{2}}+1} N(d_{6}) \}
+\end{split}
+\end{equation*}
+We can also apply Corollary 2 to solve for $\mathbb{Q}(\mathbb{F}^{\prime})$ in this case with $\mu = r - \frac{\sigma^{2}}{2}$.
+\begin{equation*}
+\begin{split}
+V_{0}^{(2)}
+&= e^{-rT}K\mathbb{Q}({\mathbb{F}^{\prime}})\\
+&= e^{-rT}K\mathbb{Q}(m_{T} \ge m)\\
+&= e^{-rT}K\{ N(\frac{(r-\frac{\sigma^{2}}{2})T - \ln{(\frac{B}{S_{0}})}}{\sigma \sqrt{T}}) - e^{\frac{2(r-\frac{\sigma^{2}}{2})}{\sigma^{2}}\ln{{(\frac{B}{S_{0}})}}} N(\frac{2\ln{\frac{B}{S_{0}} - \ln{\frac{K}{S_{0}}} + (r - \frac{\sigma^{2}}{2})T}}{\sigma \sqrt{T}}) \}\\
+&= e^{-rT}K\{ N(\frac{(r-\frac{\sigma^{2}}{2})T + \ln{(\frac{S_{0}}{B})}}{\sigma \sqrt{T}}) - {(\frac{B}{S_{0}})}^{\frac{2r}{\sigma^{2}}-1} N(\frac{\ln{(\frac{B}{S_{0}})} + (r - \frac{\sigma^{2}}{2})T}{\sigma \sqrt{T}}) \}\\
+&= e^{-rT}K\{ N(d_{7}) - {(\frac{B}{S_{0}})}^{\frac{2r}{\sigma^{2}}-1} N(d_{8}) \}
+\end{split}
+\end{equation*}
+Conclusively, 
+\begin{equation*}
+c_{do}(S_{0}, B, K) = 
+\begin{cases}
+c(S_{0}, K) - {(\frac{B}{S_{0}})}^{\frac{2r}{\sigma^{2}}+1} c(\frac{B^{2}}{S_{0}}, K) \text{, if }K > B\\
+S_{0}\{ N(d_{5}) - {(\frac{B}{S_{0}})}^{\frac{2r}{\sigma^{2}}+1} N(d_{6})\} - e^{-rT}K\{ N(d_{7}) - {(\frac{B}{S_{0}})}^{\frac{2r}{\sigma^{2}}-1} N(d_{8})\} \text{, if }K \le B\\
+\end{cases}
+\end{equation*}
+\begin{center}
+where $c(S_{0}, K, T)$ denotes the European call option premium\\ with initial stock price $S_{0}$, strike price $K$.
+\end{center}
 \newpage
 \subsection{Numerical PDE}
 \newpage

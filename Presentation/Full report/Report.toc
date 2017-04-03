@@ -24,5 +24,5 @@
 \contentsline {subsection}{\numberline {6.3}Monte Carlo Simulation}{21}
 \contentsline {section}{\numberline {7}Barrier option}{22}
 \contentsline {subsection}{\numberline {7.1}Closed-form formula}{22}
-\contentsline {subsection}{\numberline {7.2}Numerical PDE}{23}
-\contentsline {subsection}{\numberline {7.3}Monte Carlo Simulation}{24}
+\contentsline {subsection}{\numberline {7.2}Numerical PDE}{24}
+\contentsline {subsection}{\numberline {7.3}Monte Carlo Simulation}{25}
