@@ -185,6 +185,8 @@ $$S_{T} = S_{t}e^{(\mu - \frac{1}{2}\sigma^{2})\tau + \sigma\sqrt{\tau}\phi}$$
 \newpage
 
 \section{Finite Difference Model for Numerical PDE}
+The advantages of using a Finite Difference valuation scheme over Monte Carlo simulations lie in the fact that there have been a lot of well-developed models for the known problems, and the generally lower computation costs.\\
+In this report, we have only implemented one-factor models and two-factor models, in which the original Black-Scholes model, Merton's Jump-diffusion model, and Heston's Stochastic Volatility model can be incorporated. With these models above, we are able to give valuation schemes for European options, Barrier options, Asian options. However the more complicated options such as Multi-asset options will require the usage of multiple-factor models.
 $$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial V}{\partial S}+r\frac{\partial V}{\partial S}S- rV = 0$$
 If we are to plot out the option prices in a diagram, there should be a 3D diagram with y-axis being the underlying prices, and x-axis being the time, omitting the scenario when the option price is dependent on other stochastic terms such as volatility.
 In the Black-Scholes formula, we are able to approximate $\Theta = \frac{\partial V}{\partial t}$, $\Delta = \frac{\partial V}{\partial S}$ and $\Gamma = \frac{\partial^{2} V}{\partial S^{2}}$ when the discretization is significantly small and thus it will be easy to simply use the ratio of change in derivatives value with respect to change in time or change in underlying asset value.\\
@@ -198,8 +200,11 @@ $$\frac{\partial V}{\partial S} \approx \frac{P_{S} - P_{S-{^{\Delta}S}}}{^{\Del
 &= \frac{P_{S+{^{\Delta}S}} - 2P_{S} + P_{S-{^{\Delta}S}}}{(^{\Delta}S)^{2}}
 \end{split}
 \end{equation}
+The three most popular approximation schemes to the time derivative are the explicit and implicit Euler, and Crank-Nicolson schemes. The first two are of first-order accuracy, and the last one has second-order accuracy.
+\newpage
 
 \subsection{One factor model using Implicit Scheme}
+We first define the payoff function as a function of the individual price path and other inherent parameters of the options such as strike price. For the boundary conditions, if we are to assume that the Black-Scholes PDE to be satisfied at $S = 0$, giving $\frac{\partial V}{\partial t} = rV$can be easily solved, suggesting that $V$ is exponentially related to $rT$. In light of this, we can have an exact solution and therefore a Dirichlet boundary condition at $S = 0$. For the purpose of option pricing, the PDE is always defined on a semi-infinite domain, which can be fitted onto our implementation with programming using the transformation $x = \log{S}$ onto the real line or $x = \frac{S}{S+K}$ onto $(0, 1)$as suggested by Wilmott.
 \newpage
 \subsection{Explicit Scheme}
 The difference between explicit and implicit scheme lies in the need to solve an implicit equation at each discretization or there is a closed-form formula for each step.

@@ -87,7 +87,7 @@ def testBarrierDownOutCall():
 
 def control_variate_underlying_assets_down_out_call(S, strikePrice, barrier, T, r, sigma):
     # parameters
-    I = 1000000;   n = 1000;    dt = 0.001;     S0 = S
+    I = 1000000;   n = 1000;    dt = T / n;     S0 = S
     barrier = barrier * math.exp(0.5826 * sigma * dt ** 0.5)
     optionPayoffs = []
     stockPrices = []
@@ -123,6 +123,6 @@ def control_variate_underlying_assets_down_out_call(S, strikePrice, barrier, T, 
                 flag = False
         if flag:
             totalPayoff += max(stockPrice - strikePrice, 0)
-        totalPayoff -= stockPrice - ST
-    optionPremium = totalPayoff / I / math.exp(r * T)
+        totalPayoff -= lambdaStar * (stockPrice - ST)
+    optionPremium = (totalPayoff / I) / math.exp(r * T)
     return optionPremium

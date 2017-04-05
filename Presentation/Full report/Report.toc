@@ -6,24 +6,24 @@
 \contentsline {subsection}{\numberline {2.3}Replicating portfolio}{5}
 \contentsline {subsection}{\numberline {2.4}Lognormal property}{6}
 \contentsline {section}{\numberline {3}Finite Difference Model for Numerical PDE}{7}
-\contentsline {subsection}{\numberline {3.1}One factor model using Implicit Scheme}{7}
-\contentsline {subsection}{\numberline {3.2}Explicit Scheme}{8}
-\contentsline {subsection}{\numberline {3.3}Feynman\IeC {\textendash }Kac formula}{9}
-\contentsline {subsection}{\numberline {3.4}Crank\IeC {\textendash }Nicolson method}{10}
-\contentsline {section}{\numberline {4}Variance Reduction Techniques for Monte Carlo Simulation}{11}
-\contentsline {subsection}{\numberline {4.1}Control Variate}{12}
-\contentsline {subsection}{\numberline {4.2}Stratified Sampling}{14}
-\contentsline {subsection}{\numberline {4.3}Importance Sampling}{15}
-\contentsline {section}{\numberline {5}European call options}{16}
-\contentsline {subsection}{\numberline {5.1}Closed-form formula}{16}
-\contentsline {subsection}{\numberline {5.2}Numerical PDE}{17}
-\contentsline {subsection}{\numberline {5.3}Monte Carlo Simulation}{18}
-\contentsline {section}{\numberline {6}European put options}{19}
-\contentsline {subsection}{\numberline {6.1}Closed-form formula}{19}
-\contentsline {subsection}{\numberline {6.2}Numerical PDE}{20}
-\contentsline {subsection}{\numberline {6.3}Monte Carlo Simulation}{21}
-\contentsline {section}{\numberline {7}Barrier option}{22}
-\contentsline {subsection}{\numberline {7.1}Joint distribution of Minimum and Terminal Value}{22}
-\contentsline {subsection}{\numberline {7.2}Closed-form formula}{23}
-\contentsline {subsection}{\numberline {7.3}Numerical PDE}{25}
-\contentsline {subsection}{\numberline {7.4}Monte Carlo Simulation}{26}
+\contentsline {subsection}{\numberline {3.1}One factor model using Implicit Scheme}{8}
+\contentsline {subsection}{\numberline {3.2}Explicit Scheme}{9}
+\contentsline {subsection}{\numberline {3.3}Feynman\IeC {\textendash }Kac formula}{10}
+\contentsline {subsection}{\numberline {3.4}Crank\IeC {\textendash }Nicolson method}{11}
+\contentsline {section}{\numberline {4}Variance Reduction Techniques for Monte Carlo Simulation}{12}
+\contentsline {subsection}{\numberline {4.1}Control Variate}{13}
+\contentsline {subsection}{\numberline {4.2}Stratified Sampling}{15}
+\contentsline {subsection}{\numberline {4.3}Importance Sampling}{16}
+\contentsline {section}{\numberline {5}European call options}{17}
+\contentsline {subsection}{\numberline {5.1}Closed-form formula}{17}
+\contentsline {subsection}{\numberline {5.2}Numerical PDE}{18}
+\contentsline {subsection}{\numberline {5.3}Monte Carlo Simulation}{19}
+\contentsline {section}{\numberline {6}European put options}{20}
+\contentsline {subsection}{\numberline {6.1}Closed-form formula}{20}
+\contentsline {subsection}{\numberline {6.2}Numerical PDE}{21}
+\contentsline {subsection}{\numberline {6.3}Monte Carlo Simulation}{22}
+\contentsline {section}{\numberline {7}Barrier option}{23}
+\contentsline {subsection}{\numberline {7.1}Joint distribution of Minimum and Terminal Value}{23}
+\contentsline {subsection}{\numberline {7.2}Closed-form formula}{24}
+\contentsline {subsection}{\numberline {7.3}Numerical PDE}{26}
+\contentsline {subsection}{\numberline {7.4}Monte Carlo Simulation}{27}
