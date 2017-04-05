@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2016.1.29)  3 APR 2017 21:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2016.1.29)  5 APR 2017 12:35
 entering extended mode
 **"D:/Stuart/Module studies/MA3288/Research/Presentation/Full report/Report.tex
 "
@@ -607,36 +607,41 @@ Underfull \hbox (badness 10000) in paragraph at lines 324--333
  []
 
 [15] [16] [17] [18] [19] [20] [21]
-LaTeX Font Info:    Try loading font information for U+bbm on input line 502.
- (D:\Latex\tex\latex\bbm\ubbm.fd
-File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
-)
-Underfull \hbox (badness 10000) in paragraph at lines 512--515
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 525--528
+Underfull \hbox (badness 10000) in paragraph at lines 502--503
 
  []
 
 [22]
-Underfull \hbox (badness 10000) in paragraph at lines 538--539
+LaTeX Font Info:    Try loading font information for U+bbm on input line 513.
+ (D:\Latex\tex\latex\bbm\ubbm.fd
+File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
+)
+Underfull \hbox (badness 10000) in paragraph at lines 523--526
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 547--550
+Underfull \hbox (badness 10000) in paragraph at lines 536--539
+
+ []
+
+[23]
+Underfull \hbox (badness 10000) in paragraph at lines 549--550
 
  []
 
 
-Overfull \hbox (13.69508pt too wide) detected at line 577
+Underfull \hbox (badness 10000) in paragraph at lines 558--561
+
+ []
+
+
+Overfull \hbox (13.69508pt too wide) detected at line 588
 \OML/cmm/m/it/12 c[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 S[]; B; K\OT1/cmr/m/n/12 
 ) = []
  []
 
-[23] [24] [25] (Report.aux) )
+[24] [25] [26] (Report.aux) )
 (\end occurred inside a group at level 1)
 
 ### simple group (level 1) entered at line 1061 ({)
@@ -662,9 +667,9 @@ y8.pfb><D:/Latex/fonts/type1/public/amsfonts/symbols/msbm10.pfb><D:/Latex/fonts
 /type1/public/amsfonts/symbols/msbm7.pfb><D:/Latex/fonts/type1/urw/times/utmb8a
 .pfb><D:/Latex/fonts/type1/urw/times/utmr8a.pfb><D:/Latex/fonts/type1/urw/times
 /utmri8a.pfb>
-Output written on Report.pdf (26 pages, 238770 bytes).
+Output written on Report.pdf (27 pages, 241292 bytes).
 PDF statistics:
- 156 PDF objects out of 1000 (max. 8388607)
+ 159 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

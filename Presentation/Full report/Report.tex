@@ -498,6 +498,17 @@ Closed-form formula & Ordinary Monte Carlo & Control Variate\\
 
 \section{Barrier option}
 
+\subsection{Joint distribution of Minimum and Terminal Value}
+We define the minimum value $\displaystyle m_{T} = \min_{0 \le t \le T} \ln{\frac{S_{t}}{S_{0}}}$ and the terminal value $x_{T} = \ln{\frac{S_{T}}{S_{0}}}$.\\
+\begin{corollary}
+$$\mathbb{P}(X_{T} \ge x, m_{T} \ge m) = N(\frac{\mu T - x}{\sigma \sqrt{T}}) - e^{\frac{2\mu m}{\sigma^{2}}}N(\frac{2m-x+\mu T}{\sigma \sqrt{T}})$$
+\end{corollary}
+\begin{corollary}
+$$\mathbb{P}(m_{T} \ge m) = N(\frac{\mu T - m}{\sigma \sqrt{T}}) - e^{\frac{2\mu m}{\sigma^{2}}}N(\frac{m+\mu T}{\sigma \sqrt{T}})$$
+\end{corollary}
+Details of the proofs for the two corollaries are omitted here.
+\newpage
+
 \subsection{Closed-form formula}
 The payoff function of a down-and-out call option can express as $(S_{T} - K)\mathbbm{1}_{\mathbb{F}}$, where $\mathbbm{1}_{\mathbb{F}}$ is the indicator variable for the payoff to be non-zero, as $\displaystyle \mathbb{F} = \{ S_{T} \ge K, \min_{0 \le t \le T} S_{t} \ge B \}$\\[1mm]
 For risk-neutral valuation, we split the payoff in order to apply the Change of Numeraire Theorem where appropriate. Let $V_{T}^{(1)} = S_{T}\mathbbm{1}_{\mathbb{F}}$, $V_{T}^{(2)} =  K\mathbbm{1}_{\mathbb{F}}$, with the assumption that there is no dividend yield, we can express the option price as such:

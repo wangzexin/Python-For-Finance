@@ -23,6 +23,7 @@
 \contentsline {subsection}{\numberline {6.2}Numerical PDE}{20}
 \contentsline {subsection}{\numberline {6.3}Monte Carlo Simulation}{21}
 \contentsline {section}{\numberline {7}Barrier option}{22}
-\contentsline {subsection}{\numberline {7.1}Closed-form formula}{22}
-\contentsline {subsection}{\numberline {7.2}Numerical PDE}{24}
-\contentsline {subsection}{\numberline {7.3}Monte Carlo Simulation}{25}
+\contentsline {subsection}{\numberline {7.1}Joint distribution of Minimum and Terminal Value}{22}
+\contentsline {subsection}{\numberline {7.2}Closed-form formula}{23}
+\contentsline {subsection}{\numberline {7.3}Numerical PDE}{25}
+\contentsline {subsection}{\numberline {7.4}Monte Carlo Simulation}{26}
