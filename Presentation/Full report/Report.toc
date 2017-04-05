@@ -6,8 +6,8 @@
 \contentsline {subsection}{\numberline {2.3}Replicating portfolio}{5}
 \contentsline {subsection}{\numberline {2.4}Lognormal property}{6}
 \contentsline {section}{\numberline {3}Finite Difference Model for Numerical PDE}{7}
-\contentsline {subsection}{\numberline {3.1}One factor model using Implicit Scheme}{8}
-\contentsline {subsection}{\numberline {3.2}Explicit Scheme}{9}
+\contentsline {subsection}{\numberline {3.1}One factor model using Explicit Scheme}{8}
+\contentsline {subsection}{\numberline {3.2}One factor model using Implicit Scheme}{9}
 \contentsline {subsection}{\numberline {3.3}Feynman\IeC {\textendash }Kac formula}{10}
 \contentsline {subsection}{\numberline {3.4}Crank\IeC {\textendash }Nicolson method}{11}
 \contentsline {section}{\numberline {4}Variance Reduction Techniques for Monte Carlo Simulation}{12}

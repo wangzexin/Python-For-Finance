@@ -203,11 +203,43 @@ $$\frac{\partial V}{\partial S} \approx \frac{P_{S} - P_{S-{^{\Delta}S}}}{^{\Del
 The three most popular approximation schemes to the time derivative are the explicit and implicit Euler, and Crank-Nicolson schemes. The first two are of first-order accuracy, and the last one has second-order accuracy.
 \newpage
 
-\subsection{One factor model using Implicit Scheme}
-We first define the payoff function as a function of the individual price path and other inherent parameters of the options such as strike price. For the boundary conditions, if we are to assume that the Black-Scholes PDE to be satisfied at $S = 0$, giving $\frac{\partial V}{\partial t} = rV$can be easily solved, suggesting that $V$ is exponentially related to $rT$. In light of this, we can have an exact solution and therefore a Dirichlet boundary condition at $S = 0$. For the purpose of option pricing, the PDE is always defined on a semi-infinite domain, which can be fitted onto our implementation with programming using the transformation $x = \log{S}$ onto the real line or $x = \frac{S}{S+K}$ onto $(0, 1)$as suggested by Wilmott.
+\subsection{One factor model using Explicit Scheme}
+We first define the payoff function as a function of the individual price path and other inherent parameters of the options such as strike price. For the boundary conditions, if we are to assume that the Black-Scholes PDE to be satisfied at $S = 0$, giving $\frac{\partial V}{\partial t} = rV$can be easily solved, suggesting that $V$ is exponentially related to $rT$. In light of this, we can have an exact solution and therefore a Dirichlet boundary condition at $S = 0$. For the purpose of option pricing, the PDE is always defined on a semi-infinite domain, which can be fitted onto our implementation with programming using the transformation $x = \log{S}$ onto the real line or $x = \frac{S}{S+K}$ onto $(0, 1)$as suggested by Wilmott.\\
+Here we omit the mathematical proofs and give an algorithm of exercising explicit scheme in the finite difference model. With the input variables $r$ as the continuous compounding interest rate, $\sigma$ as the volatility, $S$ as the current underlying asset price, $f$ as the payoff function for the option, $T$ as the time to maturity and $M$ as the number of underlying asset price differences required.\\
+We are to denote the discrete time points from $0 \to T$ using incides from $0 \to N$, and to denote the discrete underlying asset price points from $0 \to 2S$ using incides from $0 \to M$
+\begin{algorithm}[H]
+ \KwData{$r, \sigma, S, f, T, M$}
+ \KwResult{$V_{\frac{M}{2},1}$, option premium}
+ Initialization\;
+ let $\delta S = \frac{2S}{M}$ be the underlying asset price difference \;
+ For stability, let $\delta t = \frac{0.9}{\sigma^{2}M^{2}}$ be the time difference\;
+ $N = \frac{T}{\delta t}$\;
+ We define the following vectors:\\
+ $\alpha_{i} = \frac{1}{2}dt(\sigma^{2}i^{2} - ri), \beta_{i} = 1-dt(\sigma^{2}i^{2} + r), \gamma_{i} = \frac{1}{2}dt(\sigma^{2}i^{2} + ri), \forall \, 1 \le i \le M$\;
+ Set the boundary conditions\;
+ \For {i = 1 \dots M} {
+  $V_{i, N} = f(i\,\delta S)$\;
+ }
+ \For {j = 1 \dots N} {
+  $V_{M, j} = f(2S)e^{-r(N-j)\delta t}$\;
+ }
+ \For {j = N \dots 1} {
+  \For {i = 2 \dots M-1} {
+   $V_{i, j-1} = \sigma_{i}V_{i-1,j} + \beta_{i}V_{i,j} + \gamma_{i}V_{i+1,j} $\;
+  }
+ }
+ $V_{\frac{M}{2},1}$ is the output value for option premium\;
+\caption{One factor Explicit scheme FDM algorithm}
+\end{algorithm}
+In the case that $\frac{M}{2}$ is not integral, interpolation to find a more accurate value is needed.\\[1mm]
+In short, the equation can be expressed as:
+$$V_{i, j-1} = \sigma_{i}V_{i-1,j} + \beta_{i}V_{i,j} + \gamma_{i}V_{i+1,j},  \forall \,2 \le i \le M-1, \forall \,1 \le j \le N-1$$
+$$\alpha_{i} = \frac{1}{2}dt(\sigma^{2}i^{2} - ri), \beta_{i} = 1-dt(\sigma^{2}i^{2} + r), \gamma_{i} = \frac{1}{2}dt(\sigma^{2}i^{2} + ri), \forall 1 \le i \le M$$
 \newpage
-\subsection{Explicit Scheme}
-The difference between explicit and implicit scheme lies in the need to solve an implicit equation at each discretization or there is a closed-form formula for each step.
+\subsection{One factor model using Implicit Scheme}
+The greatest difference between explicit and implicit scheme lies in the need to solve an implicit equation at each discretization or there is a closed-form formula for each step.
+
+
 \newpage
 \subsection{Feynman–Kac formula}
 \newpage
@@ -397,32 +429,32 @@ Also, $N$ is the cumulative density function of standard normal function.
 \subsection{Monte Carlo Simulation}
 With the following settings: $\sigma = 0.25$, $\mu = 0.05$, $T = 1$, $S_{0} = 100$, 
 when we compare the results from Monte Carlo simulation with the option prices computed using the closed form formula, it is observable that a simulation with 500000 data points still has variation of error within range from $-0.02$ to $0.02$. However, this comparison has ensured that our valuation scheme using Monte Carlo simulation and the variance reduction techniques is on the right way, and may be applied onto other options.\\
-A tabulation of the resultant option prices are shown below:
+A tabulation of the resultant call option prices are shown below:
 \begin{center}
-\begin{tabular}{|c|c|c|}
+\begin{tabular}{|c|c|c|c|}
 \hline
-Closed-form formula & Ordinary Monte Carlo & Control Variate\\
+StrikePrice & Closed-form formula & Ordinary Monte Carlo & Control Variate\\
 \hline
-10.0022021172&10.005252032814727& 10.005252032814751\\
-8.02638469385&8.0166707887876427& 8.016670788787664\\ 
-6.37924904693&6.3659464432937911& 6.3659464432937733\\ 
-5.02541348179&5.0148870431746415& 5.0148870431746184\\
-3.92690420603&3.9241698581683577& 3.9241698581683728\\
-3.04592058431&3.044679765401427&  3.0446797654014213\\
-2.34679877596&2.3310307686205207& 2.3310307686205225\\
-1.79723400902&1.8055531375480696& 1.8055531375480751\\
-1.36889248498&1.3630119824610754& 1.3630119824610734\\
-1.03756650489&1.0254470920297398& 1.0254470920297361\\
-0.783018613011&0.77819086371547286&0.77819086371547308\\
-0.588637155719&0.5924848566970754& 0.59248485669707973\\
-0.440997057228&0.44342591182216823&0.4434259118221664\\
-0.329392108384&0.32449718396190719&0.32449718396190735\\
-0.245381782063&0.2462392632801686& 0.24623926328016907\\
-0.182377553986&0.17995020687354496&0.1799502068735449\\
-0.13528073067&0.13478417666883458&0.13478417666883413\\
-0.100175092579&0.099449778570450814&0.099449778570450523\\
-0.0740722950356&0.074452813719303179&0.074452813719303304\\
-0.0547050187389&0.051631534936688268&0.051631534936688074\\
+105&10.0022021172&10.005252032814727& 10.005252032814751\\
+110&8.02638469385&8.0166707887876427& 8.016670788787664\\ 
+115&6.37924904693&6.3659464432937911& 6.3659464432937733\\ 
+120&5.02541348179&5.0148870431746415& 5.0148870431746184\\
+125&3.92690420603&3.9241698581683577& 3.9241698581683728\\
+130&3.04592058431&3.044679765401427&  3.0446797654014213\\
+135&2.34679877596&2.3310307686205207& 2.3310307686205225\\
+140&1.79723400902&1.8055531375480696& 1.8055531375480751\\
+145&1.36889248498&1.3630119824610754& 1.3630119824610734\\
+150&1.03756650489&1.0254470920297398& 1.0254470920297361\\
+155&0.783018613011&0.77819086371547286&0.77819086371547308\\
+160&0.588637155719&0.5924848566970754& 0.59248485669707973\\
+165&0.440997057228&0.44342591182216823&0.4434259118221664\\
+170&0.329392108384&0.32449718396190719&0.32449718396190735\\
+175&0.245381782063&0.2462392632801686& 0.24623926328016907\\
+180&0.182377553986&0.17995020687354496&0.1799502068735449\\
+185&0.13528073067&0.13478417666883458&0.13478417666883413\\
+190&0.100175092579&0.099449778570450814&0.099449778570450523\\
+195&0.0740722950356&0.074452813719303179&0.074452813719303304\\
+200&0.0547050187389&0.051631534936688268&0.051631534936688074\\
 \hline
 \end{tabular}
 \end{center}
@@ -472,37 +504,37 @@ With the following settings: $\sigma = 0.25$, $\mu = 0.05$, $T = 1$, $S_{0} = 10
 when we compare the results from Monte Carlo simulation with the option prices computed using the closed form formula, it is observable that a simulation with 500000 data points still has variation of error within range from $-0.02$ to $0.02$. However, this comparison has ensured that our valuation scheme using Monte Carlo simulation and the variance reduction techniques is on the right way, and may be applied onto other options.\\
 A tabulation of the resultant option prices are shown below:
 \begin{center}
-\begin{tabular}{|c|c|c|}
+\begin{tabular}{|c|c|c|c|}
 \hline
-Closed-form formula & Ordinary Monte Carlo & Control Variate\\
+StrikePrice & Closed-form formula & Ordinary Monte Carlo & Control Variate\\
 \hline
-9.88129168973 &9.89121100448 & 9.89121100448 \\
-12.6616213889 &12.6718073072 & 12.6718073072 \\
-15.7706328645 &15.7786013449 & 15.7786013449 \\
-19.1729444219 &19.1488969419 & 19.1488969419 \\
-22.8305822686 &22.8396769379 & 22.8396769379 \\
-26.7057457694 &26.7349375768 & 26.7349375768 \\
-30.7627710836 &30.7487677853 & 30.7487677853 \\
-34.9693534391 &34.9407041949 & 34.9407041949 \\
-39.2971590376 &39.3339188168 & 39.3339188168 \\
-43.72198018 &  43.6672929866 & 43.6672929866 \\
-48.2235794106 &48.2561306956 & 48.2561306956 \\
-52.7853450758 &52.7364667849 & 52.7364667849 \\
-57.3938520998 &57.3635053884 & 57.3635053884 \\
-62.0383942735 &62.0538619165 & 62.0538619165 \\
-66.7105310697 &66.7099933687 & 66.7099933687 \\
-71.4036739641 &71.3460094069 & 71.3460094069 \\
-76.1127242633 &76.1619698093 & 76.1619698093 \\
-80.8337657477 &80.8390739688 & 80.8390739688 \\
-85.5638100727 &85.5359768969 & 85.5359768969 \\
-90.3005899189 &90.2678714265 & 90.2678714265 \\
+105&9.88129168973 &9.89121100448 & 9.89121100448 \\
+110&12.6616213889 &12.6718073072 & 12.6718073072 \\
+115&15.7706328645 &15.7786013449 & 15.7786013449 \\
+120&19.1729444219 &19.1488969419 & 19.1488969419 \\
+125&22.8305822686 &22.8396769379 & 22.8396769379 \\
+130&26.7057457694 &26.7349375768 & 26.7349375768 \\
+135&30.7627710836 &30.7487677853 & 30.7487677853 \\
+140&34.9693534391 &34.9407041949 & 34.9407041949 \\
+145&39.2971590376 &39.3339188168 & 39.3339188168 \\
+150&43.72198018 &  43.6672929866 & 43.6672929866 \\
+155&48.2235794106 &48.2561306956 & 48.2561306956 \\
+160&52.7853450758 &52.7364667849 & 52.7364667849 \\
+165&57.3938520998 &57.3635053884 & 57.3635053884 \\
+170&62.0383942735 &62.0538619165 & 62.0538619165 \\
+175&66.7105310697 &66.7099933687 & 66.7099933687 \\
+180&71.4036739641 &71.3460094069 & 71.3460094069 \\
+185&76.1127242633 &76.1619698093 & 76.1619698093 \\
+190&80.8337657477 &80.8390739688 & 80.8390739688 \\
+195&85.5638100727 &85.5359768969 & 85.5359768969 \\
+200&90.3005899189 &90.2678714265 & 90.2678714265 \\
 \hline
 \end{tabular}
 \end{center}
 \newpage
 
 \section{Barrier option}
-
+The continuous barrier option is one of the most frequently traded path-dependent options. This option comes with a same payoff function as the normal European call/put at maturity subject to the additional condition for a prescribed level to be crossed or not by the underlying asset price during the life of option. The barrier options can be categorized into four different types with the name down-and-out, down-and-in, up-and-out, up-and-in.
 \subsection{Joint distribution of Minimum and Terminal Value}
 We define the minimum value $\displaystyle m_{T} = \min_{0 \le t \le T} \ln{\frac{S_{t}}{S_{0}}}$ and the terminal value $x_{T} = \ln{\frac{S_{T}}{S_{0}}}$.\\
 \begin{corollary}
@@ -598,6 +630,37 @@ where $c(S_{0}, K, T)$ denotes the European call option premium\\ with initial s
 \subsection{Numerical PDE}
 \newpage
 \subsection{Monte Carlo Simulation}
+A full valuation of the continuous Barrier option will require the usage of the closed-form formula. In the case of pricing a down-and-out call option, discrete Monte Carlo valuation scheme will always give a price higher than the right price as there will always be scenarios missed in which the barrier to be breached. Still, even if we can find an increment in the time zone which can make the scenarios missed to be negligible, the computation cost will increase rapidly and we will not be able to generate enough data points for the accuracy of the estimated option price. Upon this predicament, the research results of Professor Steven Kou shed light on this problem as to give a multiplier to the barrier to enable the discrete valuation of the continuous Barrier option. As the results have been proven both in theory and in practice, we are convinced that the correct pricing can be obtained.
+\\
+A tabulation of the resultant down-and-out call option prices are shown below, proving that this valuation scheme can be exercised on the path-dependent options:
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+StrikePrice & Closed-form formula & Monte Carlo\\
+\hline
+105&9.88129168973 &9.89121100448 & 9.89121100448 \\
+110&12.6616213889 &12.6718073072 & 12.6718073072 \\
+115&15.7706328645 &15.7786013449 & 15.7786013449 \\
+120&19.1729444219 &19.1488969419 & 19.1488969419 \\
+125&22.8305822686 &22.8396769379 & 22.8396769379 \\
+130&26.7057457694 &26.7349375768 & 26.7349375768 \\
+135&30.7627710836 &30.7487677853 & 30.7487677853 \\
+140&34.9693534391 &34.9407041949 & 34.9407041949 \\
+145&39.2971590376 &39.3339188168 & 39.3339188168 \\
+150&43.72198018 &  43.6672929866 & 43.6672929866 \\
+155&48.2235794106 &48.2561306956 & 48.2561306956 \\
+160&52.7853450758 &52.7364667849 & 52.7364667849 \\
+165&57.3938520998 &57.3635053884 & 57.3635053884 \\
+170&62.0383942735 &62.0538619165 & 62.0538619165 \\
+175&66.7105310697 &66.7099933687 & 66.7099933687 \\
+180&71.4036739641 &71.3460094069 & 71.3460094069 \\
+185&76.1127242633 &76.1619698093 & 76.1619698093 \\
+190&80.8337657477 &80.8390739688 & 80.8390739688 \\
+195&85.5638100727 &85.5359768969 & 85.5359768969 \\
+200&90.3005899189 &90.2678714265 & 90.2678714265 \\
+\hline
+\end{tabular}
+\end{center}
 \newpage
 
 \end{document}
