@@ -59,7 +59,7 @@ import random
 
 def barrier_down_out_call(S, strikePrice, barrier, T, r, sigma):
     # parameters
-    I = 1000000;   n = 1000;    dt = T / n;     S0 = S
+    I = 50000;   n = 200;    dt = T / n;     S0 = S
     barrier = barrier * math.exp(0.5826 * sigma * dt ** 0.5)
     totalPayoff = 0
     for i in range(0, I):
