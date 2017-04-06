@@ -258,14 +258,14 @@ We are to denote the discrete time points $0 \to T$ using incides from $1,2 \dot
  \For {j = 1 \dots N} {
   $V_{M, j} = f(2S)e^{-r(N-j)\delta t}$\;
  }
- let offset be a zero vector with dimension $(M-1) \times 1$\;
+ let $e$ be a zero vector with dimension $(M-1) \times 1$\;
  \For {j = N \dots 1} {
-  $\text{offset}_{1} = \alpha_{2} V_{1, j}$\;
-  $temp =  V_{2:M, j+1} - \text{offset}$\;
+  $e_{1} = \alpha_{2} V_{1, j}$\;
+  $temp =  V_{2:M, j+1} - e$\;
   $tempMatrix =  L$ \textbackslash $temp$\;
   $V_{2:M, j} = U$ \textbackslash $\,tempMatrix$\;
  }
- $V_{\frac{M}{2},1}$ is the output value for option premium\;
+ $V_{\frac{M}{2},1}$ is the desired option premium\;
 \caption{One factor Implicit scheme FDM algorithm}
 \end{algorithm}
 In accordance with the matrix computations, the implicit equation to solve is as follows:
@@ -276,9 +276,8 @@ $$\alpha_{i} = \frac{1}{2}\delta t(ri-\sigma^{2}i^{2}), \beta_{i} = 1+\delta t(\
 \newpage
 \subsection{Crank–Nicolson method}
 On the grid of nodes $V_{s,t}$ where $s$ stands for the underlying asset prices and $t$ stands for the time, the Explicit Euler scheme prices the node $V_{s,t-1}$ based on the values of $V_{s-1,t}$, $V_{s,t}$ and $V_{s+1,t}$, and the Implicit Euler scheme prices the nodes $V_{s-1,t-1}$, $V_{s,t-1}$ and $V_{s+1,t-1}$ based on the value of $V_{s,t}$. Similar to the Implicit Euler scheme, the Crank-Nicolson method prices all the three nodes $V_{s-1,t-1}$, $V_{s,t-1}$ and $V_{s+1,t-1}$ based on the values of $V_{s-1,t}$, $V_{s,t}$ and $V_{s+1,t}$.\\
-As a result from the central approximation for $\displaystyle \frac{\partial V}{\partial t}$ and $\displaystyle \frac{\partial V}{\partial S}$ and standard approximation for $\displaystyle \frac{\partial^{2} V}{\partial S^{2}}$
-$$\frac{\partial V_{s, t-\frac{1}{2}}}{\partial t} \approx \frac{V_{s,t}-V_{s,t-1}}{\delta t}$$
-$$\frac{\partial V_{s, t-\frac{1}{2}}}{\partial S} \approx \frac{1}{2}[\frac{V_{s+1,t-1}-V_{s-1,t-1}}{2\delta S} + \frac{V_{s+1,t}-V_{s-1,t}}{2\delta S}]$$
+As a result from the central approximation for $\displaystyle \frac{\partial V}{\partial t}$ and $\displaystyle \frac{\partial V}{\partial S}$ and standard approximation for $\displaystyle \frac{\partial^{2} V}{\partial S^{2}}$,
+$$\frac{\partial V_{s, t-\frac{1}{2}}}{\partial t} \approx \frac{V_{s,t}-V_{s,t-1}}{\delta t}, \quad \frac{\partial V_{s, t-\frac{1}{2}}}{\partial S} \approx \frac{1}{2}[\frac{V_{s+1,t-1}-V_{s-1,t-1}}{2\delta S} + \frac{V_{s+1,t}-V_{s-1,t}}{2\delta S}]$$
 $$\frac{\partial^{2} V_{s, t-\frac{1}{2}}}{\partial S^{2}} \approx \frac{1}{2}[\frac{V_{s+1,t-1}-2V_{s,t-1}+V_{s-1,t-1}}{\delta S^{2}} + \frac{V_{s+1,t}-2V_{s,t}+V_{s-1,t}}{\delta S^{2}}]$$
 The implicit equation to solve is as follows:
 $$-\alpha_{s}V_{s-1,t-1} + (1-\beta_{s})V_{s,t-1} - \gamma_{s}V_{s+1,t-1} = \alpha_{s}V_{s-1,t} + (1+\beta_{s})V_{s,t} + \gamma_{s}V_{s+1,t}$$
@@ -287,30 +286,26 @@ For the convenience of computations, we still use matrix computations with adjus
 \begin{algorithm}[H]
  \KwData{$r, \sigma, S, f, T, M$}
  \KwResult{$V_{\frac{M}{2},1}$, option premium}
- Initialization\;
  let $\delta S = \frac{2S}{M}$ be the underlying asset price difference \;
  For stability, let $\delta t = \frac{0.9}{\sigma^{2}M^{2}}$ be the time difference\;
  $N = \frac{T}{\delta t}$\;
  We define the following vectors:\\
  $\alpha_{i} = \frac{1}{2}\delta t(\sigma^{2}i^{2} - ri), \beta_{i} = 1-\delta t(\sigma^{2}i^{2} + r), \gamma_{i} = \frac{1}{2}\delta t(\sigma^{2}i^{2} + ri), \forall \, 1 \le i \le M$\;
- We build the tridiagonal matrix $A$ using $\alpha, \beta, \gamma$\;
+ We build the tridiagonal matrix $A$ and $B$ with $-\alpha, 1-\beta, -\gamma$ and $\alpha, 1+\beta, \gamma$ on diagonals\;
  Let $L$ and $U$ be the LU-decomposition of $A$\;
- Set the boundary conditions\;
  \For {i = 1 \dots M} {
   $V_{i, N} = f(i\,\delta S)$\;
  }
  \For {j = 1 \dots N} {
   $V_{M, j} = f(2S)e^{-r(N-j)\delta t}$\;
  }
- let offset be a zero vector with dimension $(M-1) \times 1$\;
- \For {j = N \dots 1} {
-  $\text{offset}_{1} = \alpha_{2} V_{1, j}$\;
-  $temp =  V_{2:M, j+1} - \text{offset}$\;
-  $tempMatrix =  L$ \textbackslash $temp$\;
-  $V_{2:M, j} = U$ \textbackslash $\,tempMatrix$\;
+ let $e$ be a zero vector with dimension $(M-1) \times 1$\;
+ \For {j = N-1 \dots 1} {
+  $e_{1} = \alpha_{2}(V_{1,i}+V_{1,i+1}), e_{M} = \gamma_{M}(V_{M,i}+V_{M,i+1})$\;
+  $V_{2:M, j} = U$ \textbackslash $(L$\textbackslash$(D V_{2:M,j}+e))$\;
  }
- $V_{\frac{M}{2},1}$ is the output value for option premium\;
-\caption{One factor Implicit scheme FDM algorithm}
+ $V_{\frac{M}{2},1}$ is the desired option premium\;
+\caption{Crank-Nicolson method FDM algorithm}
 \end{algorithm}
 \newpage
 
@@ -380,10 +375,10 @@ In the case that it is not feasible to calculate using the probability distribut
 \end{algorithm}
 Here we put down the algorithm for Monte Carlo simulations of option prices using underlying prices as control variates. Denote the underlying prices by $U_{i}$, payoff function by $f$, option payoffs by $P_{i}$ and the option premium by $\bar{P}(\lambda)$.\\[5mm]
 \begin{algorithm}[H]
- \KwData{Scenarios for simulations of $U$ and $P$}
+ \KwData{Hypothetical distribution of $U$ and option payoff function $f$}
  \KwResult{Estimation for $\mathrm{E}(P)$}
- initialization\;
- assign N to be the number of simulations to do\;
+ Initialization\;
+ Assign N to be the number of simulations to do\;
  \For {i = 1 \dots N} {
   \quad $generate(U_{i})$\;
   \quad $P_{i} = f(U_{i})$\;
@@ -395,7 +390,7 @@ Here we put down the algorithm for Monte Carlo simulations of option prices usin
   \quad set ${P}_{i}(\lambda) = P_{i} + \lambda^{*}(U_{i}-\mathrm{E}[U])$\;
  }
  $\bar{P}(\lambda) = e^{-rT}\frac{1}{n} \sum_{i=1}^{n} {P}_{i}(\lambda)$\;
-\caption{General Control Variate Algorithm}
+\caption{Control Variate Algorithm for option pricing}
 \end{algorithm}
 \newpage
 \subsection{Stratified Sampling}
