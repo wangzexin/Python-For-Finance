@@ -258,7 +258,7 @@ We are to denote the discrete time points $0 \to T$ using incides from $1,2 \dot
  \For {j = 1 \dots N} {
   $V_{M, j} = f(2S)e^{-r(N-j)\delta t}$\;
  }
- let offset be an zero vector with dimension $M-1 \times 1$\;
+ let offset be a zero vector with dimension $(M-1) \times 1$\;
  \For {j = N \dots 1} {
   $\text{offset}_{1} = \alpha_{2} V_{1, j}$\;
   $temp =  V_{2:M, j+1} - \text{offset}$\;
@@ -276,6 +276,7 @@ $$V_{i,j+1}(1+\lambda) = V_{i,j} + \lambda V_{i-1, j+1}$$
 \subsection{Feynman–Kac formula}
 \newpage
 \subsection{Crank–Nicolson method}
+On the grid of nodes $V_{s,t}$ where $s$ stands for the underlying asset prices and $t$ stands for the time, the Explicit Euler scheme prices the node $V_{s,t-1}$ based on the values of $V_{s-1,t}$, $V_{s,t}$ and $V_{s+1,t}$, and the Implicit Euler scheme prices the nodes $V_{s-1,t-1}$, $V_{s,t-1}$ and $V_{s+1,t-1}$ based on the value of $V_{s,t}$. Similar to the Implicit Euler scheme, the Crank-Nicolson method prices all the three nodes $V_{s-1,t-1}$, $V_{s,t-1}$ and $V_{s+1,t-1}$ based on the values of $V_{s-1,t}$, $V_{s,t}$ and $V_{s+1,t}$.
 \newpage
 
 \section{Variance Reduction Techniques for Monte Carlo Simulation}
@@ -380,9 +381,9 @@ In order to further simplify the trouble of dividing $\Omega$ into disjoint subs
  $z_{\alpha_{i}}$ is the quantile of standard normal distribution at probability $\frac{i}{n}$\;
  $S_{\frac{T}{2}, i} = S_{0}\exp\{(r-\frac{1}{2}\sigma^{2})\frac{T}{2} + \sigma \sqrt{\frac{T}{2}}z_{\alpha_{i}}\}$\;
  \For {j = 1 \dots k} {
- \quad $S_{T, i, j} = S_{\frac{T}{2}, i}\exp\{(r-\frac{1}{2}\sigma^{2})\frac{T}{2} + \sigma \sqrt{\frac{T}{2}}z_{i,j}\}$\;
- \quad $P_{T, i, j} = f(S_{T, i, j})$;
- \quad }
+ $S_{T, i, j} = S_{\frac{T}{2}, i}\exp\{(r-\frac{1}{2}\sigma^{2})\frac{T}{2} + \sigma \sqrt{\frac{T}{2}}z_{i,j}\}$\;
+ $P_{T, i, j} = f(S_{T, i, j})$;
+ }
  $\bar{P}_{\frac{T}{2}, i} = \frac{1}{k} e^{-r\frac{T}{2}}  \sum_{j=1}^{k} P_{T, i, j}$\;
  }
  $\bar{P} = \frac{1}{n} \sum_{i=1}^{n} \bar{P}_{\frac{T}{2}, i}$\;
