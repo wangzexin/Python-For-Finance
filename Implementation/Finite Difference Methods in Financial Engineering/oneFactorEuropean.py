@@ -61,4 +61,3 @@ def oneFactorEuropeanPut(S, K, T, r, sigma):
 def testPut():
     for i in range(105, 205, 5):
         print(i, "&", oneFactorEuropeanPut(100, i, 1, 0.05, 0.25), "&")
-

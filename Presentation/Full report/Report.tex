@@ -44,6 +44,12 @@
 % include bbm package to support indicator variable
 \usepackage{bbm}
 
+% include picture
+\usepackage{graphicx}
+
+% include bibliography
+\usepackage[superscript,biblabel]{cite}
+
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % the region between \begin{document} ... \end{document} is known as the 'text'
 \begin{document}
@@ -64,64 +70,67 @@ National University of Singapore\\[3mm]
 AY2016/17 Semester 2\par}
 \end{titlepage}
 
+\section*{Abstract}
+In this paper, we implemented the derivatives analytics library for Python to solve problems in Financial Mathematics such as derivatives valuation and simulation as suggested by the book ``\emph{Python for Finance}''\cite{PythonForFinance}. The above methods results correspond to the different approaches in pricing financial derivatives. The key effort is on the development of valuation scheme for the options, in particular, the path-dependent options without a closed-form pricing formula. More importantly, we attempt to apply these valuation schemes onto some of the commonly traded options to verify the valuation results from Monte Carlo simulations as well as the Finite Difference methods. We have examined certain variance reduction techniques for Monte Carlo simulations applied onto these options. Validation of these two valuation schemes has also been conducted by checking upon the convergence of prices in accordance with the increase in data points generated or the number of time differences. Inclusion of the finite difference methods brought a new element of the numerical pricing into the proposed package. In the possiblity of an extension, our project would focus on the incorporation of assumptions beyond the Black-Scholes world into the existing valuation schemes in the current analytics library, and to explore the development of valuation packages for volatility options.
+
+\section*{Acknowledge}
+I would like to thank Associate Professor Zhou Chao for his helpful supervision
+throughout the course of this project.
+\newpage
 \tableofcontents
 \newpage
 
-\section*{Abstract}
-In this paper, we implemented the library packages for Python to solve problems in Financial Mathematics such as derivatives valuation and simulation as suggested by the book ``\emph{Python for Finance}''. Those results correspond to the different approaches in pricing financial derivatives. The key effort is on the development of valuation scheme for the options, in particular, the strongly path-dependent options. More importantly, our model is open to extend for various assumptions about the market. We attempt to apply these valuation schemes onto the path-independent options with available closed-form formulain order to verify the valuation results from Monte Carlo simulations as well as the Finite Difference Model.
-
 \section{Introduction}
-The study upon using Python to carry out derivatives valuation has made much progress over the years as there have already been available libraries built for this purpose. The derivatives analytics library suggested in the book ``\emph{Python for Finance}'' has its advantages on the coverage upon the various aspects of possible analysis for financial derivatives. Still, we can make justifiable modifications and extensions to improve on the accuracy and speed of computations for estimations. 
-\\
-
+The studies on the usage of Python to carry out derivatives valuation has made much progress over the years as there have already been available libraries built for this purpose. The derivatives analytics library suggested in the book ``\emph{Python for Finance}'' has its advantages on the coverage upon the various aspects of possible analysis for financial derivatives. Still, we can make justifiable modifications and extensions to improve on the accuracy and speed of computations for estimations. \\[1mm]
+Possible extensions we can provide for this derivatives analytics library can be classified into the different approaches of valuation for financial derivatives, in particular, options. Derivation for the closed-form formula has always been the most desirable approach for pricing, as this minimizes computation costs and improves on the accuracy. However, in most cases, it appears that either such derivation is not possible, or the formula can be so complicated that we would rather use an approximation of the price.\\[1mm]
+Regarding the approximation of derivatives prices, both the numerical PDE methods and the Monte Carlo simulations are commonly used in practice. For the pricing of newly structured products, we would prefer to concurrently use the two schemes in order to check for the accuracy of the approximated prices. Valuation of the the options which has readily available PDE discretization methods will be mostly based on the results from the numerical PDE methods. There are several different numerical methods to solve the partial differential equations. Finite difference methods are the oldest and most frequently used, and will be one of our focus in this paper.\\[1mm]
+The Monte Carlo simulations have been in the favour of many institutions in the finance industry for its compatiability with most of the financial derivatives. Recent development of the parallel computing and GPU has enabled users to generate more data points for the significance of reduction in computational costs of Monte Carlo simulations. Designated variance reduction techniques have been put in place for the simulations, which is also of our interest in the later sections.\\[1mm]
+Apart from the valuation schemes mentioned above, the derivatives analytics library has already developed certain adaption for the models with assumptions beyond the Black-Scholes world. Discussions on the incorporation of these assumptions into the existing valuation schemes are not included in this paper. Without doubt, efforts in this field to make the analytics library more generic towards the open for extension and closed for modification stage can be rewarding.
 \newpage
 
 \section{Derivation of Black Scholes PDE}
 
 \subsection{Basics}
 \begin{center}
-In the Black-Scholes World, we assume that the following two SDE hold:
+In the Black-Scholes World, we assume that the following two Stochastic Differential Equations hold:
 $$dM_{t}  = rM_{t}dt$$
 $$dS_{t}  = \mu S_{t}dt + \sigma S_{t} dW_{t}$$
-
-We assume that the It$\hat{o}^{\prime}$s Lemma hold:\\[4mm]
+\end{center}
+We assume that the It$\hat{o}^{\prime}$s Lemma hold:
+\begin{center}
 As $dS_{t} = \mu S_{t}dt + \sigma S_{t}dW_{t}$,
 $$dV_{t} = (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S})dt + \frac{\partial V}{\partial S}dS_{t}$$
 \end{center}
-\newpage
 
 \subsection{Delta-hedging Argument}
-
+For delta-hedging, our aim is to find $\phi_{t}$ to construct a portfolio $\mathrm{\Pi}_{t} = V_{t} - \phi_{t}S_{t}$ consisting of the financial derivative and the underlying asset such that the follow two conditions are satisfied:
 \begin{center}
-Our first aim is to find $\phi_{t}$\\[1mm]
-for $\mathrm{\Pi}_{t} = V_{t} - \phi_{t}S_{t}$\\[3mm]
-such that\\[1mm]
 $d\mathrm{\Pi}_{t} = dV_{t} - \phi_{t}dS_{t}$(Self-financing)\\[1mm]
-$d\mathrm{\Pi}_{t} = r\mathrm{\Pi}_{t}dt$(risk free)\\[3mm]
-From the equations, we can obtain that\\[1mm]
+$d\mathrm{\Pi}_{t} = r\mathrm{\Pi}_{t}dt$(risk free)\\[2mm]
+\end{center}
+Combining the conditions, we can obtain the following equations:
+\begin{center}
 $r\mathrm{\Pi}_{t}dt = dV_{t} - \phi_{t}dS_{t}$\\[1mm]
-$r(V_{t} - \phi_{t}S_{t})dt = dV_{t} - \phi_{t}dS_{t}$\\[1mm]
-$dV_{t}  = r(V_{t} - \phi_{t}S_{t})dt + \phi_{t}dS_{t}$\\[1mm]
-By It$\hat{o}^{\prime}$s Lemma, $$dV_{t} = (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S})dt + \frac{\partial V}{\partial S}dS_{t}$$
-Hence we obtain two equations:
+$r(V_{t} - \phi_{t}S_{t})dt = dV_{t} - \phi_{t}dS_{t}$\\[3mm]
+$dV_{t}  = r(V_{t} - \phi_{t}S_{t})dt + \phi_{t}dS_{t}$
+\end{center}
+By It$\hat{o}^{\prime}$s Lemma,
+$$dV_{t} = (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S})dt + \frac{\partial V}{\partial S}dS_{t}$$
+Compare the two equations above term by term, we can proceed to equalities below:
 $$\phi_{t} = \frac{\partial V}{\partial S}$$
 $$r(V_{t} - \phi_{t}S_{t}) = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}$$
-\end{center}
-
-\begin{center}
+Substituting the value of $\phi_{t}$ in:
 $$r(V_{t} - \frac{\partial V}{\partial S}S_{t}) = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}$$
-$$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S} + r\frac{\partial V}{\partial S}S_{t} - rV_{t} = 0$$
-At time t, we have
+$$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S} + r\frac{\partial V}{\partial S}S_{t} - rV_{t} = 0$$\\
+At time t, we have the Black-Scholes PDE
 $$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial V}{\partial S} + r\frac{\partial V}{\partial S}S - rV = 0$$
-\end{center}
 \newpage
 
 \subsection{Replicating portfolio}
 
-\begin{center}
-Our aim is to find $a_{t}$ and $b_{t}$ such that $\mathrm{\Pi}_{t} = a_{t}S_{t} + b_{t}M_{t}$ can entirely replicate $V_{t}$\\[2mm]
-while the self-financing condition still holds: $d\mathrm{\Pi}_{t} = a_{t}dS_{t} + b_{t}dM_{t}$\\[5mm]
-As $dS_{t} = \mu S_{t}dt + \sigma S_{t}dW_{t}$ and $dM_{t}  = rM_{t}dt$,
+Our aim is to find $a_{t}$ and $b_{t}$ such that the portfolio made up of the underlying asset and the investment in money market account, $\mathrm{\Pi}_{t} = a_{t}S_{t} + b_{t}M_{t}$ can entirely replicate $V_{t}$.\\[2mm]
+As the self-financing condition still holds, $\displaystyle d\mathrm{\Pi}_{t} = a_{t}dS_{t} + b_{t}dM_{t}$\\
+Given by the Black-Scholes World basics, $\displaystyle dS_{t} = \mu S_{t}dt + \sigma S_{t}dW_{t}$ and $\displaystyle dM_{t}  = rM_{t}dt$ both hold.\\
 \begin{equation*}
 \begin{split}
 d\mathrm{\Pi}_{t} 
@@ -129,9 +138,7 @@ d\mathrm{\Pi}_{t}
 &= (a_{t}\mu S_{t} + rb_{t}M_{t})dt + (\sigma a_{t}S_{t})dW_{t}\\
 \end{split}
 \end{equation*}
-\end{center}
 
-\begin{center}
 By It$\hat{o}^{\prime}$s Lemma, 
 \begin{equation*}
 \begin{split}
@@ -141,27 +148,23 @@ dV_{t}
 &= (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+\frac{\partial V}{\partial S}\mu S_{t})dt + (\sigma S_{t}\frac{\partial V}{\partial S})dW_{t}\\
 \end{split}
 \end{equation*}
-\end{center}
-
-\begin{center}
+\\
 As $\mathrm{\Pi}_{t}$ fully replicates $V_{t}$,
 $$d\mathrm{\Pi}_{t} = (a_{t}\mu S_{t} + rb_{t}M_{t})dt + (\sigma a_{t}S_{t})dW_{t} = dV_{t}$$
 Also by It$\hat{o}^{\prime}$s Lemma, 
 $$dV_{t} = (\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+\frac{\partial V}{\partial S}\mu S_{t})dt + (\sigma S_{t}\frac{\partial V}{\partial S})dW_{t}$$
-Hence we obtain that,
-$$a_{t} = \frac{\partial V}{\partial S}$$
-$$a_{t}\mu S_{t} + rb_{t}M_{t} = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+\frac{\partial V}{\partial S}\mu S_{t}$$
-\end{center}
-
-\begin{center}
+Comparing the above two Stochastic Differential Equations,
+$$a_{t} = \frac{\partial V}{\partial S}, \quad a_{t}\mu S_{t} + rb_{t}M_{t} = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+\frac{\partial V}{\partial S}\mu S_{t}$$
+Substituting the value of $a_{t}$ in:
 $$\frac{\partial V}{\partial S}\mu S_{t} + rb_{t}M_{t} = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+\frac{\partial V}{\partial S}\mu S_{t}$$
 $$rb_{t}M_{t} = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}$$
 $$ra_{t}S_{t}+rb_{t}M_{t} = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+ra_{t}S_{t}$$
+The value of $b_{t}$ has not been solved fully but it can be taken out from the equation:
 $$rV_{t} = \frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+r\frac{\partial V}{\partial S}S_{t}$$
-$$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+r\frac{\partial V}{\partial S}S_{t}- rV_{t} = 0$$
-Hence,
+$$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial V}{\partial S}+r\frac{\partial V}{\partial S}S_{t}- rV_{t} = 0$$\\
+Hence, at time $t$ we have the Black-Scholes PDE
 $$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial V}{\partial S}+r\frac{\partial V}{\partial S}S- rV = 0$$
-\end{center}
+
 \newpage
 \subsection{Lognormal property}
 We shall derive the lognormal property of the underlying asset prices.
@@ -169,13 +172,13 @@ As given by the Geometric Brownian Motion, $dS_{t}  = \mu S_{t}dt + \sigma S_{t}
 We can define the derivative price function as $V(S_{t}, t) := \ln{S_{t}}$, with \\
 $$\frac{\partial V}{\partial S} = \frac{1}{S}, \frac{\partial^{2} V}{\partial S^{2}} = -\frac{1}{S^{2}} , \frac{\partial V}{\partial t} = 0$$
 By It$\hat{o}^{\prime}$s Lemma,
-\begin{equation}
+\begin{equation*}
 \begin{split}
 dV_{t}
 &= ((\mu S_{t})\frac{\partial V}{\partial S} + \frac{\partial V}{\partial t} + \frac{1}{2}\sigma^{2}S_{t}^{2}\frac{\partial^{2} V}{\partial S^{2}})dt + b\frac{\partial V}{\partial S}dW_{t}\\
 &= (\mu - \frac{1}{2}\sigma^{2})dt + \sigma dW_{t}
 \end{split}
-\end{equation}
+\end{equation*}
 As $\mu$ and $\sigma$ are constants, $V_{t}$ is simply a drifted Brownian Motion.\\
 $$V_{t} - V_{0} = \ln{S_{t}} - \ln{S_{0}} \sim \mathcal{N}((\mu - \frac{1}{2}\sigma^{2})t, \sigma^{2}t)$$
 $$\frac{\ln{S_{t}} - \ln{S_{0}} - (\mu - \frac{1}{2}\sigma^{2})t}{\sigma\sqrt{t}} \sim \mathcal{N}(0,1)$$
@@ -184,28 +187,28 @@ $$\frac{\ln{S_{T}} - \ln{S_{t}} - (\mu - \frac{1}{2}\sigma^{2})\tau}{\sigma\sqrt
 $$S_{T} = S_{t}e^{(\mu - \frac{1}{2}\sigma^{2})\tau + \sigma\sqrt{\tau}\phi}$$
 \newpage
 
-\section{Finite Difference Model for Numerical PDE}
-The advantages of using a Finite Difference valuation scheme over Monte Carlo simulations lie in the fact that there have been a lot of well-developed models for the known problems, and the generally lower computation costs.\\
-In this report, we have only implemented one-factor models and two-factor models, in which the original Black-Scholes model, Merton's Jump-diffusion model, and Heston's Stochastic Volatility model can be incorporated. With these models above, we are able to give valuation schemes for European options, Barrier options, Asian options. However the more complicated options such as Multi-asset options will require the usage of multiple-factor models.
+\section{Finite Difference methods for Numerical PDE}
+The advantages of using a Finite Difference valuation scheme over Monte Carlo simulations lie in the fact that there have been a lot of well-developed methods for the known problems, and the generally lower computation costs.\\[3mm]
+In this paper, we have only implemented one-factor models and two-factor models, in which the original Black-Scholes model, Merton's Jump-diffusion model, and Heston's Stochastic Volatility model can be incorporated. With these models above, we are able to give valuation schemes for European options, Barrier options, Asian options. However the more complicated options such as Multi-asset options will require the usage of multiple-factor models.
 $$\frac{\partial V}{\partial t}+\frac{1}{2}\sigma^{2}S^{2}\frac{\partial V}{\partial S}+r\frac{\partial V}{\partial S}S- rV = 0$$
 If we are to plot out the option prices in a diagram, there should be a 3D diagram with y-axis being the underlying prices, and x-axis being the time, omitting the scenario when the option price is dependent on other stochastic terms such as volatility.
 In the Black-Scholes formula, we are able to approximate $\Theta = \frac{\partial V}{\partial t}$, $\Delta = \frac{\partial V}{\partial S}$ and $\Gamma = \frac{\partial^{2} V}{\partial S^{2}}$ when the discretization is significantly small and thus it will be easy to simply use the ratio of change in derivatives value with respect to change in time or change in underlying asset value.\\
 $$\frac{\partial V}{\partial t} \approx \frac{P_{t} - P_{t-{^{\Delta}t}}}{^{\Delta}t}$$
 $$\frac{\partial V}{\partial S} \approx \frac{P_{S} - P_{S-{^{\Delta}S}}}{^{\Delta}S} \approx \frac{P_{S+{^{\Delta}S}} - P_{S}}{^{\Delta}S}$$
-\begin{equation}
+\begin{equation*}
 \begin{split}
 \frac{\partial^{2} V}{\partial S^{2}}
 &\approx \frac{\partial}{\partial V}(\frac{P_{S+{^{\Delta}S}} - P_{S}}{^{\Delta}S})\\
 &\approx \frac{\frac{P_{S+{^{\Delta}S}} - P_{S}}{^{\Delta}S} - \frac{P_{S} - P_{S-{^{\Delta}S}}}{^{\Delta}S}}{^{\Delta}S}\\
 &= \frac{P_{S+{^{\Delta}S}} - 2P_{S} + P_{S-{^{\Delta}S}}}{(^{\Delta}S)^{2}}
 \end{split}
-\end{equation}
-The three most popular approximation schemes to the time derivative are the explicit and implicit Euler, and Crank-Nicolson schemes. The first two are of first-order accuracy, and the last one has second-order accuracy.
+\end{equation*}
+The three most popular approximation schemes to the time derivative are the explicit and implicit Euler, and Crank-Nicolson schemes. The first two are of first-order accuracy, and the last one has second-order accuracy\cite{FiniteDifference},
 \newpage
 
-\subsection{One factor model using Explicit Scheme}
-We first define the payoff function as a function of the individual price path and other inherent parameters of the options such as strike price. For the boundary conditions, if we are to assume that the Black-Scholes PDE to be satisfied at $S = 0$, giving $\frac{\partial V}{\partial t} = rV$can be easily solved, suggesting that $V$ is exponentially related to $rT$. In light of this, we can have an exact solution and therefore a Dirichlet boundary condition at $S = 0$. For the purpose of option pricing, the PDE is always defined on a semi-infinite domain, which can be fitted onto our implementation with programming using the transformation $x = \log{S}$ onto the real line or $x = \frac{S}{S+K}$ onto $(0, 1)$as suggested by Wilmott.\\
-Here we omit the mathematical proofs and give an algorithm of exercising explicit scheme in the finite difference model. With the input variables $r$ as the continuous compounding interest rate, $\sigma$ as the volatility, $S$ as the current underlying asset price, $f$ as the payoff function for the option, $T$ as the time to maturity and $M$ as the number of underlying asset price differences required.\\
+\subsection{One factor model using Explicit Euler Scheme}
+We first define the payoff function as a function of the individual price path and other inherent parameters of the options such as strike price. If we are to assume that the Black-Scholes PDE to be satisfied at $S = 0$, given $\frac{\partial V}{\partial t} = rV$can be easily solved, the boundary conditions suggest that $V$ is exponentially related to $rT$. In light of this, we can have an exact solution and therefore a Dirichlet boundary condition at $S = 0$. For the purpose of option pricing, the PDE is always defined on a semi-infinite domain, which can be fitted onto our implementation with programming using the transformation $x = \log{S}$ onto the real line or $x = \frac{S}{S+K}$ onto $(0, 1)$as suggested by Wilmott.\\[1mm]
+Here we omit the mathematical proofs and give an algorithm of exercising explicit euler scheme in the finite difference model. With the input variables $r$ as the continuous compounding interest rate, $\sigma$ as the volatility, $S$ as the current underlying asset price, $f$ as the payoff function for the option, $T$ as the time to maturity and $M$ as the number of underlying asset price differences required.\\
 We are to denote the discrete time points $0 \to T$ using incides from $1,2 \dots N$, and to denote the discrete underlying asset price points $0 \to 2S$ using incides from $1,2, \dots M$\\[2mm]
 \begin{algorithm}[H]
  \KwData{$r, \sigma, S, f, T, M$}
@@ -229,16 +232,16 @@ We are to denote the discrete time points $0 \to T$ using incides from $1,2 \dot
   }
  }
  $V_{\frac{M}{2},1}$ is the output value for option premium\;
-\caption{One factor Explicit scheme FDM algorithm}
+\caption{One factor Explicit Euler scheme FDM algorithm}
 \end{algorithm}
 In the case that $\frac{M}{2}$ is not integral, interpolation to find a more accurate value is needed.\\[1mm]
 In short, the equation can be expressed as:
 $$V_{i, j-1} = \sigma_{i}V_{i-1,j} + \beta_{i}V_{i,j} + \gamma_{i}V_{i+1,j},  \forall \,2 \le i \le M-1, \forall \,1 \le j \le N-1$$
 $$\alpha_{i} = \frac{1}{2}\delta t(\sigma^{2}i^{2} - ri), \beta_{i} = 1-\delta t(\sigma^{2}i^{2} + r), \gamma_{i} = \frac{1}{2}\delta t(\sigma^{2}i^{2} + ri), \forall 1 \le i \le M$$
 \newpage
-\subsection{One factor model using Implicit Scheme}
-The greatest difference between explicit and implicit scheme lies in the need to solve an implicit equation at each discretization or there is a closed-form formula for each step.
-Here we give an algorithm of exercising implicit scheme in the finite difference model. Similar to the previous section, with the input variables $r$ as the continuous compounding interest rate, $\sigma$ as the volatility, $S$ as the current underlying asset price, $f$ as the payoff function for the option, $T$ as the time to maturity and $M$ as the number of underlying asset price differences required.\\
+\subsection{One factor model using Implicit Euler Scheme}
+The greatest difference between explicit and implicit euler scheme lies in the need to solve an implicit equation at each discretization or there is a closed-form formula for each step.
+Here we give an algorithm of exercising Implicit Euler scheme in the finite difference model. Similar to the previous section, with the input variables $r$ as the continuous compounding interest rate, $\sigma$ as the volatility, $S$ as the current underlying asset price, $f$ as the payoff function for the option, $T$ as the time to maturity and $M$ as the number of underlying asset price differences required.\\
 We are to denote the discrete time points $0 \to T$ using incides from $1,2 \dots N$, and to denote the discrete underlying asset price points $0 \to 2S$ using incides from $1,2, \dots M$\\[2mm]
 \begin{algorithm}[H]
  \KwData{$r, \sigma, S, f, T, M$}
@@ -266,23 +269,22 @@ We are to denote the discrete time points $0 \to T$ using incides from $1,2 \dot
   $V_{2:M, j} = U$ \textbackslash $\,tempMatrix$\;
  }
  $V_{\frac{M}{2},1}$ is the desired option premium\;
-\caption{One factor Implicit scheme FDM algorithm}
+\caption{One factor Implicit Euler scheme FDM algorithm}
 \end{algorithm}
 In accordance with the matrix computations, the implicit equation to solve is as follows:
 $$V_{i, j+1} = \alpha_{i}V_{i-1,j} + \beta_{i}V_{i,j} + \gamma_{i}V_{i+1,j}$$
 $$\alpha_{i} = \frac{1}{2}\delta t(ri-\sigma^{2}i^{2}), \beta_{i} = 1+\delta t(\sigma^{2}i^{2} + r), \gamma_{i} = \frac{1}{2}\delta t(-\sigma^{2}i^{2} - ri), \forall 1 \le i \le M$$
 \newpage
-\subsection{Feynman–Kac formula}
-\newpage
-\subsection{Crank–Nicolson method}
+
+\subsection{Crank-Nicolson method}
 On the grid of nodes $V_{s,t}$ where $s$ stands for the underlying asset prices and $t$ stands for the time, the Explicit Euler scheme prices the node $V_{s,t-1}$ based on the values of $V_{s-1,t}$, $V_{s,t}$ and $V_{s+1,t}$, and the Implicit Euler scheme prices the nodes $V_{s-1,t-1}$, $V_{s,t-1}$ and $V_{s+1,t-1}$ based on the value of $V_{s,t}$. Similar to the Implicit Euler scheme, the Crank-Nicolson method prices all the three nodes $V_{s-1,t-1}$, $V_{s,t-1}$ and $V_{s+1,t-1}$ based on the values of $V_{s-1,t}$, $V_{s,t}$ and $V_{s+1,t}$.\\
 As a result from the central approximation for $\displaystyle \frac{\partial V}{\partial t}$ and $\displaystyle \frac{\partial V}{\partial S}$ and standard approximation for $\displaystyle \frac{\partial^{2} V}{\partial S^{2}}$,
 $$\frac{\partial V_{s, t-\frac{1}{2}}}{\partial t} \approx \frac{V_{s,t}-V_{s,t-1}}{\delta t}, \quad \frac{\partial V_{s, t-\frac{1}{2}}}{\partial S} \approx \frac{1}{2}[\frac{V_{s+1,t-1}-V_{s-1,t-1}}{2\delta S} + \frac{V_{s+1,t}-V_{s-1,t}}{2\delta S}]$$
 $$\frac{\partial^{2} V_{s, t-\frac{1}{2}}}{\partial S^{2}} \approx \frac{1}{2}[\frac{V_{s+1,t-1}-2V_{s,t-1}+V_{s-1,t-1}}{\delta S^{2}} + \frac{V_{s+1,t}-2V_{s,t}+V_{s-1,t}}{\delta S^{2}}]$$
-The implicit equation to solve is as follows:
+The implicit equation to solve at each time point is as follows:
 $$-\alpha_{s}V_{s-1,t-1} + (1-\beta_{s})V_{s,t-1} - \gamma_{s}V_{s+1,t-1} = \alpha_{s}V_{s-1,t} + (1+\beta_{s})V_{s,t} + \gamma_{s}V_{s+1,t}$$
 $$\alpha_{s} = \frac{\delta t}{4}(\sigma^{2}s^{2} - rs), \beta_{s} = -\frac{\delta t}{2}(\sigma^{2}s^{2} + r), \gamma_{s} = \frac{\delta t}{4}(\sigma^{2}s^{2} + rs)$$
-For the convenience of computations, we still use matrix computations with adjustments at the boundaries.\\
+For the ease of computations, we use matrix computations with adjustments at the boundaries.\\[3mm]
 \begin{algorithm}[H]
  \KwData{$r, \sigma, S, f, T, M$}
  \KwResult{$V_{\frac{M}{2},1}$, option premium}
@@ -310,8 +312,8 @@ For the convenience of computations, we still use matrix computations with adjus
 \newpage
 
 \section{Variance Reduction Techniques for Monte Carlo Simulation}
-Monte Carlo simulations are usually used when there is no readily available closed-form formula and the numerical PDE valuation scheme is not developed yet. However, people have already explored its strenght upon the valuation using high-dimensional scheme. When doing option pricing with Monte Carlo simulations, we simulate a series of possible scenarios and use the payoff function to calculate one option payoff. By repeating this process $N$ times and take the average of all the discounted option payoffs, a more accurate option price can be obtained. When there is time variation in parameters of the model, or the option payoff is path dependent, or there are a number of stochastic variables that the option price depends on, a finite difference scheme will be both space and time consuming. With the advancements of GPU and parallel computing, just as suggestd in the book ``\emph{Python for Finance}'', the power of Monte Carlo is able to emerge.\\
-As the simulated option payoffs may scatter all over the real number axis, for example when European call option has a particularly low strike price, the variance of the simulated option payoffs can be so large that the accuracy of the valuation is compromised. In order to prevent this from happening, we adopt many different methods to reduce the variance while keeping the estimate unbiased.
+Monte Carlo simulations are usually used when there is no readily available closed-form formula and the numerical PDE valuation scheme is not developed yet. However, people have already explored its strenght upon the valuation using high-dimensional scheme. When doing option pricing with Monte Carlo simulations, we simulate a series of possible scenarios and use the payoff function to calculate one option payoff. By repeating this process $N$ times and take the average of all the discounted option payoffs, a more accurate option price can be obtained. When there is time variation in parameters of the model, or the option payoff is path dependent, or there are a number of stochastic variables that the option price depends on, a finite difference scheme will be both space and time consuming. With the advancements of GPU and parallel computing, just as suggestd in the book ``\emph{Python for Finance}''\cite{PythonForFinance}, the power of Monte Carlo is able to emerge.\\[3mm]
+As the simulated option payoffs may scatter all over the real number axis, for example when European call option has a particularly low strike price, the variance of the simulated option payoffs can be so large that the accuracy of the valuation is compromised. In order to prevent this from happening, we adopt many different methods to reduce the variance while keeping the estimate unbiased. \cite{VarianceReduction}
 \newpage
 \subsection{Control Variate}
 Control Variate is one of the most common methods adopted for the purpose of variance reduction in simulations. Assuming all the $Y_{i}$ are realizations of the same variable $Y$, i.e. $\forall  i, Y_{i}$ follows identical and independent distributions. Our aim is to estimate $\mathrm{E}[Y_{i}]$ \\
@@ -394,7 +396,7 @@ Here we put down the algorithm for Monte Carlo simulations of option prices usin
 \end{algorithm}
 \newpage
 \subsection{Stratified Sampling}
-Stratified sampling refers broadly to any sampling mechanism that constrains the fraction of observations drawn from specific subsets (or strata) of the sample space. Our goal is to estimate $\mathrm{E}[Y]$, by dividing the sample space into $n$ parts, with $A_{1}, \dots ,A_{n}$ being disjoint subsets of the real line for which $\mathrm{P}(Y \in \cup_{i}A_{i}) = 1$. \\
+Stratified sampling refers broadly to any sampling mechanism that constrains the fraction of observations drawn from specific subsets (or strata) of the sample space. Our goal is to estimate $\mathrm{E}[Y]$, by dividing the sample space into $n$ parts, with $A_{1}, \dots ,A_{n}$ being disjoint subsets of the real line for which $\mathrm{P}(Y \in \cup_{i}A_{i}) = 1$. \\[1mm]
 By Bayes$^{\prime}$ Theorem, $ \mathrm{E}[Y] = \sum_{i=1}^{n}\mathrm{P}(Y \in A_{i})\mathrm{E}[Y|Y \in A_{i}] = \sum_{i=1}^{n}p_{i}\mathrm{E}[Y|Y \in A_{i}] $\\
 We shall exercise proportional sampling which is the simplest case, ensuring $p_{i} = \mathrm{P}(Y \in A_{i})$, the fraction of observations drawn from stratum $A_{i}$ exactly matches theoretical probability.\\[1mm]
 Unbiased estimator of $\mathrm{E}(Y)$ is given by $\hat{Y} = \sum_{i=1}^{K} (p_{i} \frac{1}{n_{i}} \sum_{j=1}^{n_{i}} Y_{ij}) = \frac{1}{n} \sum_{i=1}^{K} \sum_{j=1}^{n_{i}} Y_{ij}$
@@ -489,11 +491,44 @@ $$d_{2} = \frac{\ln{\frac{S_{t}}{K}} + (\mu - \frac{1}{2}\sigma^{2})\tau}{\sigma
 $$d_{1} = d_{2} + \sigma\sqrt{\tau}$$
 Also, $N$ is the cumulative density function of standard normal function.
 \newpage
+
 \subsection{Numerical PDE}
+When we are valuating the European call option using the above stated one factor explicit Euler scheme or Crank-nicolson scheme, the payoff function $(S_{T} - K)^{+}$ is applied onto the calculations of the boundary conditions at time $T$. For the correction after matrix multiplications, boundary conditions at the uppermost underlying price $2S$ are obtained from the product of discount factor and payoff function.\\[1mm]
+A tabulation of the numercial PDE valuation results for the European call option with current underlying asset price at $100$, time $1$ to maturity, in a market environment with interest rate $0.05$ and volatility $0.25$ is shown below:
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+StrikePrice & Closed-form formula & Explicit & Crank-Nicolson\\
+\hline
+105 & 10.0022021172&   9.99125874656262 &     9.994947147929603 \\
+110 & 8.02638469385&   8.015169132295417 &    8.019178231075507 \\
+115 & 6.37924904693&   6.368287281933064 &    6.371570247327895 \\
+120 & 5.02541348179&   5.014236458916882 &    5.016899778565805 \\
+125 & 3.92690420603&   3.9159173482646366 &   3.9173477294803063 \\
+130 & 3.04592058431&   3.0347680902430882 &   3.0352473874604735 \\
+135 & 2.34679877596&   2.3357585042551037 &   2.3350380410818783 \\
+140 & 1.79723400902&   1.7860398244526843 &   1.7844826501559825 \\
+145 & 1.36889248498&   1.3576933808917098 &   1.3552783009934584 \\
+150 & 1.03756650489&   1.026127080342419 &    1.0232108489443819 \\
+155 & 0.783018613011&  0.771330325707126 &    0.7679977185498107 \\
+160 & 0.588637155719&  0.5763898791476967 &   0.5729398919777561 \\
+165 & 0.440997057228&  0.427931579305647 &    0.4244759648941944 \\
+170 & 0.329392108384&  0.31494238748099324 &  0.3117040307276873 \\
+175 & 0.245381782063&  0.2288375045860837 &   0.2259141929446393 \\
+180 & 0.182377553986&  0.16261692613868084 &  0.160156738018518 \\
+185 & 0.13528073067&   0.11078796708307762 &  0.10885825272849127 \\
+190 & 0.100175092579&  0.06880652183892046 &  0.06748947528233123 \\
+195 & 0.0740722950356& 0.032954835262108274 & 0.03228348040432428 \\
+200 & 0.0547050187389& 0.0 &                  0.0 \\
+\hline
+\end{tabular}
+\end{center}
+From the tabulated results, we can observe that the Crank-Nicolson method has superiority in accuracy for pricing European call options with relatively lower strike prices, for the ones with high strike prices compared to the current underlying prices, both valuation schemes may not generate a decent result.
 \newpage
+
 \subsection{Monte Carlo Simulation}
 With the following settings: $\sigma = 0.25$, $\mu = 0.05$, $T = 1$, $S_{0} = 100$, 
-when we compare the results from Monte Carlo simulation with the option prices computed using the closed form formula, it is observable that a simulation with 500000 data points still has variation of error within range from $-0.02$ to $0.02$. However, this comparison has ensured that our valuation scheme using Monte Carlo simulation and the variance reduction techniques is on the right way, and may be applied onto other options.\\
+when we compare the results from Monte Carlo simulation with the option prices computed using the closed form formula, it is observable that a simulation with 500000 data points still has variation of error within range from $-0.02$ to $0.02$. However, this comparison has ensured that our valuation scheme using Monte Carlo simulation and the variance reduction techniques is on the right way, and may be applied onto other options.\\[1mm]
 A tabulation of the resultant call option prices are shown below:
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
@@ -523,6 +558,15 @@ StrikePrice & Closed-form formula & Ordinary Monte Carlo & Control Variate\\
 \hline
 \end{tabular}
 \end{center}
+\newpage
+Besides the tabulation, there should be other means for us to check upon the convergence of this valuation scheme in the practice of pricing European call options, and whether  the variance reduction techniques really work well in improving accuracy of the estimates. Henceforth we fix the strike price at $110$, current underlying asset price at $100$, at the market condition with interest rate at $0.05$, and volatility at $0.25$. We gradually increase the number of simulations from $100000$ to $1000000$ in order to better display the effect of variance reduction technique, in particular, control variate.
+\begin{figure}[h]
+      \centering
+	\includegraphics[scale=0.45]{controlVariateEuropeanCallDiagram.png}
+      \caption{Effect of control variate in pricing European call options}
+\end{figure}
+\\
+It is clear that both estimations converge to the right price at $8.02638469$ given by the closed-form formula, but with the help of control variate, the simulation result can converge to the correct price at a much higher rate.
 \newpage
 
 \section{European put options}
@@ -562,11 +606,44 @@ $$d_{2} = \frac{\ln{\frac{S_{t}}{K}} + (\mu - \frac{1}{2}\sigma^{2})\tau}{\sigma
 $$d_{1} = d_{2} + \sigma\sqrt{\tau}$$
 Also, $N$ is the cumulative density function of standard normal function.
 \newpage
+
 \subsection{Numerical PDE}
+When we are valuating the European put option using the above stated one factor explicit Euler scheme or Crank-nicolson scheme, the payoff function $(K - S_{T})^{+}$ is applied onto the calculations of the boundary conditions at time $T$. For the correction after matrix multiplications, boundary conditions at the uppermost underlying price $2S$ are obtained from the product of discount factor and payoff function.\\[1mm]
+A tabulation of the numercial PDE valuation results for the European put option with current underlying asset price at $100$, time $1$ to maturity, in a market environment with interest rate $0.05$ and volatility $0.25$ is shown below:
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+StrikePrice & Closed-form formula & Explicit & Crank-Nicolson\\
+\hline
+105&9.88129168973 & 9.264105018831192 &   9.80644762597815 \\
+110&12.6616213889 & 12.076648517883573 &  12.570971086879617\\
+115&15.7706328645 & 15.218399780840814 &  15.664435976159092\\
+120&19.1729444219 & 18.65298207114421 &   19.051949713116926\\
+125&22.8305822686 & 22.34329607381152 &   22.69589614557439 \\
+130&26.7057457694 & 26.25077992910964 &   26.55869822411468 \\
+135&30.7627710836 & 30.340403456441194 &  30.604793950982373\\
+140&34.9693534391 & 34.57931788995835 &   34.801878566249414\\
+145&39.2971590376 & 38.93960455971693 &   39.12153797118557 \\
+150&43.72198018    & 43.39667137248722 &   43.539422717961635\\
+155&48.2235794106 & 47.93050773117157 &   48.03510574503699 \\
+160&52.7853450758 & 52.5242003979317 &    52.591744951927915\\
+165&57.3938520998 & 57.16437521140931 &   57.19564403732322 \\
+170&62.0383942735 & 61.840019132904104 &  61.835778111419174\\
+175&66.7105310697 & 66.5425473633288 &    66.5033276567316 \\
+180&71.4036739641 & 71.26495989820106 &   71.19124656811944 \\
+185&76.1127242633 & 76.0017640524649 &    75.89387713223185 \\
+190&80.8337657477 & 80.74841572054041 &   80.60661618201644 \\
+195&85.5638100727 & 85.50119714728328 &   85.32563135291613 \\
+200&90.3005899189 & 90.2568754253407 &    90.04762346882995 \\
+\hline
+\end{tabular}
+\end{center}
+Similar to the previous section on European call options, we can observe that the Crank-Nicolson method has superiority in accuracy for pricing European put options with relatively lower strike prices. For the put options with high strike prices compared to the current underlying prices, both valuation schemes can generate quite accurate results but the Explicit Euler scheme actually has better performance.
 \newpage
+
 \subsection{Monte Carlo Simulation}
 With the following settings: $\sigma = 0.25$, $\mu = 0.05$, $T = 1$, $S_{0} = 100$, 
-when we compare the results from Monte Carlo simulation with the option prices computed using the closed form formula, it is observable that a simulation with 500000 data points still has variation of error within range from $-0.02$ to $0.02$. However, this comparison has ensured that our valuation scheme using Monte Carlo simulation and the variance reduction techniques is on the right way, and may be applied onto other options.\\
+when we compare the results from Monte Carlo simulation with the option prices computed using the closed form formula, it is observable that a simulation with 500000 data points still has variation of error within range from $-0.02$ to $0.02$. However, this comparison has ensured that our valuation scheme using Monte Carlo simulation and the variance reduction techniques is on the right way, and may be applied onto other options.\\[1mm]
 A tabulation of the resultant option prices are shown below:
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
@@ -596,6 +673,15 @@ StrikePrice & Closed-form formula & Ordinary Monte Carlo & Control Variate\\
 \hline
 \end{tabular}
 \end{center}
+\newpage
+Similar to the previous section, we wish to check upon the convergence of this valuation scheme in the practice of pricing European put options, and whether the variance reduction techniques really work well in improving accuracy of the estimates. Henceforth we fix the strike price at $110$, current underlying asset price at $100$, at the market condition with interest rate at $0.05$, and volatility at $0.25$. We gradually increase the number of simulations from $100000$ to $1000000$ in order to better display the effect of variance reduction technique, in particular, control variate.
+\begin{figure}[h]
+      \centering
+	\includegraphics[scale=0.45]{controlVariateEuropeanPutDiagram.png}
+      \caption{Effect of control variate in pricing European put options}
+\end{figure}
+\\
+It is clear that both estimations converge to the right price at $12.661621$ given by the closed-form formula, but with the help of control variate, the simulation result can converge to the correct price at a much higher rate. Oscillations of the simulated prices are also significantly reduced by control variate.
 \newpage
 
 \section{Barrier option}
@@ -692,12 +778,10 @@ S_{0}\{ N(d_{5}) - {(\frac{B}{S_{0}})}^{\frac{2r}{\sigma^{2}}+1} N(d_{6})\} - e^
 where $c(S_{0}, K, T)$ denotes the European call option premium\\ with initial stock price $S_{0}$, strike price $K$.
 \end{center}
 \newpage
-\subsection{Numerical PDE}
-\newpage
+
 \subsection{Monte Carlo Simulation}
-A full valuation of the continuous Barrier option will require the usage of the closed-form formula. In the case of pricing a down-and-out call option, discrete Monte Carlo valuation scheme will always give a price higher than the right price as there will always be scenarios missed in which the barrier to be breached. Still, even if we can find an increment in the time zone which can make the scenarios missed to be negligible, the computation cost will increase rapidly and we will not be able to generate enough data points for the accuracy of the estimated option price. Upon this predicament, the research results of Professor Steven Kou shed light on this problem as to give a multiplier to the barrier to enable the discrete valuation of the continuous Barrier option. As the results have been proven both in theory and in practice, we are convinced that the correct pricing can be obtained.
-\\
-A tabulation of the resultant down-and-out call option prices are shown below, with the leftmost column indicating the strike prices and the uppermost row indicating the barriers, proving that this valuation scheme can be exercised on the path-dependent options:
+A full valuation of the continuous Barrier option will require the usage of the closed-form formula. In the case of pricing a down-and-out call option, discrete Monte Carlo valuation scheme will always give a price higher than the right price as there will always be scenarios missed in which the barrier to be breached. Still, even if we can find an increment in the time zone which can make the scenarios missed to be negligible, the computation cost will increase rapidly and we will not be able to generate enough data points for the accuracy of the estimated option price. Upon this predicament, the research results of Professor Steven Kou\cite{ContinuityCorrection} shed light on this problem as to give a multiplier to the barrier to enable the discrete valuation of the continuous Barrier option. The new barrier according to the research results is given by $B^{*} = Be^{\beta \sigma \sqrt{^{\Delta}t}}$, where $\beta$ is a constant with value $0.5826$. As the results have been proven both in theory and in practice, we are convinced that the correct pricing can be obtained.\\[1mm]
+A tabulation of the resultant down-and-out call option prices is shown below, with the leftmost column indicating the strike prices and the uppermost row indicating the barriers, currently stock price at $100$, time 1 to maturity, interest rate at $0.05$ and volatility of $0.25$. 
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline 
@@ -735,7 +819,82 @@ A tabulation of the resultant down-and-out call option prices are shown below, w
 \end{tabular}
 \\[1mm] Resultant prices from Monte Carlo simulations
 \end{center}
-We can see from the simulation results that this valuation scheme should be consistent, and the accuracy of the estimate is unaffected by the change in parameters. This gives us confidence that with the advancement of GPU and parallel computing, we should be able to generate more accurate results for other path-dependent options using this scheme.
+We can see from the simulation results that this valuation scheme should be consistent, and the accuracy of the estimate is unaffected by the change in parameters, as the errors of the simulated option price from the right price do not have a constant pattern in distribution.
 \newpage
 
+In order to look further into the convergence of estimates from Monte Carlo simulations, we plot a graph showing how the price of a down-and-out call option obtained from the simultions is associated with the number of simulations done. The strike price and the barrier have been fixed at $110$ and $95$, while the current underlying price is at $100$. For the market environment, we assume interest rate to be at $0.05$ and the volatility to be at $0.25$. As the computaion costs for conducting control variate is substantial for Barrier options, we do not show the effect of variance reduction in this case.
+\begin{figure}[h]
+      \centering
+	\includegraphics[scale=0.45]{barrierMonteCarloConvergence.png}
+      \caption{Convergence of Monte Carlo simulated option prices}
+\end{figure}
+\\It is observable that as the number of simulations increases from $5000$ to $400000$, the difference between the simulated price and right price converges to 0. In light of this argument, we have demonstrated the convergence of this valuation scheme in the practice of pricing Barrier options. This gives us confidence that with the advancement of GPU and parallel computing, we should be able to generate more accurate results for other path-dependent options using this scheme.
+\newpage
+
+\subsection{Numerical PDE}
+When we are valuating the down-and-out call option using the Crank-nicolson scheme, the payoff function $(S_{T} - K)^{+}$ is applied for the calculations of the boundary conditions at time $T$. We have also dealt with the situation during the valuation that any grid point with underlying asset price lower than the barrier will be automatically set to $0$. Surprisingly, the research results of Professor Kou\cite{ContinuityCorrection} is still applicable here. With the continuity correction, we can obtain a set of approximate option prices.\\[1mm]
+A tabulation of the numercial PDE valuation results for the down-and-out call option with current underlying asset price at $100$, time $1$ to maturity, in a market environment with interest rate $0.05$ and volatility $0.25$ is shown below:
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+ & 75 & 85 & 95\\
+\hline
+70&31.970666152&25.1858706232&10.5704766084\\
+80&24.6583030035&20.3399767413&8.8991939912\\
+90&17.8621463707&15.5108745676&7.2279113741\\
+100&12.2374796697&11.0529331703&5.5619564416\\
+110&7.9924835933&7.4269559884&4.0150057856\\
+120&5.013923987&4.7541407506&2.7398001805\\
+130&3.0420520393&2.9259014547&1.7834515724\\
+\hline
+\end{tabular}
+\\[1mm]Correct prices from closed-form formula
+\\[3mm]
+\begin{tabular}{|c|c|c|c|}
+\hline
+ & 75 & 85 & 95\\
+\hline
+70&32.085945758075205&25.27856574697755&10.352219454364121\\
+80&24.789855125489467&20.436659523689606&8.72512753690639\\
+90&17.991852194524867&15.610137823776594&7.098035619448731\\
+100&12.349282550121789&11.143979910058636&5.475243292435872\\
+110&8.078354256172519&7.50040306730007&3.9620639996657796\\
+120&5.072917082348415&4.806353686333711&2.708713551150372\\
+130&3.077674341219038&2.958081366259531&1.7644768261963428\\
+\hline
+\end{tabular}
+\\[1mm] Resultant prices from Crank-Nicolson methods
+\end{center}
+Similar to the previous section on the European options, we can observe that the Crank-Nicolson method is able to generate a considerably accurate resultant price as compared to the correct price given by closed-form formula. Also, the computation costs of Barrier options are generally much higher than those of the European options even in the numerical PDE valuation scheme, as we have to make corrections upon part of the price vector each time after matrix multiplications.
+\newpage
+
+\section{Conclusion}
+We have categorized the option pricing problems into the closed-form formula, numerical PDE methods and Monte Carlo simulations. For most of the comparatively more exotic options such as American exercise-style options or Asian options with arithmetic mean, it is considered impossible to give a closed-form formula and hence we have no choice but to resort to Monte Carlo simulations or numerical PDE pricing schemes.\\[1mm]
+Admittedly, the numerical PDE methods have their advantages on accuracy and computation costs, as the former mathematicians and practitioners derived dozens of elegant solutions for discretization under certain model. Still, there are cases in which the numerical PDE valuation schemes can be very difficult to derive and even if we do, it is possible that the discretization errors accumulates significantly along the grid when we conduct the pricing. Also, the computations for numerical PDE schemes become costly in the more high dimensional problems.\\[1mm]
+Monte Carlo simulations seem to be our last resort for these problems. Nowadays, as the techniques with parallel computing and GPUs are becoming more mature, the Monte Carlo simulations are more in favour since the time for simulations can be largely shortened.\\[1mm]
+Besides these valuation methods stated above, those not mentioned in this paper, for example binomial tree methods, still deserve some attention, as we have no idea now whether they will become the core to develop a universally adopted valuation scheme for financial derivatives pricing in general.
+
+\newpage
+\begin{thebibliography}{9}
+\bibitem{PythonForFinance} 
+Yves Hilpisch,
+\textit{Python for Finance}. 
+O'Reilly Media, 2015.
+ 
+\bibitem{VarianceReduction} 
+Paul Glasserman,
+\textit{Monte Carlo methods in financial engineering}.
+Springer, 2010.
+
+\bibitem{FiniteDifference} 
+Daniel Duffy,
+\textit{Finite difference methods in financial engineering: A partial differential equation approach}.
+John Wiley\&Sons, 2006.
+
+\bibitem{ContinuityCorrection} 
+Mark Broadie, Paul Glasserman, Steven Kou,
+\textit{A Continuity Correction for Discrete Barrier Options}.
+Mathematical Finance, 1997.
+
+\end{thebibliography}
 \end{document}
