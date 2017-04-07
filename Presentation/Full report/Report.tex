@@ -84,7 +84,7 @@ throughout the course of this project.
 The studies on the usage of Python to carry out derivatives valuation has made much progress over the years as there have already been available libraries built for this purpose. The derivatives analytics library suggested in the book ``\emph{Python for Finance}'' has its advantages on the coverage upon the various aspects of possible analysis for financial derivatives. Still, we can make justifiable modifications and extensions to improve on the accuracy and speed of computations for estimations. \\[1mm]
 Possible extensions we can provide for this derivatives analytics library can be classified into the different approaches of valuation for financial derivatives, in particular, options. Derivation for the closed-form formula has always been the most desirable approach for pricing, as this minimizes computation costs and improves on the accuracy. However, in most cases, it appears that either such derivation is not possible, or the formula can be so complicated that we would rather use an approximation of the price.\\[1mm]
 Regarding the approximation of derivatives prices, both the numerical PDE methods and the Monte Carlo simulations are commonly used in practice. For the pricing of newly structured products, we would prefer to concurrently use the two schemes in order to check for the accuracy of the approximated prices. Valuation of the the options which has readily available PDE discretization methods will be mostly based on the results from the numerical PDE methods. There are several different numerical methods to solve the partial differential equations. Finite difference methods are the oldest and most frequently used, and will be one of our focus in this paper.\\[1mm]
-The Monte Carlo simulations have been in the favour of many institutions in the finance industry for its compatiability with most of the financial derivatives. Recent development of the parallel computing and GPU has enabled users to generate more data points for the significance of reduction in computational costs of Monte Carlo simulations. Designated variance reduction techniques have been put in place for the simulations, which is also of our interest in the later sections.\\[1mm]
+The Monte Carlo simulations have been in the favor of many institutions in the finance industry for its compatibility with most of the financial derivatives. Recent development of the parallel computing and GPU has enabled users to generate more data points for the significance of reduction in computational costs of Monte Carlo simulations. Designated variance reduction techniques have been put in place for the simulations, which is also of our interest in the later sections.\\[1mm]
 Apart from the valuation schemes mentioned above, the derivatives analytics library has already developed certain adaption for the models with assumptions beyond the Black-Scholes world. Discussions on the incorporation of these assumptions into the existing valuation schemes are not included in this paper. Without doubt, efforts in this field to make the analytics library more generic towards the open for extension and closed for modification stage can be rewarding.
 \newpage
 
@@ -203,13 +203,13 @@ $$\frac{\partial V}{\partial S} \approx \frac{P_{S} - P_{S-{^{\Delta}S}}}{^{\Del
 &= \frac{P_{S+{^{\Delta}S}} - 2P_{S} + P_{S-{^{\Delta}S}}}{(^{\Delta}S)^{2}}
 \end{split}
 \end{equation*}
-The three most popular approximation schemes to the time derivative are the explicit and implicit Euler, and Crank-Nicolson schemes. The first two are of first-order accuracy, and the last one has second-order accuracy\cite{FiniteDifference},
+The three most popular approximation schemes to the time derivative are the explicit and implicit Euler, and Crank-Nicolson schemes. The first two are of first-order accuracy, and the last one has second-order accuracy\cite{FiniteDifference}.
 \newpage
 
 \subsection{One factor model using Explicit Euler Scheme}
 We first define the payoff function as a function of the individual price path and other inherent parameters of the options such as strike price. If we are to assume that the Black-Scholes PDE to be satisfied at $S = 0$, given $\frac{\partial V}{\partial t} = rV$can be easily solved, the boundary conditions suggest that $V$ is exponentially related to $rT$. In light of this, we can have an exact solution and therefore a Dirichlet boundary condition at $S = 0$. For the purpose of option pricing, the PDE is always defined on a semi-infinite domain, which can be fitted onto our implementation with programming using the transformation $x = \log{S}$ onto the real line or $x = \frac{S}{S+K}$ onto $(0, 1)$as suggested by Wilmott.\\[1mm]
 Here we omit the mathematical proofs and give an algorithm of exercising explicit euler scheme in the finite difference model. With the input variables $r$ as the continuous compounding interest rate, $\sigma$ as the volatility, $S$ as the current underlying asset price, $f$ as the payoff function for the option, $T$ as the time to maturity and $M$ as the number of underlying asset price differences required.\\
-We are to denote the discrete time points $0 \to T$ using incides from $1,2 \dots N$, and to denote the discrete underlying asset price points $0 \to 2S$ using incides from $1,2, \dots M$\\[2mm]
+We are to denote the discrete time points $0 \to T$ using indices from $1,2 \dots N$, and to denote the discrete underlying asset price points $0 \to 2S$ using indices from $1,2, \dots M$\\[2mm]
 \begin{algorithm}[H]
  \KwData{$r, \sigma, S, f, T, M$}
  \KwResult{$V_{\frac{M}{2},1}$, option premium}
@@ -312,7 +312,7 @@ For the ease of computations, we use matrix computations with adjustments at the
 \newpage
 
 \section{Variance Reduction Techniques for Monte Carlo Simulation}
-Monte Carlo simulations are usually used when there is no readily available closed-form formula and the numerical PDE valuation scheme is not developed yet. However, people have already explored its strenght upon the valuation using high-dimensional scheme. When doing option pricing with Monte Carlo simulations, we simulate a series of possible scenarios and use the payoff function to calculate one option payoff. By repeating this process $N$ times and take the average of all the discounted option payoffs, a more accurate option price can be obtained. When there is time variation in parameters of the model, or the option payoff is path dependent, or there are a number of stochastic variables that the option price depends on, a finite difference scheme will be both space and time consuming. With the advancements of GPU and parallel computing, just as suggestd in the book ``\emph{Python for Finance}''\cite{PythonForFinance}, the power of Monte Carlo is able to emerge.\\[3mm]
+Monte Carlo simulations are usually used when there is no readily available closed-form formula and the numerical PDE valuation scheme is not developed yet. However, people have already explored its strength upon the valuation using high-dimensional scheme. When doing option pricing with Monte Carlo simulations, we simulate a series of possible scenarios and use the payoff function to calculate one option payoff. By repeating this process $N$ times and take the average of all the discounted option payoffs, a more accurate option price can be obtained. When there is time variation in parameters of the model, or the option payoff is path dependent, or there are a number of stochastic variables that the option price depends on, a finite difference scheme will be both space and time consuming. With the advancements of GPU and parallel computing, just as suggested in the book ``\emph{Python for Finance}''\cite{PythonForFinance}, the power of Monte Carlo is able to emerge.\\[3mm]
 As the simulated option payoffs may scatter all over the real number axis, for example when European call option has a particularly low strike price, the variance of the simulated option payoffs can be so large that the accuracy of the valuation is compromised. In order to prevent this from happening, we adopt many different methods to reduce the variance while keeping the estimate unbiased. \cite{VarianceReduction}
 \newpage
 \subsection{Control Variate}
@@ -424,7 +424,7 @@ In order to further simplify the trouble of dividing $\Omega$ into disjoint subs
 \newpage
 
 \subsection{Importance Sampling}
-Importance sampling is a method to reduce variance by changing the probability measure. The word `Importance' comes from the aim to give more weights to `important' outcomes by changing measures.\\
+Importance sampling is a method to reduce variance by changing the probability measure. The word `Importance' comes from the aim to give more weights to `important' outcomes by shifting the probability density function.\\
 We are going to estimate $\displaystyle \alpha = \mathrm{E}[h(X)] = \int h(x)f(x) dx$.\\
 From Monte Carlo simulations, $\displaystyle \hat{\alpha} = \hat{\alpha}(n) = \frac{1}{n} \sum_{i=1}^{n} h(X_{i})$\\
 By using a change of measure based on the following assumption:
@@ -493,8 +493,8 @@ Also, $N$ is the cumulative density function of standard normal function.
 \newpage
 
 \subsection{Numerical PDE}
-When we are valuating the European call option using the above stated one factor explicit Euler scheme or Crank-nicolson scheme, the payoff function $(S_{T} - K)^{+}$ is applied onto the calculations of the boundary conditions at time $T$. For the correction after matrix multiplications, boundary conditions at the uppermost underlying price $2S$ are obtained from the product of discount factor and payoff function.\\[1mm]
-A tabulation of the numercial PDE valuation results for the European call option with current underlying asset price at $100$, time $1$ to maturity, in a market environment with interest rate $0.05$ and volatility $0.25$ is shown below:
+When we are valuating the European call option using the above stated one factor explicit Euler scheme or Crank-Nicolson scheme, the payoff function $(S_{T} - K)^{+}$ is applied onto the calculations of the boundary conditions at time $T$. For the correction after matrix multiplications, boundary conditions at the uppermost underlying price $2S$ are obtained from the product of discount factor and payoff function.\\[1mm]
+A tabulation of the numerical PDE valuation results for the European call option with current underlying asset price at $100$, time $1$ to maturity, in a market environment with interest rate $0.05$ and volatility $0.25$ is shown below:
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
@@ -575,16 +575,16 @@ It is clear that both estimations converge to the right price at $8.02638469$ gi
 We can derive the closed-form formula for the European put options using risk-neutral pricing.\\
 Payoff function of the European put option is : $p_{T} = (K - S_{T})^{+}$\\
 By the risk-neutral pricing formula,
-\begin{equation}
+\begin{equation*}
 \begin{split}
 e^{-\mu t}p_{t}
 &= \mathbb{E}^{Q}[e^{-\mu T}p_{T} | \mathcal{F}_{t}]\\
 &= \mathbb{E}_{t}^{Q}[e^{-\mu T}(K - S_{T})^{+}]
 \end{split}
-\end{equation}
+\end{equation*}
 By the lognormal property, \quad
 $S_{T} = S_{t}e^{(\mu - \frac{1}{2}\sigma^{2})\tau + \sigma\sqrt{\tau}\phi}$
-\begin{equation}
+\begin{equation*}
 \begin{split}
 p_{t} 
 &= e^{\mu t}\mathbb{E}_{t}^{Q}[e^{-rT}(K - S_{T})^{+}]\\
@@ -600,7 +600,7 @@ p_{t}
 &= Ke^{-r\tau}\int_{-\infty}^{d_{2}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\phi^{2}}\, d\phi - S_{t}\int_{-\infty}^{-d_{1}} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}y^{2}}  \, dy \\
 &= Ke^{-r\tau} N(-d_{2}) - S_{t} N(-d_{1})
 \end{split}
-\end{equation}
+\end{equation*}
 where,
 $$d_{2} = \frac{\ln{\frac{S_{t}}{K}} + (\mu - \frac{1}{2}\sigma^{2})\tau}{\sigma\sqrt{\tau}}$$
 $$d_{1} = d_{2} + \sigma\sqrt{\tau}$$
@@ -608,8 +608,8 @@ Also, $N$ is the cumulative density function of standard normal function.
 \newpage
 
 \subsection{Numerical PDE}
-When we are valuating the European put option using the above stated one factor explicit Euler scheme or Crank-nicolson scheme, the payoff function $(K - S_{T})^{+}$ is applied onto the calculations of the boundary conditions at time $T$. For the correction after matrix multiplications, boundary conditions at the uppermost underlying price $2S$ are obtained from the product of discount factor and payoff function.\\[1mm]
-A tabulation of the numercial PDE valuation results for the European put option with current underlying asset price at $100$, time $1$ to maturity, in a market environment with interest rate $0.05$ and volatility $0.25$ is shown below:
+When we are valuating the European put option using the above stated one factor explicit Euler scheme or Crank-Nicolson method, the payoff function $(K - S_{T})^{+}$ is applied onto the calculations of the boundary conditions at time $T$. For the correction after matrix multiplications, boundary conditions at the uppermost underlying price $2S$ are obtained from the product of discount factor and payoff function.\\[1mm]
+A tabulation of the numerical PDE valuation results for the European put option with current underlying asset price at $100$, time $1$ to maturity, in a market environment with interest rate $0.05$ and volatility $0.25$ is shown below:
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline
@@ -822,7 +822,7 @@ A tabulation of the resultant down-and-out call option prices is shown below, wi
 We can see from the simulation results that this valuation scheme should be consistent, and the accuracy of the estimate is unaffected by the change in parameters, as the errors of the simulated option price from the right price do not have a constant pattern in distribution.
 \newpage
 
-In order to look further into the convergence of estimates from Monte Carlo simulations, we plot a graph showing how the price of a down-and-out call option obtained from the simultions is associated with the number of simulations done. The strike price and the barrier have been fixed at $110$ and $95$, while the current underlying price is at $100$. For the market environment, we assume interest rate to be at $0.05$ and the volatility to be at $0.25$. As the computaion costs for conducting control variate is substantial for Barrier options, we do not show the effect of variance reduction in this case.
+In order to look further into the convergence of estimates from Monte Carlo simulations, we plot a graph showing how the price of a down-and-out call option obtained from the simulations is associated with the number of simulations done. The strike price and the barrier have been fixed at $110$ and $95$, while the current underlying price is at $100$. For the market environment, we assume interest rate to be at $0.05$ and the volatility to be at $0.25$. As the computation costs for conducting control variate is substantial for Barrier options, we do not show the effect of variance reduction in this case.
 \begin{figure}[h]
       \centering
 	\includegraphics[scale=0.45]{barrierMonteCarloConvergence.png}
@@ -832,8 +832,8 @@ In order to look further into the convergence of estimates from Monte Carlo simu
 \newpage
 
 \subsection{Numerical PDE}
-When we are valuating the down-and-out call option using the Crank-nicolson scheme, the payoff function $(S_{T} - K)^{+}$ is applied for the calculations of the boundary conditions at time $T$. We have also dealt with the situation during the valuation that any grid point with underlying asset price lower than the barrier will be automatically set to $0$. Surprisingly, the research results of Professor Kou\cite{ContinuityCorrection} is still applicable here. With the continuity correction, we can obtain a set of approximate option prices.\\[1mm]
-A tabulation of the numercial PDE valuation results for the down-and-out call option with current underlying asset price at $100$, time $1$ to maturity, in a market environment with interest rate $0.05$ and volatility $0.25$ is shown below:
+When we are valuating the down-and-out call option using the Crank-Nicolson scheme, the payoff function $(S_{T} - K)^{+}$ is applied for the calculations of the boundary conditions at time $T$. We have also dealt with the situation during the valuation that any grid point with underlying asset price lower than the barrier will be automatically set to $0$. Surprisingly, the research results of Professor Kou\cite{ContinuityCorrection} is still applicable here. With the continuity correction, we can obtain a set of approximated option prices.\\[1mm]
+A tabulation of the numerical PDE valuation results for the down-and-out call option with current underlying asset price at $100$, time $1$ to maturity, in a market environment with interest rate $0.05$ and volatility $0.25$ is shown below:
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
 \hline 
@@ -863,9 +863,9 @@ A tabulation of the numercial PDE valuation results for the down-and-out call op
 130&3.077674341219038&2.958081366259531&1.7644768261963428\\
 \hline
 \end{tabular}
-\\[1mm] Resultant prices from Crank-Nicolson methods
+\\[1mm] Resultant prices from the Crank-Nicolson method
 \end{center}
-Similar to the previous section on the European options, we can observe that the Crank-Nicolson method is able to generate a considerably accurate resultant price as compared to the correct price given by closed-form formula. Also, the computation costs of Barrier options are generally much higher than those of the European options even in the numerical PDE valuation scheme, as we have to make corrections upon part of the price vector each time after matrix multiplications.
+Similar to the previous section on the European options, we can observe that the Crank-Nicolson method is able to generate a considerably accurate resultant price as compared to the correct price given by closed-form formula. Also, the computation costs of Barrier options are generally much higher than those of the European options even with the numerical PDE valuation scheme, as we have to make corrections upon part of the price vector each time after matrix multiplications.
 \newpage
 
 \section{Conclusion}
